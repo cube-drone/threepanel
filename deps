@@ -1,0 +1,11 @@
+
+django
+
+django-autoslug
+django-jsonfield
+django-model-utils
+
+bcrypt
+
+django-tastypie
+python-social-auth

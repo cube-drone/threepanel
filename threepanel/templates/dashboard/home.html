@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Threepanel{% endblock %}
+{% block body %}
+<h1>Threepanel</h1>
+
+<a href="#" data-reveal-id="myModal">Login or Register</a>
+
+<div id="myModal" class="reveal-modal" data-reveal>
+    <ul class="tabs" data-tab>
+        <li class="tab-title active"><a href="#panel2-1">Login</a></li>
+        <li class="tab-title"><a href="#panel2-2">Register</a></li>
+        <li class="tab-title"><a href="#panel2-3">Panic</a></li>
+    </ul>
+    <div class="tabs-content">
+        <div class="content active" id="panel2-1">
+            <h2>Login</h2>
+            <form>
+                <div class="row">
+                    <div class="small-8">
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <label for="username" class="right inline">Username</label>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="text" id="username" placeholder="us3r_name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <label for="password" class="right inline">Password</label>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="password" id="password">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <input type="submit" id="login" class="button" value="login">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="content" id="panel2-2">
+            <h2>Register</h2>
+            <form method="POST" action="{% url 'dashboard.views.register' %}">
+                <div class="row">
+                    <div class="small-8">
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <label for="username" class="right inline">Username</label>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="text" id="username" placeholder="us3r_name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <label for="password" class="right inline">Password</label>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="password" id="password">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <label for="password" class="right inline">Email</label>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="text" id="username" placeholder="your_email@sample.org">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <input type="submit" id="login" class="button" value="login">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="content" id="panel2-3">
+            <h2>Panic!</h2>
+            <ul>
+                <li><a href="#">I've lost my password!</a></li>
+                <li><a href="#">Contact Support</a></li>
+            </ul>
+        </div>
+    </div>
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+
+{% endblock %}
