@@ -1,11 +1,14 @@
 
 django
+pytz
 
 django-autoslug
 django-jsonfield
 django-model-utils
+django-positions
 
 bcrypt
+
 bitarray
 
 django-tastypie
