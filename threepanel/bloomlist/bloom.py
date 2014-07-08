@@ -28,6 +28,10 @@ class bloom(object):
         """
             string_list is a list of strings, ["", "", ""]
         """
+        if len(string_list) <= 0:
+            # seriously, that's not how this bloom filter was designed to work.
+            # you give it a list, it makes a bloom filter from that list. 
+            raise ValueError("You can't start this bloom with an empty list.")
         self.n_items = len(string_list)
         self.probability_of_false_positive = p
         self.n_bits_in_the_filter, self.n_hash_functions = calculator(self.n_items, 
