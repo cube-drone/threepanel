@@ -1,6 +1,6 @@
 install:
 	echo 'python tools'
-	apt-get install -y python3-pip python-dev
+	apt-get install -y python3-pip python-dev sqlite3
 	echo 'necessary for bcrypt'
 	apt-get install -y libffi-dev
 	echo 'pip'
