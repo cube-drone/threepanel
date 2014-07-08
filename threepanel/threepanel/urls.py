@@ -8,13 +8,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'threepanel.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url('', include('social.apps.django_app.urls', namespace='social')),
-
     url(r'^$', 'dashboard.views.home'),
-    url(r'^dashboard/login$', 'dashboard.views.login'),
-    url(r'^dashboard/register$', 'dashboard.views.register'),
-
-    url(r'^dashboard/console$', 'dashboard.views.console'),
+    url(r'^dashboard/', include('dashboard.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 )

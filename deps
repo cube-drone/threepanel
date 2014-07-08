@@ -6,6 +6,7 @@ django-jsonfield
 django-model-utils
 
 bcrypt
+bitarray
 
 django-tastypie
 python-social-auth

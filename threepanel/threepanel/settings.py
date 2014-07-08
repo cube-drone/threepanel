@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+LOGIN_URL = "dashboard.views.login_view"
+AFTER_LOGIN_GO_HERE = "dashboard.views.home"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -26,14 +28,17 @@ TEMPLATE_DEBUG = True
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
-    #'social.apps.django_app.context_processors.backends',
-    #'social.apps.django_app.context_processors.login_redirect',
 )
 
 ALLOWED_HOSTS = []
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "templates")
+)
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 )
 
 # Application definition
@@ -45,8 +50,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'social.apps.django_app.default',
-    'dashboard'
+    'dashboard',
+    'bloomlist',
+    'streams'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,6 +62,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 ROOT_URLCONF = 'threepanel.urls'
@@ -85,11 +96,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-# Authentication Backends
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-)
 
 # BCrypt
 PASSWORD_HASHERS = (

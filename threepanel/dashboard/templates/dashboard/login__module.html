@@ -1,9 +1,7 @@
-{% extends "base.html" %}
 
-{% block title %}Threepanel Login{% endblock %}
-{% block body %}
 <h2>Login</h2>
-<form>
+<form action="{% url 'dashboard.views.login_view' %}" method="POST" > <!-- HERE THINGS GO -->
+    {% csrf_token %}
     <div class="row">
         <div class="small-8">
             <div class="row">
@@ -11,7 +9,8 @@
                     <label for="username" class="right inline">Username</label>
                 </div>
                 <div class="small-9 columns">
-                    <input type="text" id="username" placeholder="us3r_name">
+                    <input type="text" id="username" class="username" 
+                        name='username' placeholder="us3r_name">
                 </div>
             </div>
             <div class="row">
@@ -19,16 +18,14 @@
                     <label for="password" class="right inline">Password</label>
                 </div>
                 <div class="small-9 columns">
-                    <input type="password" id="password">
+                    <input type="password" id="password" name="password">
                 </div>
             </div>
             <div class="row">
                 <div class="small-12 columns">
-                    <input type="submit" id="login" class="button" value="login">
+                    <input type="submit" class="button" value="login">
                 </div>
             </div>
         </div>
     </div>
 </form>
-{% endblock %}
-

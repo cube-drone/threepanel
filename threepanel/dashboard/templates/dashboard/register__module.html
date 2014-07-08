@@ -1,0 +1,63 @@
+
+<h2>Register</h2>
+<form method="POST" action="{% url 'dashboard.views.register' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="small-8">
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="username" class="right inline">Username</label>
+                </div>
+                <div class="small-9 columns">
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <input value="{{username}}" type="text" id="username" class="username register_username" name="username" placeholder="us3r_name">
+                        </div>
+                        <div class="small-3 columns">
+                            <span class="postfix unknown"></span>
+                            <span class="postfix available" style="display:none;">
+                                <i class='fa fa-check'></i> Available!</span>
+                            <span class="postfix unavailable" style="display:none;"><i class='fa fa-warning'></i> Unavailable</span>
+                        </div>
+                    </div>
+                    {% if username_errors %}
+                        {% for error in username_errors %}
+                            <small class="error">{{error}}</small>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="password" class="right inline">Password</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="password" id="password" name="password">
+                    {% if password_errors %}
+                        {% for error in password_errors %}
+                            <small class="error">{{error}}</small>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="email" class="right inline">Email</label>
+                </div>
+                <div class="small-9 columns">
+                    <input value="{{email}}" type="text" id="email" name="email" placeholder="your_email@sample.org">
+                    {% if email_errors %}
+                        {% for error in email_errors %}
+                            <small class="error">{{error}}</small>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <input type="submit" id="register" class="button" value="register">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

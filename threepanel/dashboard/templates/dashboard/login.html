@@ -1,0 +1,12 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Threepanel Login{% endblock %}
+{% block body %}
+    <div id="login">
+        {% if error %}
+            <small class="error">{{error}}</small>
+        {% endif %}
+        {% include "dashboard/login__module.html" %}
+    </div>
+{% endblock %}
+
