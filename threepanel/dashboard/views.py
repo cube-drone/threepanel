@@ -14,21 +14,23 @@ from django.conf import settings
 
 #local imports
 from bloomlist.views import bloom_view
+from random_name import name
 
 REQUIRED_FIELD = "This is a required field."
 USERNAME_ALREADY_EXISTS = "This username already exists. Please choose another." 
 USERNAME_LOWER = "The username must be lowercase."
 USERNAME_REGEX = "The username can only contain characters, numbers, the" + \
-                    "underscore, and that's it."
+                    " underscore, and that's it."
 INVALID_EMAIL = "I'm pretty sure that's an invalid email."
 
 
 def home(request):
-    return render(request, "dashboard/home.html", {})
+    return render(request, "dashboard/home.html", {'random_name':name()})
 
 
 def login_view(request):
     context = {}
+    context['random_name'] = name()
     nxt = request.GET.get('next', False)
     if request.method == 'POST':
         username = request.POST.get('username', False)
@@ -80,7 +82,7 @@ def register(request):
             errors = True
             context['username_errors'].append(USERNAME_LOWER)
 
-        regex = re.compile(r'^[a-z_0-9]+$')
+        regex = re.compile(r'^[a-z-_0-9]+$')
         if username and not regex.match(username):
             errors = True
             context['username_errors'].append(USERNAME_REGEX)
@@ -104,7 +106,7 @@ def register(request):
         else:
             return HttpResponseRedirect(reverse(settings.AFTER_LOGIN_GO_HERE))
 
-    return render(request, "dashboard/register.html", {})
+    return render(request, "dashboard/register.html", {'random_name':name()})
 
 def users_bloom(request):
     list_of_users = [u.username for u in User.objects.all()]
