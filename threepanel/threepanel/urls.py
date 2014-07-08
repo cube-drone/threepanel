@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^$', 'dashboard.views.home'),
     url(r'^dashboard/', include('dashboard.urls')),
+    url(r'^s/', include('streams.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 )
