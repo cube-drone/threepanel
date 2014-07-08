@@ -20,6 +20,10 @@ titles = [
     'queen',
     'king',
     'doctor',
+    'monsieur',
+    'madame',
+    'senor',
+    'senorita',
 ]
 
 adjectives = [
@@ -206,11 +210,13 @@ adjectives = [
     'intractable',
     'unavoidable',
     'impressive',
-    'impeccable'
+    'impeccable',
+    'fussy'
 ]
 
 nouns = [
     'apparatus',
+    'britches',
     'mystery',
     'secret',
     'butt',
@@ -246,7 +252,7 @@ nouns = [
     'chair',
     'person',
     'character',
-    'cheeseburger',
+    'burger',
     'ham',
     'beef',
     'book',
@@ -297,7 +303,9 @@ nouns = [
     'pen',
     'pencil',
     'bag',
-    'dispenser'
+    'dispenser',
+    'butter',
+    'potato'
 ]
 
 
@@ -314,7 +322,12 @@ def noun():
 
 
 def name():
-    return title()+" "+adjective()
+    fn = random.choice([
+        lambda: title()+"-"+adjective(),
+        lambda: title()+"-"+noun(),
+        lambda: title()+"-"+noun()+noun(),
+        lambda: title()+"-"+adjective()+noun()])
+    return fn()
 
 
 def thing():
