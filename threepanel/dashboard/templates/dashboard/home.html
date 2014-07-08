@@ -7,7 +7,7 @@
 
 {% if user.is_authenticated %}
     <a href="#">{{user.username}}</a>
-    <a href="#">Logout</a>
+    <a href="{% url 'dashboard.views.logout_view' %}">Logout</a>
 {% else %}
     <a href="#" data-reveal-id="login_modal">Login or Register</a>
 {% endif %}

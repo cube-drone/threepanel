@@ -4,6 +4,11 @@
 {% block title %}Threepanel Registration{% endblock %}
 
 {% block body %}
+    <ul class="tabs">
+        <li class="tab-title"><a href="{% url 'dashboard.views.login_view' %}">Login</a></li>
+        <li class="tab-title active"><a href="#">Register</a></li>
+        <li class="tab-title"><a href="#">Panic</a></li>
+    </ul>
     <div id="register">
         {% include "dashboard/register__module.html" %}
     </div>

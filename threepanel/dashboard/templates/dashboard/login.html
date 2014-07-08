@@ -2,6 +2,11 @@
 
 {% block title %}Threepanel Login{% endblock %}
 {% block body %}
+    <ul class="tabs">
+        <li class="tab-title active"><a href="#">Login</a></li>
+        <li class="tab-title"><a href="{% url 'dashboard.views.register' %}">Register</a></li>
+        <li class="tab-title"><a href="#">Panic</a></li>
+    </ul>
     <div id="login">
         {% if error %}
             <small class="error">{{error}}</small>

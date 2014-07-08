@@ -6,7 +6,9 @@ from django.shortcuts import render
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
@@ -27,6 +29,7 @@ def home(request):
 
 def login_view(request):
     context = {}
+    nxt = request.GET.get('next', False)
     if request.method == 'POST':
         username = request.POST.get('username', False)
         password = request.POST.get('password', False)
@@ -34,13 +37,21 @@ def login_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse(settings.AFTER_LOGIN_GO_HERE))
+                if nxt:
+                    return HttpResponseRedirect(nxt)
+                else:
+                    return HttpResponseRedirect(reverse(settings.AFTER_LOGIN_GO_HERE))
             else:
                 return HttpResponseRedirect(reverse('dashboard.views.disabled'))
         else:
             context['error'] = "Nope. Didn't work. Try again?"
     return render(request, "dashboard/login.html", context)
 
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('dashboard.views.home'))
 
 def register(request):
     if request.method == 'POST':
