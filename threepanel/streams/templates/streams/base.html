@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block base_javascript %}
+    <script src="//builds.handlebarsjs.com.s3.amazonaws.com/handlebars-1.0.0.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ember.js/1.6.0/ember.js"> </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.8/ember-data.min.js"></script>
+    <script src="{% static "js/ember/tastypie_adapter.js" %}"></script>
+    <script src="{% static "js/ember/tastypie_serializer.js" %}"></script> 
+    <script src="{% static "js/ember/application.js" %}"></script>
+    <script src="{% static "js/ember/models.js" %}"></script>
+    <script src="{% static "js/ember/router.js" %}"></script>
+
+{% endblock %}
+{% block body %}
+<script type="text/x-handlebars" data-template-name="application">
+    <h1>Threepanel Management Console</h1>
+    <h2>{{username}}</h2>
+
+</script>
+
+{% endblock %}

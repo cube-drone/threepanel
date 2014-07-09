@@ -3,5 +3,5 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-def home(response):
-    return HttpResponse("Ok.")
+def home(request):
+    return render(request, "streams/base.html", {})

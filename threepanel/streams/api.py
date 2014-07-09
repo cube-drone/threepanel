@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from tastypie.resources import ModelResource
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization, ReadOnlyAuthorization
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
 # Local Imports 
@@ -37,11 +38,12 @@ class UserObjectsOnlyAuthorization(Authorization):
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
-        resource_name = 'auth/user'
+        resource_name = 'user'
         fields = ['username']
         allowed_methods = ['get']
         authentication = SessionAuthentication()
         authorization = ReadOnlyAuthorization()
+        always_return_data = True
 
 class AccountResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
@@ -49,4 +51,47 @@ class AccountResource(ModelResource):
         queryset = Account.objects.all()
         resource_name = 'account'
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = UserObjectsOnlyAuthorization()
+        always_return_data = True
+
+class StreamResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+    account = fields.ForeignKey(AccountResource, 'account')
+    class Meta:
+        queryset = Stream.objects.all()
+        resource_name = 'stream'
+        authentication = SessionAuthentication()
+        authorization = UserObjectsOnlyAuthorization()
+        always_return_data = True
+        filtering = {
+            'account':ALL_WITH_RELATIONS,
+            'slug':ALL,
+        }
+
+class ArticleResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+    stream = fields.ForeignKey(StreamResource, 'stream')
+    class Meta:
+        queryset = Article.objects.all()
+        resource_name = 'article'
+        authentication = SessionAuthentication()
+        authorization = UserObjectsOnlyAuthorization()
+        always_return_data = True
+        filtering = {
+            'stream':ALL_WITH_RELATIONS,
+            'slug':ALL,
+        }
+
+class ContentResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+    article = fields.ForeignKey(ArticleResource, 'article')
+    class Meta:
+        queryset = Content.objects.all()
+        resource_name = 'content'
+        authentication = SessionAuthentication()
+        authorization = UserObjectsOnlyAuthorization()
+        always_return_data = True
+        filtering = {
+            'article':ALL_WITH_RELATIONS,
+            'slug':ALL,
+        }
