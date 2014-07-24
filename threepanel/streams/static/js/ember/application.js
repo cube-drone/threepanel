@@ -1,5 +1,7 @@
 
-window.App = Ember.Application.create();
+window.App = Ember.Application.create({
+    LOG_TRANSITIONS: true
+});
 
 App.ApplicationAdapter = DS.DjangoTastypieAdapter.extend({
     serverDomain: "http://localhost:8000",

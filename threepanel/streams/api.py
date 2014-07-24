@@ -36,6 +36,9 @@ class UserObjectsOnlyAuthorization(Authorization):
         return bundle.obj.user == bundle.request.user
 
 class UserResource(ModelResource):
+    accounts = fields.ToManyField('streams.api.AccountResource', 'account_set')
+    streams = fields.ToManyField('streams.api.StreamResource', 'stream_set')
+    articles = fields.ToManyField('streams.api.ArticleResource', 'article_set')
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
@@ -47,6 +50,7 @@ class UserResource(ModelResource):
 
 class AccountResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
+    streams = fields.ToManyField('streams.api.StreamResource', 'stream_set')
     class Meta:
         queryset = Account.objects.all()
         resource_name = 'account'
@@ -57,6 +61,7 @@ class AccountResource(ModelResource):
 class StreamResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
     account = fields.ForeignKey(AccountResource, 'account')
+    articles = fields.ToManyField('streams.api.ArticleResource', 'article_set')
     class Meta:
         queryset = Stream.objects.all()
         resource_name = 'stream'
@@ -71,6 +76,7 @@ class StreamResource(ModelResource):
 class ArticleResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
     stream = fields.ForeignKey(StreamResource, 'stream')
+    content = fields.ToManyField('streams.api.ContentResource', 'content_set')
     class Meta:
         queryset = Article.objects.all()
         resource_name = 'article'

@@ -13,7 +13,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 LOGIN_URL = "dashboard.views.login_view"
-AFTER_LOGIN_GO_HERE = "dashboard.views.home"
+AFTER_LOGIN_GO_HERE = "streams.views.home"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/

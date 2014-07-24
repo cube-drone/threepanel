@@ -1,0 +1,48 @@
+{% verbatim %}
+
+    <script type="text/x-handlebars" data-template-name="accounts"> 
+      <h2>Accounts</h2>
+
+      {{outlet}}
+        
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="accounts/index">
+        <h3>Accounts/Index</h3>
+        <ul>
+        {{#each}}
+            <li>{{#link-to 'account' slug}}{{title}}{{/link-to}}</li>
+        {{/each}}
+        </ul>
+    </script>
+    
+    <script type="text/x-handlebars" data-template-name="accounts/new">
+        <h3>Accounts/New</h3>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="account"> 
+      <h2>Title: {{title}}</h2>
+      <p>Slug: {{slug}}</p>
+
+      {{outlet}}
+    </script>
+    
+    <script type="text/x-handlebars" data-template-name="account/index"> 
+      <h3>Indexy: {{controllers.account.slug}}</h3>
+      <ul>
+      {{#each stream in controllers.account.streams}}
+      <li>{{stream.title}}</li>
+      {{/each}}
+      <li>+ New Stream</li>
+      </ul>
+
+    </script>
+    
+    <script type="text/x-handlebars" data-template-name="account/edit"> 
+        <form>
+            {{input type="text" value=slug }}
+        </form>
+    </script>
+
+{% endverbatim %}
+

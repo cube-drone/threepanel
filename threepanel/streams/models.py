@@ -31,6 +31,7 @@ class Account(models.Model):
                             validators=[validate_slug])
     title = models.CharField(max_length=100, null=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
+    visible = models.BooleanField(default=True)
     preferences = jsonfield.JSONField()
    
     objects = PassThroughManager.for_queryset_class(AccountQuerySet)()
@@ -53,6 +54,7 @@ class Stream(models.Model):
     description = models.TextField()
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
+    visible = models.BooleanField(default=True)
     preferences = jsonfield.JSONField()
 
     class Meta:
@@ -83,6 +85,7 @@ class Article(StatusModel):
     title = models.CharField(max_length=100, null=False)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
+    visible = models.BooleanField(default=True)
     preferences = jsonfield.JSONField()
     
     def save(self, *args, **kwargs):
@@ -108,6 +111,7 @@ class Content(models.Model):
     content = jsonfield.JSONField()
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
+    visible = models.BooleanField(default=True)
     preferences = jsonfield.JSONField()
     
     def save(self, *args, **kwargs):

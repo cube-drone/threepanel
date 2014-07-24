@@ -13,4 +13,5 @@ api.register(UserResource())
 urlpatterns = patterns('',
     (r'api/', include(api.urls)),
     (r'^$', 'streams.views.home'),
+    (r'^accounts_bloom.js$', 'streams.views.accounts_bloom'),
 )

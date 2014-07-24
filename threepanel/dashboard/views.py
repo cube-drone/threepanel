@@ -55,6 +55,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('dashboard.views.home'))
 
+
 def register(request):
     if request.method == 'POST':
         username = request.POST.get('username', False)
@@ -107,6 +108,7 @@ def register(request):
             return HttpResponseRedirect(reverse(settings.AFTER_LOGIN_GO_HERE))
 
     return render(request, "dashboard/register.html", {'random_name':name()})
+
 
 def users_bloom(request):
     list_of_users = [u.username for u in User.objects.all()]
