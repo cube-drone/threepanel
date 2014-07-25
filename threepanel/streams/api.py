@@ -15,10 +15,12 @@ class UserObjectsOnlyAuthorization(Authorization):
     def read_list(self, object_list, bundle):
         return object_list.filter(user=bundle.request.user)
     def read_detail(self, object_list, bundle):
+        print("read_detail: %s %s" % (bundle.obj.user, bundle.request.user))
         return bundle.obj.user == bundle.request.user
     def create_list(self, object_list, bundle):
         return object_list
     def create_detail(self, object_list, bundle):
+        print("create_detail: %s %s" % (bundle.obj.user, bundle.request.user))
         return bundle.obj.user == bundle.request.user
     def update_list(self, object_list, bundle):
         allowed = []
@@ -29,10 +31,12 @@ class UserObjectsOnlyAuthorization(Authorization):
 
         return allowed
     def update_detail(self, object_list, bundle):
+        print("update_detail: %s %s" % (bundle.obj.user, bundle.request.user))
         return bundle.obj.user == bundle.request.user
     def delete_list(self, object_list, bundle):
         return object_list
     def delete_detail(self, object_list, bundle):
+        print("delete_detail: %s %s" % (bundle.obj.user, bundle.request.user))
         return bundle.obj.user == bundle.request.user
 
 class UserResource(ModelResource):

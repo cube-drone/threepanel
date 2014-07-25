@@ -24,24 +24,40 @@
       <h2>Title: {{title}}</h2>
       <p>Slug: {{slug}}</p>
 
-      {{outlet}}
-    </script>
-    
-    <script type="text/x-handlebars" data-template-name="account/index"> 
-      <h3>Indexy: {{controllers.account.slug}}</h3>
+        <form>
+            {{input type="text" value=title }}
+            {{input type="text" value=slug }}
+            {{#if slugChanged}}
+                {{#if slugValid}}
+                    <span class="postfix available">
+                        <i class='fa fa-check'></i> Available!
+                    </span>
+                {{else}}
+                    <span class="postfix unavailable">
+                        <i class='fa fa-warning'></i> Unavailable
+                    </span>
+                {{/if}}
+            {{else}}
+                <span class="postfix available">
+                    <i class='fa fa-circle-o-notch'></i> Unchanged
+                </span>
+            {{/if}}
+            {{#if isDirty}}
+            <button id="cancel_account" class="secondary" {{action "rollbackAccount"}}>
+                Cancel
+            </button>
+            <button id="edit_account" {{action "saveAccount"}}>
+                Save {{title}}
+            </button>
+            {{/if}}
+        </form>
+
       <ul>
-      {{#each stream in controllers.account.streams}}
+      {{#each stream in streams}}
       <li>{{stream.title}}</li>
       {{/each}}
       <li>+ New Stream</li>
       </ul>
-
-    </script>
-    
-    <script type="text/x-handlebars" data-template-name="account/edit"> 
-        <form>
-            {{input type="text" value=slug }}
-        </form>
     </script>
 
 {% endverbatim %}

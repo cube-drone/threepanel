@@ -4,6 +4,8 @@
     <script type="application/javascript">
         var USERNAME = "{{user.username}}";
     </script>
+    <script src="{% static "js/md5.js" %}"></script> 
+    <script src="{% url 'streams.views.accounts_bloom' %}"></script>
     <script src="{% static "js/handlebars-1.1.2.js" %}" type="text/javascript">
     </script>
     <!-- For development, no minification, mmm-kay? -->

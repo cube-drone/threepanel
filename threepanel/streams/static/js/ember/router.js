@@ -8,9 +8,7 @@ App.Router.map(function() {
         // implicit "index"
         this.route('new', {path: '/new'}); 
     });
-    this.resource('account', {path: '/account/:account_slug'}, function(){
-        this.route('edit', {path: '/edit'});        
-    })
+    this.resource('account', {path: '/account/:account_slug'})
 });
 
 App.ApplicationRoute = Ember.Route.extend({
@@ -61,22 +59,12 @@ App.AccountRoute = Ember.Route.extend({
 });
 
 App.AccountController = Ember.ObjectController.extend({
-
-});
-
-
-//AccountIndex
-App.AccountIndexRoute = Ember.Route.extend({
-});
-
-App.AccountIndexController = Ember.ObjectController.extend({
-    needs: ['account'], 
-});
-
-//AccountEdit
-App.AccountEditRoute = Ember.Route.extend({
-});
-
-App.AccountEditController = Ember.ObjectController.extend({
-    needs: ['account']
+    actions:{
+        saveAccount: function(){
+            this.get('model').save();
+        },
+        rollbackAccount: function(){
+            this.get('model').rollback();
+        },
+    }
 });

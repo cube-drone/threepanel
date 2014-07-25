@@ -13,6 +13,18 @@ App.Account = DS.Model.extend({
     slug: attr('string'), 
     title: attr('string'),
     preferences: attr(),
+    initialSlug: false,
+    slugUpdate: function(){
+        var slugged = this.get('slug').toLowerCase().replace(/[^a-z0-9- ]/g, "_").replace(/ /g, "-");
+        this.set('slug', slugged);
+    }.observes('slug'),
+    slugChanged: function(){
+        return (this.get('isDirty') && 'slug' in this.changedAttributes());
+    }.property('slug'),
+    slugValid: function(){
+        // account_exists is defined in account_bloom.js
+        return !account_exists(this.get('slug'));
+    }.property('slug'),
 });
 
 App.Stream = DS.Model.extend({
