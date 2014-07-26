@@ -68,23 +68,12 @@ App.AccountRoute = Ember.Route.extend({
     }
 });
 
-App.AccountController = Ember.ObjectController.extend({
-    alerts:[],
-    error: function(error){
-        this.set('alerts', []);
-        this.get('alerts').pushObject({'type':'warning', 'message':error});
-        console.error(error);
-    }, 
-    info: function(message){
-        this.set('alerts', []);
-        this.get('alerts').pushObject({'type':'info', 'message':message});
-        console.info(message);
-    }, 
+App.AccountController = Ember.ObjectController.extend(AlertsMixin, {
     actions:{
         saveAccount: function(){
             var that = this;
             var success = function(){
-                that.info("Account saved!");
+                that.success("Account saved!");
             };
             var failure = function(){
                 that.error("This account couldn't be saved!");
@@ -94,6 +83,6 @@ App.AccountController = Ember.ObjectController.extend({
         },
         rollbackAccount: function(){
             this.get('model').rollback();
-        },
+        }
     }
 });

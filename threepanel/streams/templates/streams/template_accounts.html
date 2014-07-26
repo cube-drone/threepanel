@@ -24,7 +24,7 @@
       <h2>Title: {{title}}</h2>
       <p>Slug: {{slug}}</p>
 
-      {{alerts-component alerts=alerts}}
+      {{x-alerts action="clearAlerts" alerts=alerts}}
 
         <form>
             {{input type="text" value=title }}

@@ -3,11 +3,11 @@
     <!-- expects an array of objects 
         [{'type':'success|warning|info', 'message':'it done broke, foo'},]
     -->
-    <script type="text/x-handlebars" data-template-name="components/alerts-component"> 
+    <script type="text/x-handlebars" data-template-name="components/x-alerts"> 
     {{#each alert in alerts}}
-        <div data-alert class="alert-box radius info">
+        <div {{bind-attr class=":alert-box :round :clearfix alert.type"}}>
             {{alert.message}}
-            <a href="#" class="close">&times;</a>
+            <a {{action "clear"}} class="right"><i class='fa fa-times'></i></a>
         </div>
     {{/each}}
     </script>
