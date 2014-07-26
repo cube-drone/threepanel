@@ -6,8 +6,7 @@ $(function(){
         $(".username").val(slugged);
     }
     var username_check = function(username){
-        // user_exists is defined in users_bloom.js
-        if(user_exists(username)){
+        if(Bloom.user_exists(username)){
             $("#register .unknown").hide();
             $("#register .available").hide();
             $("#register .unavailable").show();

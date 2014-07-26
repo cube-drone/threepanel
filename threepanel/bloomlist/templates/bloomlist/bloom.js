@@ -1,4 +1,7 @@
-function {{set_name}}_checker(){
+
+var Bloom = Bloom || {};
+
+Bloom.{{set_name}}_checker = function(){
     var n_bits = {{number_of_bits}};
     var n_hashes = {{number_of_hash_functions}};
     var bitstring = "{{bitstring}}";
@@ -15,4 +18,4 @@ function {{set_name}}_checker(){
     return check
 }
 
-var {{set_name}}_exists = {{set_name}}_checker()
+Bloom.{{set_name}}_exists = Bloom.{{set_name}}_checker()

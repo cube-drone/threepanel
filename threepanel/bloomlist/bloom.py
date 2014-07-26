@@ -17,6 +17,27 @@ def calculator(n, p):
     return m, k
 
 def hash_to_location(i, item, mod):
+    """
+        Given
+            i = a salt
+            item = an item
+            mod = the size of the bit array
+        Calculate the index of the bit-array to look for or set a '1'
+        
+        This function must be exactly parallel to
+            var loc = parseInt(hash.toString().substring(0,5), 16) % n_bits
+        in templates/bloomlist/bloom.js 
+
+        Why the substring?  Javascript has trouble dealing with very large
+        integers - like the sort produced by MD5 - so if we parse the whole
+        MD5 output into an integer (before we mod it) - we will destroy 
+        the universe. As a quick-and-lazy fix (what do you think I am, a 
+        professional?) we just lop off all but the first six characters - 
+        which still gives us 8^6 (262144) possible outputs - a number
+        that Javascript can handle easy when parsed to an integer. 
+
+        We may need to re-evaluate/improve this, should the blooms grow.
+    """
     temp_hash = md5()
     temp_hash.update((str(i) + item).encode("ascii"))
     digest = temp_hash.hexdigest()[0:5]
@@ -43,7 +64,9 @@ class bloom(object):
 
         for item in string_list:
             if not self.check(item):
-                print("nooooo")
+                raise AssertionError("""
+                    Somehow this Bloom Filter doesn't contain the items that
+                    have been placed within it. """)
         
     def insert(self, item):
         for i in range(0, self.n_hash_functions):

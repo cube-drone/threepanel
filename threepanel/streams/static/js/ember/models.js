@@ -22,8 +22,7 @@ App.Account = DS.Model.extend({
         return (this.get('isDirty') && 'slug' in this.changedAttributes());
     }.property('slug'),
     slugValid: function(){
-        // account_exists is defined in account_bloom.js
-        return !account_exists(this.get('slug'));
+        return !Bloom.account_exists(this.get('slug'));
     }.property('slug'),
 });
 
