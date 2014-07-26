@@ -5,6 +5,8 @@ install:
 	apt-get install -y libffi-dev
 	echo 'pip'
 	pip3 install ../deps
+	echo 'dev tools'
+	apt-get install -y ack-grep
 	echo 'foundation'
 	apt-get install -y git npm nodejs-legacy python-dev
 	npm install -g bower grunt-cli
