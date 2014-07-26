@@ -1,8 +1,5 @@
 {% verbatim %}
 
-    <!-- expects an array of objects 
-        [{'type':'success|warning|info', 'message':'it done broke, foo'},]
-    -->
     <script type="text/x-handlebars" data-template-name="components/x-alerts"> 
     {{#each alert in alerts}}
         <div {{bind-attr class=":alert-box :round :clearfix alert.type"}}>

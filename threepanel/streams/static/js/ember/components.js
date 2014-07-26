@@ -1,18 +1,13 @@
 
 // Alerts
 
-// To decorate a template with alerts, add
-//     {{x-alerts alerts=alerts}}  
-// then, call 
-//     decorateWithAlerts(<TemplateController>)
-// (where TemplateController is the controller for the template with x-alerts)
-// TemplateController now has access to 
-//     this.error(message)
-//     this.info(message)
-//     this.success(message)
-//     this.clear()
+var Threep = Threep || {}
 
-App.XAlertsComponent = Ember.Component.extend({
+Threep.load = function(application){
+    application.XAlertsComponent = Threep.XAlertsComponent
+}
+
+Threep.XAlertsComponent = Ember.Component.extend({
     actions:{
         clear:function(){
             console.log('clearing');
@@ -21,7 +16,7 @@ App.XAlertsComponent = Ember.Component.extend({
     }
 });
 
-var AlertsMixin = Ember.Mixin.create({
+Threep.AlertsMixin = Ember.Mixin.create({
     init: function(){
         this._super();
         this.set("alerts", []);
