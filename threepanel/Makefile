@@ -13,6 +13,11 @@ install:
 run:
 	python3 manage.py runserver 0:8000
 
+create_db:
+	rm db.sqlite3
+	echo "no" | python3 manage.py syncdb
+	python3 manage.py streams_test_data
+
 build:
 	compass compile foundation
 

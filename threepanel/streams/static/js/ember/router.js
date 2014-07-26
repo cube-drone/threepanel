@@ -8,7 +8,7 @@ App.Router.map(function() {
         // implicit "index"
         this.route('new', {path: '/new'}); 
     });
-    this.resource('account', {path: '/account/:account_slug'})
+    this.resource('account', {path: '/account/:account_id'})
 });
 
 App.ApplicationRoute = Ember.Route.extend({
@@ -54,14 +54,43 @@ App.AccountsIndexRoute = Ember.Route.extend({
 // Account
 App.AccountRoute = Ember.Route.extend({
     model: function(params){
-        return this.store.find('account', params.account_slug)
+        return this.store.find('account', params.account_id);
+    }, 
+    setupController: function(controller, account){
+        controller.set('model', account);
+        controller.set('alerts', []);
+    },
+    actions:{
+        willTransition: function(transition){
+            console.info("transitioning out of account, rolling back changes.");
+            this.controller.get('model').rollback();
+        }
     }
 });
 
 App.AccountController = Ember.ObjectController.extend({
+    alerts:[],
+    error: function(error){
+        this.set('alerts', []);
+        this.get('alerts').pushObject({'type':'warning', 'message':error});
+        console.error(error);
+    }, 
+    info: function(message){
+        this.set('alerts', []);
+        this.get('alerts').pushObject({'type':'info', 'message':message});
+        console.info(message);
+    }, 
     actions:{
         saveAccount: function(){
-            this.get('model').save();
+            var that = this;
+            var success = function(){
+                that.info("Account saved!");
+            };
+            var failure = function(){
+                that.error("This account couldn't be saved!");
+
+            };
+            this.get('model').save().then(success).catch(failure);
         },
         rollbackAccount: function(){
             this.get('model').rollback();

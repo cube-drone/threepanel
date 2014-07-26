@@ -29,7 +29,7 @@
                 <a href="#">Account: {{currently_selected}}</a> 
                   <ul class="dropdown">
                     {{#each accounts}}
-                      <li>{{#link-to 'account' slug}}{{title}}{{/link-to}}</li>
+                      <li>{{#link-to 'account' id}}{{title}}{{/link-to}}</li>
                     {{/each}}
                     <li>{{#link-to 'accounts.new'}}+ New Account{{/link-to}}</li>
                   </ul>

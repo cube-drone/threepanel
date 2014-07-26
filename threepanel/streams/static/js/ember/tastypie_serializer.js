@@ -43,7 +43,7 @@ DS.DjangoTastypieSerializer = DS.RESTSerializer.extend({
   },
 
   resourceUriToId: function (resourceUri) {
-    console.log(resourceUri)
+    console.info("api: " + resourceUri)
     return resourceUri.split('/').reverse()[1];
   },
 

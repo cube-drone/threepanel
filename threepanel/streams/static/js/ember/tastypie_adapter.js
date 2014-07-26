@@ -11,6 +11,10 @@ DS.DjangoTastypieAdapter = DS.RESTAdapter.extend({
     requests to the destination domain. Remember trailing slash
   */
   serverDomain: null,
+  
+  headers: {
+    "X-CSRFToken": $.cookie('csrftoken'), 
+  }, 
 
   /**
     This is the default Tastypie namespace found in the documentation.

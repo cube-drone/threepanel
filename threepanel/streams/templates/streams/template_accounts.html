@@ -11,7 +11,7 @@
         <h3>Accounts/Index</h3>
         <ul>
         {{#each}}
-            <li>{{#link-to 'account' slug}}{{title}}{{/link-to}}</li>
+            <li>{{#link-to 'account' id}}{{title}}{{/link-to}}</li>
         {{/each}}
         </ul>
     </script>
@@ -23,6 +23,8 @@
     <script type="text/x-handlebars" data-template-name="account"> 
       <h2>Title: {{title}}</h2>
       <p>Slug: {{slug}}</p>
+
+      {{alerts-component alerts=alerts}}
 
         <form>
             {{input type="text" value=title }}

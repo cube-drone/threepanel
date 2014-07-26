@@ -26,8 +26,7 @@ class Account(models.Model):
     Represents an entire brand, like "Cube Drone" or "Dave the Artist"
     """
     slug = models.CharField(max_length=50, 
-                            primary_key=True, 
-                            editable=False,
+                            unique=True,
                             validators=[validate_slug])
     title = models.CharField(max_length=100, null=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
