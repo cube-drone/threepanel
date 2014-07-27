@@ -25,7 +25,17 @@ App.AccountRoute = Ember.Route.extend({
     }
 });
 
-App.AccountController = Ember.ObjectController.extend(Threep.AlertsMixin, {
+App.AccountController = Ember.ObjectController.extend(Threep.AlertsMixin, Threep.SlugMixin, {
+    slugValid: function(){
+        return !Bloom.account_exists(this.get('slug'));
+    }.property('slug'),
+    viewUrl: function(){
+        return SETTINGS.SITE_ROOT + "r/" + this.get('slug');
+    }.property('slug'),
+    canEdit:function(){
+        return ((this.get('isDirty') && !this.slugChanged) || 
+                (this.slugChanged && this.slugValid))
+    }.property('slug', 'title'),
     actions:{
         saveAccount: function(){
             var that = this;

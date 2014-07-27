@@ -2,7 +2,10 @@
 {% load staticfiles %}
 {% block base_javascript %}
     <script type="application/javascript">
-        var USERNAME = "{{user.username}}";
+        // Globals from Django. 
+        var SETTINGS = SETTINGS || {};
+        SETTINGS.USERNAME = "{{user.username}}";
+        SETTINGS.SITE_ROOT = "{{siteroot}}";
     </script>
     <script src="{% static "js/md5.js" %}"></script> 
     <script src="{% url 'streams.views.accounts_bloom' %}"></script>

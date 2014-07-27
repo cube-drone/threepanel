@@ -21,45 +21,46 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="account"> 
-      <h2>Title: {{title}}</h2>
-      <p>Slug: {{slug}}</p>
+        <div class='row'>
+            <h2>Title: {{title}}</h2>
+            <p>View: {{viewUrl}}</p>
+        </div>
 
-      {{x-alerts action="clearAlerts" alerts=alerts}}
+        <div class='row'>
+            {{x-alerts action="clearAlerts" alerts=alerts}}
+        </div>
 
         <form>
-            {{input type="text" value=title }}
-            {{input type="text" value=slug }}
-            {{#if slugChanged}}
-                {{#if slugValid}}
-                    <span class="postfix available">
-                        <i class='fa fa-check'></i> Available!
-                    </span>
-                {{else}}
-                    <span class="postfix unavailable">
-                        <i class='fa fa-warning'></i> Unavailable
-                    </span>
-                {{/if}}
-            {{else}}
-                <span class="postfix available">
-                    <i class='fa fa-circle-o-notch'></i> Unchanged
-                </span>
-            {{/if}}
-            {{#if isDirty}}
-            <button id="cancel_account" class="secondary" {{action "rollbackAccount"}}>
-                Cancel
-            </button>
-            <button id="edit_account" {{action "saveAccount"}}>
-                Save {{title}}
-            </button>
+            <div class='row'>
+            {{x-text-field value=title label="Title"}}
+            </div>
+            {{x-validate-field value=slug 
+                label="Slug" 
+                name="AccountSlug"
+                changed=slugChanged 
+                valid=slugValid 
+                validmessage="Available" 
+                invalidmessage="Unavailable"}}  
+            {{#if canEdit}}
+            <div class='row'>
+                <button id="cancel_account" class="secondary" {{action "rollbackAccount"}}>
+                    Cancel
+                </button>
+                <button id="edit_account" {{action "saveAccount"}}>
+                    Save {{title}}
+                </button>
+            </div>
             {{/if}}
         </form>
 
-      <ul>
-      {{#each stream in streams}}
-      <li>{{stream.title}}</li>
-      {{/each}}
-      <li>+ New Stream</li>
-      </ul>
+        <div class="row">
+            <ul>
+            {{#each stream in streams}}
+            <li>{{stream.title}}</li>
+            {{/each}}
+            <li>+ New Stream</li>
+            </ul>
+        </div>
     </script>
 
 {% endverbatim %}

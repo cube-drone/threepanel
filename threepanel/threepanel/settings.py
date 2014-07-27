@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+ABSOLUTE_URL_BASE = "http://localhost:8000/"
+
 LOGIN_URL = "dashboard.views.login_view"
 AFTER_LOGIN_GO_HERE = "streams.views.home"
 

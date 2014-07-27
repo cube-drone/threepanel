@@ -1,6 +1,7 @@
 # Django
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.conf import settings
 
 # Local imports
 from bloomlist.views import bloom_view
@@ -10,7 +11,8 @@ from .models import Account
 
 
 def home(request):
-    return render(request, "streams/base.html", {})
+    return render(request, "streams/base.html", {
+        'siteroot':settings.ABSOLUTE_URL_BASE})
 
 
 def accounts_bloom(request):

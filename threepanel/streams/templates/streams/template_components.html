@@ -9,5 +9,59 @@
     {{/each}}
     </script>
 
+    <script type="text/x-handlebars" data-template-name="components/x-text-field">
+        <div class="row collapse">
+            <div class="small-1 columns">
+                <label class="inline" {{bind-attr for=elid}}>{{label}}</label>
+            </div>
+            <div class="small-11 columns">
+                {{input value=value
+                    placeholder=placeholder
+                    size=size
+                    name=name
+                    disabled=disabled
+                    maxlength=maxlength
+                    tabindex=tabindex
+                    elementId=elid}}
+            </div>
+        </div>
+
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="components/x-validate-field">
+        <div class="row collapse">
+            <div class="small-1 columns">
+                <label class="inline" {{bind-attr for=elid}}>{{label}}</label>
+            </div>
+            <div class="small-8 columns">
+                {{input value=value
+                    placeholder=placeholder
+                    size=size
+                    name=name
+                    disabled=disabled
+                    maxlength=maxlength
+                    tabindex=tabindex
+                    elementId=elid}}
+            </div>
+            <div class="small-3 columns">
+                {{#if changed}}
+                    {{#if valid}}
+                        <span class="postfix available">
+                            <i class='fa fa-check'></i> {{validmessage}}
+                        </span>
+                    {{else}}
+                        <span class="postfix unavailable">
+                            <i class='fa fa-warning'></i> {{invalidmessage}}
+                        </span>
+                    {{/if}}
+                {{else}}
+                    <span class="postfix unchanged">
+                        <i class='fa fa-circle-o-notch'></i>
+                    </span>
+                {{/if}}
+            </div>
+        </div>
+    </script>
+
 {% endverbatim %}
 

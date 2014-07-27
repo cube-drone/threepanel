@@ -14,7 +14,7 @@ App.ApplicationSerializer = DS.DjangoTastypieSerializer.extend({});
 
 App.ApplicationRoute = Ember.Route.extend({
     setupController: function(controller) {
-        controller.set('username', USERNAME);
+        controller.set('username', SETTINGS.USERNAME);
     },
 });
 
