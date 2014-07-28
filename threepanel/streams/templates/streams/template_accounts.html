@@ -22,8 +22,8 @@
 
     <script type="text/x-handlebars" data-template-name="account"> 
         <div class='row'>
-            <h2>Title: {{title}}</h2>
-            <p>View: {{viewUrl}}</p>
+            <h2>{{title}}</h2>
+            <p>View: <a {{bind-attr href=viewUrl}}>{{viewUrl}}</a></p>
         </div>
 
         <div class='row'>
