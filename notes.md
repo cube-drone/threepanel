@@ -85,3 +85,28 @@ a non-SSL localhost VM in dev mode. I'm going to prorogue complex auth
 for now and just say "fuck it, y'all sign in with a username and password 
     for now."
 
+----
+
+okay, back in action
+
+it's been a while since I've touched this product. 
+
+lots of cobwebs to clean up
+
+the installation script doesn't work at all
+
+and good lord, I made the whole user thing so needlessly complicated.
+
+and streams? what was I thinking
+
+we go with the DISQUS model. 
+
+okay, back to reality: 
+
+Comic: date, title, url, secret text, alt text
+
+/* other ideas */
+Blog Entry: comic key, title, content text
+Supplemental Image: comic key, url
+
+The main page? It's the last comic.  

@@ -1,4 +1,3 @@
-
 django
 pytz
 
@@ -9,7 +8,5 @@ django-positions
 
 bcrypt
 
-bitarray
-
 django-tastypie
-python-social-auth
+django-bootstrap3
