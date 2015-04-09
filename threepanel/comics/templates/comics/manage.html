@@ -1,0 +1,35 @@
+{% extends "master.html" %}
+
+{% block head_title %}Manage Comics{% endblock %}
+{% block title %}Manage Comics{% endblock %}
+
+{% block content %}
+
+<h2>Backlog</h2>
+<ul>
+{% for comic in backlog %}
+    <li> {{comic.slug}} - {{comic.date}} -
+        <form action="{% url comic.views.delete %}" method='POST'>
+            {% csrf_token %}
+            <input type='submit'>Delete</input>
+        </form> 
+    </li> 
+{% endfor %}
+</ul>
+
+<h2>Hero</h2>
+<p> {{hero.slug}} - {{hero.date}} </p> 
+
+<h2>Archives</h2>
+<ul>
+{% for comic in archives %}
+    <li> {{comic.slug}} - {{comic.date}} </li> 
+        <form action="{% url 'comics.views.delete' slug=comic.slug %}" method='POST'>
+            {% csrf_token %}
+            <input type='submit' value="Delete"></input>
+        </form> 
+{% endfor %}
+</ul>
+
+
+{% endblock %}

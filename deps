@@ -1,12 +1,6 @@
 django
 pytz
-
 django-autoslug
-django-jsonfield
-django-model-utils
-django-positions
-
-bcrypt
-
-django-tastypie
 django-bootstrap3
+django-model-utils
+python-slugify

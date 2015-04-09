@@ -1,0 +1,88 @@
+
+class Schedule(models.Model):
+    """
+    Only one Schedule should ever exist, and it's the schedule that defines
+    (approximately) how often you post your comic. 
+    """
+    DAILY = 'Daily'
+    WEEKLY = 'Weekly'
+    MONTHLY = 'Monthly'
+    WHENEVER = 'Whenever'
+    SCHEDULE_TYPE_CHOICES = (DAILY, WEEKLY, MONTHLY, WHENEVER)
+
+    schedule_type = CharField(choices=SCHEDULE_TYPE_CHOICES)
+
+    hours = PositiveSmallIntegerField(null=True)
+    minutes = PositiveSmallIntegerField(null=True)
+
+    monday = BooleanField(default=False)
+    tuesday = BooleanField(default=False)
+    wednesday = BooleanField(default=False)
+    thursday = BooleanField(default=False)
+    friday = BooleanField(default=False)
+    saturday = BooleanField(default=False)
+    sunday = BooleanField(default=False)
+
+    day_of_month = PositiveSmallIntegerField(null=True)
+    last_day_of_month = BooleanField(default=False)
+
+    @classmethod
+    def get_schedule(cls):
+        schedules = Schedule.objects.all()
+        if len(schedules) > 0:
+            schedule = schedules[0]
+            if schedule.schedule_type == DAILY:
+                return DailySchedule.objects.all()[0]
+            elif schedule.schedule_type == WEEKLY:
+                return WeeklySchedule.objects.all()[0]
+            elif schedule.schedule_type == MONTHLY:
+                return MonthlySchedule.objects.all()[0]
+            elif schedule.schedule_type == WHENEVER:
+                return WheneverSchedule.objects.all()[0] 
+        else:
+            return None
+
+class DailySchedule(models.Model):
+    class Meta:
+        proxy = True
+
+    def next_slot(self, current_slot):
+        next_slot = copy.deepcopy(current_slot)
+        next_slot.hours = self.hours
+        next_slot.minutes = self.minutes
+        if current_slot.hours < self.hours:
+            pass
+        elif (current_slot.hours == self.hours and 
+            current_slot.minutes < next_slot.minutes):
+            pass
+        elif (current_slot.hours == self.hours and
+            current_slot.minutes == next_slot.minutes):
+            
+        else:
+            pass
+
+        # 9AM / 12PM
+        # 2AM / 12PM
+        
+
+    def next(self):
+        current_slot = datetime.datetime.now()
+        counter = 0
+        while counter < BACKLOG_SIZE:
+            # pick the next spot in the backlog
+            next_slot = self.next_slot(current_slot) 
+            # does a comic exist for that spot?
+            counter += 1
+            
+    
+class WeeklySchedule(models.Model):
+    class Meta:
+        proxy = True
+
+class MonthlySchedule(models.Model):
+    class Meta:
+        proxy = True
+
+class WheneverSchedule(models.Model):
+    class Meta:
+        proxy = True

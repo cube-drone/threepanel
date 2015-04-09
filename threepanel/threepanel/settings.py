@@ -26,15 +26,43 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# AUTH STUFF
+LOGIN_URL = "login"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/django.log',
+        },
+        'console': {
+            'level': 'DEBUG', 
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'comics': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+        },
+    },
+}
+
 
 # Application definition
 
 INSTALLED_APPS = (
+    'dashboard',
+    'comics',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (

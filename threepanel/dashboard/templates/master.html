@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block head_title %}Threepanel{% endblock %}</title>
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+    <!--
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    -->
+    {% block extraheader %}{% endblock %}
+  </head>
+  <body>
+    <h1>{% block title %}{% endblock %}</h1>
+    {% block content %}{% endblock %}
+  </body>
+</html>
