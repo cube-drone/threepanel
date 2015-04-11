@@ -1,0 +1,7 @@
+<li> {{comic.slug}} - {{comic.posted}} -
+    <!-- update -->
+    <form action="{% url 'comics.views.delete' slug=comic.slug%}" method='POST'>
+        {% csrf_token %}
+        <input type='submit' value="Delete"></input>
+    </form> 
+</li> 

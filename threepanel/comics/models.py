@@ -1,11 +1,13 @@
-from django.db import models
-from autoslug import AutoSlugField
-from slugify import slugify
+import uuid
 import datetime
 
-BACKLOG_SIZE = 5
+from django.db import models
+
+from autoslug import AutoSlugField
+from slugify import slugify
 
 class Comic(models.Model):
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100, unique_for_date='posted')
     posted = models.DateTimeField(db_index=True)
     image_url = models.CharField(max_length=300)

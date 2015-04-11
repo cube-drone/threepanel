@@ -1,0 +1,22 @@
+{% extends "master.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block head_title %}Create New Comic{% endblock %}
+{% block title %}Create New Comic{% endblock %}
+{% block extraheader %}
+    <script src="{% static 'js/smalot_datepicker_apr_1_2015.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/smalot_datepicker_apr_1_2015.css' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'comics.views.create' %}" method='POST'>
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    <input type='submit'>Create</input>
+</form> 
+
+
+{% endblock %}

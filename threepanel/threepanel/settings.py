@@ -55,14 +55,17 @@ LOGGING = {
 # Application definition
 
 INSTALLED_APPS = (
-    'dashboard',
-    'comics',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'datetimewidget',
     'bootstrap3',
+
+    'dashboard',
+    'comics',
 )
 
 MIDDLEWARE_CLASSES = (

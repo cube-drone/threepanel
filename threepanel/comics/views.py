@@ -7,10 +7,12 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 import logging
 from .models import Comic
+from .forms import ComicForm
 
 logger = logging.getLogger(__name__)
 
 def home(request):
+    hero = Comic.hero()
     return HttpResponse("YOLO")
 
 @login_required
@@ -31,7 +33,16 @@ def trash(request):
 
 @login_required
 def create(request):
-    pass
+    if request.method == 'POST':
+        form = ComicForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Comic Created!')
+            return HttpResponseRedirect(reverse("comics.views.manage"))
+    else:
+        form = ComicForm()
+
+    return render(request, 'comics/create.html', {'form':form})
 
 @login_required
 def update(request, slug):
