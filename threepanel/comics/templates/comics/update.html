@@ -2,8 +2,8 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 
-{% block head_title %}Create New Comic{% endblock %}
-{% block title %}Create New Comic{% endblock %}
+{% block head_title %}Update Comic{% endblock %}
+{% block title %}Update Comic{% endblock %}
 {% block extraheader %}
     <script src="{% static 'js/smalot_datepicker_apr_1_2015.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/smalot_datepicker_apr_1_2015.css' %}"></script>
@@ -11,12 +11,11 @@
 
 {% block content %}
 
-<form action="{% url 'comics.views.create' %}" method='POST'>
+<form action="{% url 'comics.views.update' slug=slug %}" method='POST'>
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}
-    <input type='submit' value="Create Comic"></input>
+    <input type='submit' value="Update Comic"></input>
 </form> 
-
 
 {% endblock %}

@@ -46,7 +46,17 @@ def create(request):
 
 @login_required
 def update(request, slug):
-    pass
+    comic = get_object_or_404(Comic, slug=slug)
+    if request.method == 'POST':
+        form = ComicForm(request.POST, instance=comic)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Comic Updated!')
+            return HttpResponseRedirect(reverse("comics.views.manage"))
+    else:
+        form = ComicForm(instance=comic)
+
+    return render(request, 'comics/update.html', {'form':form, 'slug':slug})
 
 @login_required
 def delete(request, slug):
