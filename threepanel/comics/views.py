@@ -20,6 +20,9 @@ def manage(request):
     backlog = Comic.backlog()
     archives = Comic.archives()
     hero = Comic.hero()
+    print(backlog)
+    print(hero)
+    print(archives)
     return render(request, "comics/manage.html", {
         'backlog': backlog,
         'archives': archives,

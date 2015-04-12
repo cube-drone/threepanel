@@ -1,4 +1,4 @@
-{% extends "master.html" %}
+{% extends "management.html" %}
 
 {% block head_title %}Manage Comics{% endblock %}
 {% block title %}Manage Comics{% endblock %}
@@ -15,14 +15,16 @@
 </ul>
 
 <h2>Hero</h2>
+{% if hero %}
 <ul>
     {% include "comics/module_manage_comic.html" with comic=hero %}
 </ul>
+{% endif %}
 
 <h2>Archives</h2>
 <ul>
 {% for comic in archives %}
-    {% include "comics/module_manage_comic.html" with comic=hero %}
+    {% include "comics/module_manage_comic.html" with comic=comic %}
 {% endfor %}
 </ul>
 

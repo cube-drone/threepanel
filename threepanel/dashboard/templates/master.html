@@ -13,8 +13,6 @@
     {% bootstrap_javascript %}
     <!-- MomentJS for dates -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <!-- Bootstrap Datepicker -->
-    <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>-->
     {# Display django.contrib.messages as Bootstrap alerts #}
     {% bootstrap_messages %}
     <!--
@@ -24,7 +22,9 @@
     {% block extraheader %}{% endblock %}
   </head>
   <body>
-    <h1>{% block title %}{% endblock %}</h1>
-    {% block content %}{% endblock %}
+    {% block content_wrapper %}
+        <h1>{% block title %}{% endblock %}</h1>
+        {% block content %}{% endblock %}
+    {% endblock %}
   </body>
 </html>

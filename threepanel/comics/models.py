@@ -24,18 +24,27 @@ class Comic(models.Model):
         self.hidden = True
         self.save()
 
+    def next(self):
+        pass
+
+    def previous(self):
+        pass
+
     @classmethod
     def hero(cls):
         now = datetime.datetime.now()
-        return Comic.objects.filter(hidden=False, 
-                                    posted__lte=now).order_by('-posted')[0]
+        try:
+            return Comic.objects.filter(hidden=False, 
+                                        posted__lte=now).order_by('-posted')[0]
+        except IndexError:
+            return None
         
 
     @classmethod
     def archives(cls):
         now = datetime.datetime.now()
         return Comic.objects.filter(hidden=False, 
-                                    posted__lte=now).order_by('-posted')[1:]
+                                    posted__lte=now).order_by('-posted')
 
     @classmethod
     def backlog(cls):
