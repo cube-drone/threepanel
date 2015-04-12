@@ -1,11 +1,15 @@
-from django.shortcuts import render
+import logging
+import sys
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-import logging
+
+from dashboard.views import render
+
 from .models import Comic
 from .forms import ComicForm
 
@@ -20,14 +24,10 @@ def manage(request):
     backlog = Comic.backlog()
     archives = Comic.archives()
     hero = Comic.hero()
-    print(backlog)
-    print(hero)
-    print(archives)
     return render(request, "comics/manage.html", {
         'backlog': backlog,
         'archives': archives,
         'hero': hero}) 
-
 
 @login_required
 def trash(request):
