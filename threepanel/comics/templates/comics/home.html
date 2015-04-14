@@ -1,0 +1,35 @@
+{% extends "master.html" %}
+
+{% block head_title %}{{dashboard.site_name}}
+{% if hero %}- {{hero.title}}{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if hero %}
+
+<div class='fpnl'>
+    <ul>
+        {% if hero.first %}
+        <li><a class='first' href='{% url 'comics.views.single_by_numerical_order' n=hero.first %}'>
+            First</a></li>
+        {% endif %}
+        {% if hero.previous %}
+        <li><a class='previous' href='{% url 'comics.views.single_by_numerical_order' n=hero.previous %}'>
+            Previous</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+<div class='hero'>
+<h2>{{hero.title}}</h2>
+<p class='posted'>{{hero.posted}}</p>
+<img class='comic' src='{{hero.image_url}}' alt='{{hero.alt_text}}' title='{{hero.secret_text}}' />
+<p class='secret_text'>{{hero.secret_text}}</p>
+</div>
+
+{% else %}
+<p> no content here, yet </p>
+{% endif %}
+
+{% endblock %}

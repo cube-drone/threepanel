@@ -6,13 +6,30 @@ from django.db import models
 from autoslug import AutoSlugField
 from slugify import slugify
 
+""" 
+You're going to see the term 'Hero' a bunch in here. 
+I'm using "Hero" to mean "The Most Recent Comic". 
+"""
+
+
 class Comic(models.Model):
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=100, unique_for_date='posted')
-    posted = models.DateTimeField(db_index=True)
-    image_url = models.CharField(max_length=300)
-    secret_text = models.TextField(blank=True, default="")
-    alt_text = models.TextField(blank=True, default="")
+    """
+    One comic. A single image, and a little bit of meta-data, like
+    alt-text, secret-text, when it was posted, what it's called...
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=100, unique_for_date='posted', 
+        help_text="The title of the comic")
+    posted = models.DateTimeField(db_index=True, 
+        help_text="The date the comic should be published")
+    image_url = models.CharField(max_length=300, 
+        help_text="The url to the comic's image file")
+    secret_text = models.TextField(blank=True, null=False, default="", 
+        help_text="A small amount of text that pops up below the comic")
+    alt_text = models.TextField(blank=True, null=False, default="", 
+        help_text="""A complete transcript of the text, for screenreaders
+                    and search engines""") 
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     hidden = models.BooleanField(default=False)
     
@@ -20,25 +37,73 @@ class Comic(models.Model):
                          db_index=True, 
                          slugify=slugify)
     
-    def delete(self):
+    cached_hero = None
+   
+    def hide():
         self.hidden = True
         self.save()
 
-    def next(self):
-        pass
+    def save(self, reorder=True):
+        super().save()
+        if reorder:
+            Comic.reorder()
+  
+    @property
+    def is_hero(self):
+        return self.id == Comic.hero().id
 
+    @property
+    def first(self):
+        if Comic.hero():
+            return 1
+        else:
+            return None
+
+    @property
+    def last(self):
+        if Comic.hero():
+            return Comic.hero().order
+        else:
+            return None
+    
+    @property
     def previous(self):
-        pass
+        next_order = max(self.order - 1, 0)
+        if next_order > 0:
+            return next_order
+        else:
+            return None
+
+    @property
+    def next(self):
+        if Comic.hero():
+            return min(self.order + 1, Comic.hero().order)
+        else:
+            return None
+
+    @classmethod
+    def reorder(cls):
+        now = datetime.datetime.now()
+        comics = Comic.objects.all().order_by('posted')
+        counter = 1
+        for comic in comics:
+            if not comic.hidden:
+                comic.order = counter
+                counter += 1
+            else:
+                comic.order = 0
+            comic.save(reorder=False)
 
     @classmethod
     def hero(cls):
-        now = datetime.datetime.now()
-        try:
-            return Comic.objects.filter(hidden=False, 
-                                        posted__lte=now).order_by('-posted')[0]
-        except IndexError:
-            return None
-        
+        if not Comic.cached_hero:
+            now = datetime.datetime.now()
+            try:
+                Comic.cached_hero = Comic.objects.filter(hidden=False, 
+                                            posted__lte=now).order_by('-posted')[0]
+            except IndexError:
+                Comic.cached_hero = None
+        return Comic.cached_hero
 
     @classmethod
     def archives(cls):

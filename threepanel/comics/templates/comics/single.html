@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+
+{% block head_title %}{{dashboard.site_name}} - {{comic.title}}{% endblock %}
+
+{% block content %}
+
+<div class='fpnl'>
+    <ul>
+        {% if comic.first %}
+        <li><a class='first' href='{% url 'comics.views.single_by_numerical_order' n=comic.first %}'>
+            First</a></li>
+        {% endif %}
+        {% if comic.previous %}
+        <li><a class='previous' href='{% url 'comics.views.single_by_numerical_order' n=comic.previous %}'>
+            Previous</a></li>
+        {% endif %}
+        {% if comic.next %}
+        <li><a class='next' href='{% url 'comics.views.single_by_numerical_order' n=comic.next %}'>
+            Next</a></li>
+        {% endif %}
+        {% if comic.last %}
+        <li><a class='next' href='{% url 'comics.views.single_by_numerical_order' n=comic.last %}'>
+            Last</a></li>
+        {% endif %}
+
+    </ul>
+</div>
+
+<div class='comic'>
+<h2>{{comic.title}}</h2>
+<p class='posted'>{{comic.posted}}</p>
+<img class='comic' src='{{comic.image_url}}' alt='{{comic.alt_text}}' title='{{comic.secret_text}}' />
+<p class='secret_text'>{{comic.secret_text}}</p>
+</div>
+
+{% endblock %}

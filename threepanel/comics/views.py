@@ -17,7 +17,17 @@ logger = logging.getLogger(__name__)
 
 def home(request):
     hero = Comic.hero()
-    return HttpResponse("YOLO")
+    return render(request, "comics/home.html", {'hero': hero})
+
+def single_by_numerical_order(request, n):
+    """ redirect to single by slug """
+    comic = get_object_or_404(Comic, order=n)
+    return HttpResponseRedirect(reverse("comics.views.single", 
+                                kwargs={'slug':comic.slug}))
+
+def single(request, slug):
+    comic = get_object_or_404(Comic, slug=slug)
+    return render(request, "comics/single.html", {'slug': slug, 'comic':comic})
 
 @login_required
 def manage(request):
@@ -64,7 +74,7 @@ def update(request, slug):
 @login_required
 def delete(request, slug):
     comic = get_object_or_404(Comic, slug=slug)
-    comic.delete()
+    comic.hide()
     logger.info("{} deleted".format(comic))
     messages.add_message(request, messages.INFO, 
                          "\"{}\" Deleted".format(comic.title))
