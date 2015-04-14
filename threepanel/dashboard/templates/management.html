@@ -6,6 +6,11 @@
 
 <h2>{% block title %}{% endblock %}</h2>
 
+<ul>
+    <li><a href="{% url 'comics.views.manage' %}">Comics</a></li>
+    <li><a href="{% url 'dashboard.views.site_options' %}">Site Options</a></li>
+</ul>
+
 {% block content %}{% endblock %}
 
 {% endblock %}

@@ -27,7 +27,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 # AUTH STUFF
-LOGIN_URL = "login"
+LOGIN_URL = "dashboard/login"
 
 LOGGING = {
     'version': 1,

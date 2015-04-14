@@ -7,15 +7,29 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
+from .models import SiteOptions
+from .forms import SiteOptionsForm
 
 def render(request, template, options):
+    dashboard = SiteOptions.get() 
     f_code = sys._getframe(1).f_code
-    caller = f_code.co_name
-    filename = f_code.co_filename
-    options['dashboard'] = {'caller': caller, 
-                            'filename': filename}
+    dashboard.caller = f_code.co_name
+    dashboard.filename = f_code.co_filename
+    options['dashboard'] = dashboard
     return django_render(request, template, options)
 
+def site_options(request):
+    site_options = SiteOptions.get()
+    if request.method == 'POST':
+        form = SiteOptionsForm(request.POST, instance=site_options)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Options Updated!')
+            return HttpResponseRedirect(reverse("dashboard.views.site_options"))
+    else:
+        form = SiteOptionsForm(instance=site_options)
+
+    return render(request, 'dashboard/site_options.html', {'form':form})
 
 def login(request):
     if request.POST:
@@ -24,7 +38,8 @@ def login(request):
         if not username or not password:
             messages.add_message(request, messages.ERROR, 
                                  'No username or password provided.')
-            return render(request, "login.html", {}) 
+            return render(request, "dashboard/login.html", {}) 
+
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
@@ -37,4 +52,4 @@ def login(request):
             messages.add_message(request, messages.ERROR, 
                                  'Authentication failed!')
 
-    return render(request, "login.html", {}) 
+    return render(request, "dashboard/login.html", {}) 
