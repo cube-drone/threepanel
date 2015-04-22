@@ -1,9 +1,21 @@
 
 * singleton Schedule
 
+* taggit tags
+
 * extras (irc, blog entry, gallery, et al)
 
-* singleton site configuration object (HTable?)
+* caching
+
+* search
+
+* unit tests
+
+* import
+
+* deploy
+
+* post-deploy tests
 
 * pages (?) 
 
