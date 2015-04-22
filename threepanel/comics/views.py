@@ -13,21 +13,27 @@ from dashboard.views import render
 from .models import Comic
 from .forms import ComicForm
 
+
 logger = logging.getLogger(__name__)
+
 
 def home(request):
     hero = Comic.hero()
     return render(request, "comics/home.html", {'hero': hero})
 
+
 def single_by_numerical_order(request, n):
     """ redirect to single by slug """
     comic = get_object_or_404(Comic, order=n)
-    return HttpResponseRedirect(reverse("comics.views.single", 
-                                kwargs={'slug':comic.slug}))
+    return HttpResponseRedirect(reverse("comics.views.single",
+                                kwargs={'slug': comic.slug}))
+
 
 def single(request, slug):
     comic = get_object_or_404(Comic, slug=slug)
-    return render(request, "comics/single.html", {'slug': slug, 'comic':comic})
+    return render(request, "comics/single.html", {'slug': slug,
+                                                  'comic': comic})
+
 
 @login_required
 def manage(request):
@@ -37,12 +43,14 @@ def manage(request):
     return render(request, "comics/manage.html", {
         'backlog': backlog,
         'archives': archives,
-        'hero': hero}) 
+        'hero': hero})
+
 
 @login_required
 def trash(request):
     trash = Comic.trash()
     pass
+
 
 @login_required
 def create(request):
@@ -55,7 +63,8 @@ def create(request):
     else:
         form = ComicForm()
 
-    return render(request, 'comics/create.html', {'form':form})
+    return render(request, 'comics/create.html', {'form': form})
+
 
 @login_required
 def update(request, slug):
@@ -69,14 +78,14 @@ def update(request, slug):
     else:
         form = ComicForm(instance=comic)
 
-    return render(request, 'comics/update.html', {'form':form, 'slug':slug})
+    return render(request, 'comics/update.html', {'form': form, 'slug': slug})
+
 
 @login_required
 def delete(request, slug):
     comic = get_object_or_404(Comic, slug=slug)
     comic.hide()
     logger.info("{} deleted".format(comic))
-    messages.add_message(request, messages.INFO, 
+    messages.add_message(request, messages.INFO,
                          "\"{}\" Deleted".format(comic.title))
     return HttpResponseRedirect(reverse('comics.views.manage'))
-    
