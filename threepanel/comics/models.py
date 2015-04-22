@@ -39,7 +39,7 @@ class Comic(models.Model):
 
     cached_hero = None
 
-    def hide():
+    def hide(self):
         self.hidden = True
         self.save()
 
@@ -83,7 +83,6 @@ class Comic(models.Model):
 
     @classmethod
     def reorder(cls):
-        now = datetime.datetime.now()
         comics = Comic.objects.all().order_by('posted')
         counter = 1
         for comic in comics:
