@@ -4,7 +4,6 @@ from django.shortcuts import render as django_render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from .models import SiteOptions

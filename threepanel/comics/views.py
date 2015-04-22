@@ -1,8 +1,6 @@
 import logging
-import sys
 
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -48,7 +46,7 @@ def manage(request):
 
 @login_required
 def trash(request):
-    trash = Comic.trash()
+    # trash = Comic.trash()
     pass
 
 
