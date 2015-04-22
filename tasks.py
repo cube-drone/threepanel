@@ -1,11 +1,16 @@
 from invoke import task, run
+from invoke.exceptions import Failure
+from watchie import Watchie
 
 def multiple(*args):
     return " && ".join(args)
 
 @task
 def vagrant(command):
-    run("vagrant {}".format(command))
+    try:
+        run("vagrant {}".format(command))
+    except Failure:
+        pass
 
 @task
 def up():
@@ -34,6 +39,17 @@ def devfolder(command):
 def lint():
     devfolder(multiple("pep8 */*.py --ignore=\"E128,E501,E402\"",
                        "pyflakes */*.py"))
+
+@task
+def echobutt():
+    run("return 1")
+
+@task
+def watchlint():
+    w = Watchie()
+    w.watch(path=".",
+            result_fn=lint)
+    w.start()
 
 @task
 def dj(command):
