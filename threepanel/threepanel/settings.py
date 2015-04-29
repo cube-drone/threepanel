@@ -27,7 +27,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 # AUTH STUFF
-LOGIN_URL = "dashboard/login"
+LOGIN_URL = "/dashboard/login"
 
 LOGGING = {
     'version': 1,
@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'taggit',
 
     'datetimewidget',
     'bootstrap3',
@@ -88,8 +89,12 @@ WSGI_APPLICATION = 'threepanel.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'threepanel',
+        'USER': 'threepanel',
+        'PASSWORD': 'threepass',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 

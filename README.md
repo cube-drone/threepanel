@@ -10,4 +10,5 @@ Install
 
 4. Command Line
 
-    $> pip install invoke watchdog
+    $> pip install invoke
+    $> invoke install

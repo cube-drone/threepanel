@@ -6,6 +6,8 @@ from django.db import models
 from autoslug import AutoSlugField
 from slugify import slugify
 
+from taggit.managers import TaggableManager
+
 """
 You're going to see the term 'Hero' a bunch in here.
 I'm using "Hero" to mean "The Most Recent Comic".
@@ -17,7 +19,6 @@ class Comic(models.Model):
     One comic. A single image, and a little bit of meta-data, like
     alt-text, secret-text, when it was posted, what it's called...
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100, unique_for_date='posted',
         help_text="The title of the comic")
     posted = models.DateTimeField(db_index=True,
@@ -36,6 +37,8 @@ class Comic(models.Model):
     slug = AutoSlugField(populate_from=lambda c: c.title,
                          db_index=True,
                          slugify=slugify)
+
+    tags = TaggableManager()
 
     cached_hero = None
 

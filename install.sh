@@ -1,11 +1,23 @@
 #!/bin/bash
 
-echo 'python tools'
-apt-get install -y python3-pip python-dev sqlite3
-echo 'necessary for bcrypt'
-apt-get install -y libffi-dev
+sudo apt-get -y update
+sudo apt-get -y upgrade
 
-echo 'pip'
-pip3 install -r ../deps
-echo 'dev tools'
-apt-get install -y ack-grep
+echo 'Dev Tools'
+apt-get install -y ack-grep vim
+
+echo 'Shortcuts'
+echo "alias dj='python3 /home/vagrant/synced/threepanel/manage.py'" >> ./.bashrc
+
+echo "PostgreSQL"
+sudo apt-get install -y postgresql postgresql-contrib libpq-dev
+sudo -u postgres createuser --superuser threepanel
+sudo -u postgres createdb threepanel
+sudo -u postgres psql --command "ALTER USER threepanel WITH password 'threepass';"
+sudo -u postgres psql --command "GRANT ALL PRIVILEGES ON DATABASE threepanel TO threepanel;"
+
+echo "Python, PIP, & Python Libraries"
+sudo apt-get install -y python3 python3-dev
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python3 get-pip.py
+sudo pip install -r /home/vagrant/synced/requirements.txt --upgrade
