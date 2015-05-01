@@ -4,41 +4,19 @@ from invoke.exceptions import Failure
 def multiple(*args):
     return " && ".join(args)
 
-@task
-def vagrant(command):
-    try:
-        return run("vagrant {}".format(command))
-    except Failure:
-        return None
-
-@task
-def up():
-    return vagrant("up")
-
-@task
-def ssh():
-    return vagrant("ssh")
-
-@task
-def sshc(command):
-    result = vagrant("ssh -c \"{}\"".format(command))
-    if not result or result.failed:
-        return run(command)
-    else:
-        return result
-
-@task(up)
+@task()
 def install():
-    sshc("bash /home/vagrant/synced/install.sh")
+    run("chmod a+x /home/vagrant/synced/install.sh")
+    run("chmod a+x /home/vagrant/synced/resetdb.sh")
+    run("bash /home/vagrant/synced/install.sh")
 
 @task
-def devfolder(command):
-    return sshc(multiple("cd /home/vagrant/synced/threepanel/",
-                  command))
+def dev(command):
+    return run(multiple("cd /home/vagrant/synced/threepanel/", command))
 
 @task
 def lint():
-    return devfolder(multiple("pep8 */*.py --ignore=\"E128,E501,E402\"",
+    return dev(multiple("pep8 */*.py --ignore=\"E128,E501,E402\"",
                        "pyflakes */*.py"))
 
 @task
@@ -51,9 +29,18 @@ def watchlint():
 
 @task
 def dj(command):
-    return devfolder("python3 manage.py {}".format(command))
+    return dev("python3 manage.py {}".format(command))
 
 @task()
 def runserver():
     print("Running server on localhost:8000")
     return dj("runserver 0:8000")
+
+@task()
+def reset():
+    print("Resetting db")
+    run("bash /home/vagrant/synced/resetdb.sh")
+    dj("makemigrations")
+    dj("migrate --noinput")
+    dj("testdata")
+

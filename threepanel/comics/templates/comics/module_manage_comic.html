@@ -1,7 +1,12 @@
 <li> <strong>{{comic.title}}</strong> - {{comic.posted}} -
-    <a href="{% url 'comics.views.update' slug=comic.slug %}">Update</a> - 
+    <a href="{% url 'comics.views.update' slug=comic.slug %}">Update</a> -
     <form action="{% url 'comics.views.delete' slug=comic.slug %}" method='POST'>
         {% csrf_token %}
         <input type='submit' value="Delete"></input>
-    </form> 
-</li> 
+    </form>
+    <ul>
+    {% for blog in comic.blogs.all %}
+        <li>{{blog.title}}</li>
+    {% endfor %}
+    </ul>
+</li>

@@ -33,4 +33,11 @@
 <p class='secret_text'>{{comic.secret_text}}</p>
 </div>
 
+    {% for blog in comic.blogs.all %}
+        <h2>{{blog.title}}</h2>
+        <div class='content'>
+            {{blog.markdown_rendered|safe}}
+        </div>
+    {% endfor %}
+
 {% endblock %}
