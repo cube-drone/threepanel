@@ -7,7 +7,7 @@ echo 'Dev Tools'
 apt-get install -y ack-grep vim
 
 echo 'Shortcuts'
-echo "alias dj='python3 /home/vagrant/synced/threepanel/manage.py'" >> ./.bashrc
+echo "alias dj='python3 /home/vagrant/synced/threepanel/manage.py'" >> /home/vagrant/.bashrc
 
 echo "PostgreSQL"
 sudo apt-get install -y postgresql postgresql-contrib libpq-dev
