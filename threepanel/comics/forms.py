@@ -2,7 +2,7 @@ from django import forms
 
 from datetimewidget.widgets import DateTimeWidget
 
-from .models import Comic
+from .models import Comic, Blog
 
 
 class ComicForm(forms.ModelForm):
@@ -14,3 +14,8 @@ class ComicForm(forms.ModelForm):
                                      usel10n=True,
                                      bootstrap_version=3)
         }
+
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        exclude = ['hidden', 'markdown_rendered', 'slug']

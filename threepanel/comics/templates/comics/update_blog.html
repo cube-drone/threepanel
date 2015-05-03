@@ -1,0 +1,18 @@
+{% extends "management.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block head_title %}Update Comic{% endblock %}
+{% block title %}Update Comic{% endblock %}
+{% block extraheader %}{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'comics.views.update_blog' comic_slug=comic_slug slug=slug %}" method='POST'>
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    <input type='submit' value="Update Blog"></input>
+</form>
+
+{% endblock %}

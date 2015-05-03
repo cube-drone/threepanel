@@ -1,0 +1,20 @@
+{% extends "management.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block head_title %}Create New Blog Post{% endblock %}
+{% block title %}Create New Blog Post{% endblock %}
+{% block extraheader %}
+{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'comics.views.create_blog' comic_slug=comic_slug %}" method='POST'>
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    <input type='submit' value="Create Blog"></input>
+</form>
+
+
+{% endblock %}

@@ -141,7 +141,7 @@ class Blog(models.Model):
     A unit of blog content attached to a comic.
     """
     comic = models.ForeignKey('Comic', related_name="blogs")
-    title = models.CharField(max_length=100, unique_for_date='posted',
+    title = models.CharField(max_length=100,
         help_text="The title of the blog post")
     markdown = models.TextField(blank=False, null=False,
         help_text="The blog content")
@@ -156,6 +156,10 @@ class Blog(models.Model):
 
     def __str__(self):
         return "<Blog: {}>".format(self.slug)
+
+    def hide(self):
+        self.hidden = True
+        self.save()
 
     def render(self):
         self.markdown_rendered = markdown.markdown(self.markdown)
