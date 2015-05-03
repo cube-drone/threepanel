@@ -1,11 +1,17 @@
+* site style
 
-* extras (irc, blog entry, gallery, et al)
+* rss
+
+* publish
+  - twitter
+  - mailout
+  - facebook
 
 * caching ( redis )
 
 * search ( https://github.com/linuxlewis/djorm-ext-pgfulltext )
 
-* unit tests
+* mailing list
 
 * singleton Schedule
 
@@ -20,3 +26,5 @@
 * ads (?)
 
 * store (?)
+
+* irc
