@@ -24,7 +24,7 @@ def single_by_numerical_order(request, n):
     """ redirect to single by slug """
     comic = get_object_or_404(Comic, order=n)
     return HttpResponseRedirect(reverse("comics.views.single",
-                                kwargs={'slug': comic.slug}))
+                                kwargs={'comic_slug': comic.slug}))
 
 
 def single(request, comic_slug):
