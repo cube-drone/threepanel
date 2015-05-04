@@ -22,6 +22,17 @@
     {% block extraheader %}{% endblock %}
   </head>
   <body>
+  <div class='container'>
+    <div class='row'>
+        <div class='col-md-8'>
+            <h1>Cube Drone</h1>
+        </div>
+        <div class='col-md-4' style='align:right'>
+            <a href='#'>Subscribe</a>
+        </div>
+
+    </div>
+        <!--
         <div class='header'>
             <nav class='navbar navbar-default' role="navigation">
                 <div class='container-fluid'>
@@ -46,11 +57,12 @@
                 </div>
             </nav>
         </div>
+        -->
     {% block content_wrapper %}
         <h1>{% block title %}{% endblock %}</h1>
         {% block content %}{% endblock %}
     {% endblock %}
-
+  </div>
 <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', '{{dashboard.google_tracking_code}}']);
