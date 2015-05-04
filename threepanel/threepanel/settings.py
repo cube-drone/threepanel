@@ -18,6 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '3dypq3o4^%4_7%nzbjo1n_7op524ors3mjurpqa!yh-%jehe8$'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -61,7 +62,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit',
-
+    'djrill',
     'datetimewidget',
     'bootstrap3',
 
@@ -87,16 +88,26 @@ WSGI_APPLICATION = 'threepanel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+DJANGO_DB_NAME = os.getenv('DJANGO_DB_NAME', 'threepanel')
+DJANGO_DB_USER = os.getenv('DJANGO_DB_USER', 'threepanel')
+DJANGO_DB_HOST = os.getenv('DJANGO_DB_HOST', 'localhost')
+DJANGO_DB_PASSWORD = os.getenv('DJANGO_DB_PASSWORD', 'threepass')
+DJANGO_DB_PORT = os.getenv('DJANGO_DB_PORT', '')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'threepanel',
-        'USER': 'threepanel',
-        'PASSWORD': 'threepass',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': DJANGO_DB_NAME,
+        'USER': DJANGO_DB_USER,
+        'PASSWORD': DJANGO_DB_PASSWORD,
+        'HOST': DJANGO_DB_HOST,
+        'PORT': DJANGO_DB_PORT,
     }
 }
+
+# This is a test key
+MANDRILL_API_KEY = "b8sBJX8OdA2oXrlhTUlCng"
+MANDRILL_API_KEY = os.getenv('DJANGO_MANDRILL', MANDRILL_API_KEY)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
