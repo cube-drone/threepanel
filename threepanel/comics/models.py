@@ -31,6 +31,9 @@ class Comic(models.Model):
     alt_text = models.TextField(blank=True, null=False, default="",
         help_text="""A complete transcript of the text, for screenreaders
                     and search engines""")
+    promo_text = models.CharField(max_length=80, blank=True, null=False, default='',
+        help_text="""A less-than-80 character promo/teaser for the comic, posted with
+                     the comic on Twitter/RSS/what-have-you""")
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     hidden = models.BooleanField(default=False)

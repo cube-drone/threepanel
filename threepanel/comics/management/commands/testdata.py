@@ -18,8 +18,9 @@ class Command(BaseCommand):
             c = Comic(title="Comic {}".format(i),
                       posted=n_days_ago,
                       image_url = "http://curtis.lassam.net/comics/cube_drone/140.gif",
-                      secret_text = "secret text",
-                      alt_text = "alt text")
+                      promo_text = "BWAAAAAAMP",
+                      secret_text = "BWAAAMP is a great sound effect.",
+                      alt_text = "*fweep* Cube Drone: Oh, it's an incoming tweet! | *do bweep* I must have an e-mail! | *BWAAAAMP* And that's JIRA")
             if i%4 == 0:
                 c.title = c.title + " Hidden"
                 c.hidden = True
@@ -31,8 +32,10 @@ class Command(BaseCommand):
             c = Comic(title="Comic {}".format(10+i),
                       posted=n_days_ago,
                       image_url = "http://curtis.lassam.net/comics/cube_drone/141.gif",
+                      promo_text = "In a lot of ways, coding is like magic.",
                       secret_text = "secret text",
-                      alt_text = "alt text")
+                      alt_text = """A mage stands atop a mountain, holding a staff dramatically to the sky. It fizzles. 'Dammit'.| The mage in his workshop. 'Damn, the documentation says virgin blood, but the staff's API says my blood.'| 'I guess the mad wizard Azabale was not so popular with the ladies.'"""
+                      )
             if i%4 == 0:
                 c.title = c.title + " Hidden"
                 c.hidden = True

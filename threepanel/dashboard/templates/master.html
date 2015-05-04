@@ -7,13 +7,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="description" content="{{dashboard.elevator_pitch}}">
     <title>{{dashboard.title}} - {% block head_title %}Threepanel{% endblock %}</title>
     {# Load CSS and JavaScript #}
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    <!-- MomentJS for dates -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     {# Display django.contrib.messages as Bootstrap alerts #}
     {% bootstrap_messages %}
     <!--
@@ -23,9 +22,54 @@
     {% block extraheader %}{% endblock %}
   </head>
   <body>
+        <div class='header'>
+            <nav class='navbar navbar-default' role="navigation">
+                <div class='container-fluid'>
+                    <div class='navbar-header header-lg hidden-xs hidden-sm'>
+                        <a class='navbar-brand one' href="/">
+                            {{dashboard.title}}
+                        </a>
+                        <a class='navbar-brand two' href="/">
+                            <small>{{dashboard.tagline}}</small>
+                        </a>
+                    </div>
+                    <div class='navbar-header header-sm hidden-md hidden-lg'>
+                        <a class='navbar-brand one' href="index.html">
+                            {{dashboard.title}} <small>{{dashboard.tagline}}</small>
+                        </a>
+                    </div>
+                    <ul class='nav navbar-nav navbar-right hidden-xs hidden-sm'>
+                        <li><a href="{{dashboard.author_website}}"><i class='fa fa-user'></i> {{dashboard.author_name}}</a></li>
+                        <li><a href="http://twitter.com/{{dashboard.twitter_username}}"><i class='fa fa-twitter'></i> Twitter</a></li>
+                        <li><a href="/rss.xml"><i class='fa fa-rss'></i> RSS</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     {% block content_wrapper %}
         <h1>{% block title %}{% endblock %}</h1>
         {% block content %}{% endblock %}
     {% endblock %}
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '{{dashboard.google_tracking_code}}']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    /**
+    * Function that tracks a click on an outbound link in Google Analytics.
+    * This function takes a valid URL string as an argument, and uses that URL string
+    * as the event label.
+    */
+    var trackOutboundLink = function(url) {
+           ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                function () { document.location = url; }
+            });
+    };
+</script>
   </body>
 </html>
