@@ -68,6 +68,7 @@ INSTALLED_APPS = (
 
     'dashboard',
     'comics',
+    'publish',
 )
 
 MIDDLEWARE_CLASSES = (
