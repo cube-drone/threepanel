@@ -23,15 +23,17 @@
   </head>
   <body>
   <div class='container'>
+    {% if not hide_nav %}
     <div class='row'>
         <div class='col-md-8'>
-            <h1>Cube Drone</h1>
+            <h1><a href='{% url 'comics.views.home' %}'>Cube Drone</a></h1>
         </div>
         <div class='col-md-4' style='align:right'>
-            <a href='#'>Subscribe</a>
+            <a href='{% url 'publish.views.subscribe' %}'>Subscribe</a>
         </div>
 
     </div>
+    {% endif %}
         <!--
         <div class='header'>
             <nav class='navbar navbar-default' role="navigation">
@@ -63,6 +65,8 @@
         {% block content %}{% endblock %}
     {% endblock %}
   </div>
+
+{% if dashboard.google_tracking_code %}
 <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', '{{dashboard.google_tracking_code}}']);
@@ -83,5 +87,6 @@
             });
     };
 </script>
+{% endif %}
   </body>
 </html>

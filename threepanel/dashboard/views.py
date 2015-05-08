@@ -10,12 +10,13 @@ from .models import SiteOptions
 from .forms import SiteOptionsForm
 
 
-def render(request, template, options):
+def render(request, template, options={}):
     dashboard = SiteOptions.get()
     f_code = sys._getframe(1).f_code
     dashboard.caller = f_code.co_name
     dashboard.filename = f_code.co_filename
     options['dashboard'] = dashboard
+    print(dashboard)
     return django_render(request, template, options)
 
 

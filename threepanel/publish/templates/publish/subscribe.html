@@ -1,13 +1,51 @@
 {% extends "master.html" %}
 {% load staticfiles %}
 
-{% block head_title %}{{dashboard.site_name}} - {{comic.title}}{% endblock %}
+{% block head_title %}{{dashboard.site_name}} - Subscribe!{% endblock %}
 
 {% block extraheader %}
     <link rel="stylesheet" href="{% static 'css/single.css' %}"></script>
 {% endblock %}
 
 {% block content %}
+
+    <h2>E-mail</h2>
+    <p> Give me your e-mail address. I will send you comics. Only comics.</p>
+    <form action="{% url 'publish.views.subscribe_email' %}" method='POST'>
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="email@email.org">
+          <span class="input-group-btn">
+            <input type='submit'  class="btn btn-default" value="Subscribe!"></button>
+          </span>
+        </div>
+    </form>
+
+    {% if dashboard.twitter_widget_id %}
+    <div class='row'>
+        <div class='tweets col-md-6'>
+            <h2>Twitter</h2>
+            <a class="twitter-timeline"  href="https://twitter.com/{{dashboard.twitter_username}}" data-widget-id="{{dashboard.twitter_widget_id}}">Tweets by @{{dashboard.twitter_username}}</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <div style='clear:both;'></div>
+        </div>
+        <div class='tweets col-md-6'>
+            <h2>RSS</h2>
+            <p>An elegant weapon for a more civilized age, RSS feeds are a way to
+            follow all of your favourite websites without having to visit them
+            one-at-a-time, so long as you're equipped with a feed reader.</p>
+            <p>Some really good feed readers include
+                <a href='https://theoldreader.com'>The Old Reader</a>
+                and
+                <a href='http://feedly.com/i/subscription/feed/http://cube-drone.com/rss.xml'>Feedly</a>.
+            </p>
+            <p>My feed URL is
+                <a href='http://cube-drone.com/rss.xml'>http://cube-drone.com/rss.xml</a>
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
 
 {% endblock %}
 

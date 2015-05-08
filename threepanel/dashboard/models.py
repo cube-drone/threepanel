@@ -34,6 +34,7 @@ class SiteOptions(models.Model):
                                             default="UA-41279849-1")
     # Twitter
     twitter_username = models.CharField(max_length=50, default="classam")
+    twitter_widget_id = models.CharField(max_length=50, default="304715092187025408")
 
     @classmethod
     def get(cls):

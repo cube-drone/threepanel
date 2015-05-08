@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^$', 'comics.views.home', name='home'),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^comics/', include('comics.urls')),
-    url(r'^subscribe', 'publish.views.subscribe'), 
+    url(r'^subscribe', 'publish.views.subscribe'),
+    url(r'^subscribe/', include('publish.urls')),
     url(r'rss.xml', LatestEntriesFeed())
 )
