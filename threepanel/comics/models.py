@@ -1,5 +1,5 @@
 import uuid
-import datetime
+from django.utils import timezone
 
 from django.db import models
 
@@ -109,7 +109,7 @@ class Comic(models.Model):
         Return the current 'hero' comic.
         """
         if not Comic.cached_hero:
-            now = datetime.datetime.now()
+            now = timezone.now()
             try:
                 Comic.cached_hero = Comic.objects.filter(hidden=False,
                                             posted__lte=now).order_by('-posted')[0]

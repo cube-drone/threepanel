@@ -39,6 +39,11 @@ def runserver():
 @task()
 def reset():
     print("Resetting db")
+    #absolutely remove these lines once you've deployed
+    run("rm -rf /home/vagrant/synced/threepanel/comics/migrations/00*")
+    run("rm -rf /home/vagrant/synced/threepanel/dashboard/migrations/00*")
+    run("rm -rf /home/vagrant/synced/threepanel/publish/migrations/00*")
+
     run("bash /home/vagrant/synced/resetdb.sh")
     dj("makemigrations")
     dj("migrate --noinput")

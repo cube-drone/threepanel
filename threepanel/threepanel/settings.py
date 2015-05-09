@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+ADMINS = ( ("Curtis", "curtis@lassam.net") )
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -62,7 +63,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit',
-    'djrill',
+#    'djrill',
     'datetimewidget',
     'bootstrap3',
 
@@ -106,9 +107,13 @@ DATABASES = {
     }
 }
 
-# This is a test key
-MANDRILL_API_KEY = "b8sBJX8OdA2oXrlhTUlCng"
-MANDRILL_API_KEY = os.getenv('DJANGO_MANDRILL', MANDRILL_API_KEY)
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # This is a test key
+    #MANDRILL_API_KEY = "b8sBJX8OdA2oXrlhTUlCng"
+    #MANDRILL_API_KEY = os.getenv('DJANGO_MANDRILL', MANDRILL_API_KEY)
+    pass
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

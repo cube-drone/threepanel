@@ -12,6 +12,9 @@ class SiteOptions(models.Model):
                                help_text="A short tagline for your comic")
     elevator_pitch = models.TextField(default="Comics about software development in a small Vancouver startup.",
                                       help_text="A Tweet-length description of your comic.")
+    email = models.CharField(max_length=100,
+                             default="curtis@lassam.net",
+                             help_text="The site sends e-mail drom this address.")
 
     # Author
     author_name = models.CharField(max_length=100,

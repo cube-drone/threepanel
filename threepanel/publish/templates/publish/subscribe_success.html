@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block head_title %}{{dashboard.site_name}} - Subscribe!{% endblock %}
+
+{% block extraheader %}
+    <link rel="stylesheet" href="{% static 'css/single.css' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <h2>Almost there!</h2>
+
+    <p>I've sent a verification e-mail to <strong>{{email}}</strong>!</p>
+    <p> If you don't click the link in that verification e-mail, you
+        won't get any comics! </p>
+
+{% endblock %}
+

@@ -16,7 +16,6 @@ def render(request, template, options={}):
     dashboard.caller = f_code.co_name
     dashboard.filename = f_code.co_filename
     options['dashboard'] = dashboard
-    print(dashboard)
     return django_render(request, template, options)
 
 
