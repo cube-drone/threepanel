@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
 from django.utils import timezone
 from datetime import timedelta
 
@@ -30,8 +29,9 @@ class EmailSubscriber(models.Model):
             self.verification_code = slugify(random_name.special_thing())
         super().save()
 
-    def send_mail(self, subject, message):
+    def send_mail(self, subject, message, unsubscribe_url):
         siteoptions = SiteOptions.get()
+        message = message + "\nTo unsubscribe forever from these messages, go to {}".format(unsubscribe_url)
         send_mail(subject=subject,
                   message=message,
                   from_email=siteoptions.email,
@@ -39,14 +39,6 @@ class EmailSubscriber(models.Model):
                   fail_silently=False)
         self.last_email_sent = timezone.now()
         self.save()
-
-    def verify(self, request):
-        siteoptions = SiteOptions.get()
-        verify_url = request.build_absolute_uri(reverse('publish.views.verify',
-                                                        kwargs={'email':self.email,
-                                                                'verification_code':self.verification_code}))
-        self.send_mail(subject="Welcome to {}!".format(siteoptions.title),
-                       message=verify_url)
 
     @classmethod
     def tidy(cls):

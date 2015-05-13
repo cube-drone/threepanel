@@ -1,9 +1,8 @@
 * site style
 
 * publish
-  - twitter
   - mailout
-  - facebook
+  - twitter
 
 * caching ( redis )
 

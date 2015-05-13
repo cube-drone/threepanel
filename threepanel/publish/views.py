@@ -8,20 +8,30 @@ from .models import EmailSubscriber
 # Create your views here.
 def subscribe(request):
     """ A page detailing all of the fantastic ways one can subscribe """
-    return render(request, "publish/subscribe.html")
+    return render(request, 'publish/subscribe.html')
 
 def subscribe_email(request):
     """ POST an e-mail address to subscribe """
     if request.POST and request.POST['email']:
         email = request.POST['email'].strip(' ')
         try:
-            e = EmailSubscriber.objects.get(email=email)
+            subscriber = EmailSubscriber.objects.get(email=email)
         except EmailSubscriber.DoesNotExist:
-            e = EmailSubscriber(email=email)
-            e.save()
+            subscriber = EmailSubscriber(email=email)
+            subscriber.save()
 
         try:
-            e.verify(request)
+            siteoptions = SiteOptions.get()
+            verify_url = request.build_absolute_uri(reverse('publish.views.verify',
+                            kwargs={'email':subscriber.email,
+                                    'verification_code':subscriber.verification_code}))
+            message = render(request, 'publish/verification_email.txt', {
+                                'verify_url':verify_url,
+                                'dashboard':siteoptions})
+            subscriber.send_mail(subject="Welcome to {}!".format(siteoptions.title),
+                                 message=message,
+                                 unsubscribe_url=request.build_absolute_uri(
+                                    reverse('publish.views.unsubscribe_email')))
         except NoReverseMatch:
             return HttpResponseRedirect(reverse("publish.views.bad_email"))
 
@@ -41,6 +51,10 @@ def verify(request, email, verification_code):
     except EmailSubscriber.DoesNotExist:
         return render(request, "publish/verify_failure.html")
 
-def unsubscribe_email(request):
-    """ POST an e-mail address to unsubscribe """
-    pass
+def unsubscribe_email(request, email):
+    try:
+        e = EmailSubscriber.objects.get(email=email)
+        e.delete()
+        return render(request, "publish/unsubscribe.html")
+    except EmailSubscriber.DoesNotExist:
+        return render(request, "publish/unsubscribe.html")
