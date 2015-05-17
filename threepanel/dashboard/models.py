@@ -14,7 +14,7 @@ class SiteOptions(models.Model):
                                       help_text="A Tweet-length description of your comic.")
     email = models.CharField(max_length=100,
                              default="curtis@lassam.net",
-                             help_text="The site sends e-mail drom this address.")
+                             help_text="The site sends e-mail from this address.")
 
     # Author
     author_name = models.CharField(max_length=100,
@@ -23,14 +23,6 @@ class SiteOptions(models.Model):
     author_website = models.CharField(max_length=100,
                                       default="http://curtis.lassam.net",
                                       help_text="Does the author have a personal website?")
-
-    # Theme
-    mobile_logo_url = models.CharField(max_length=200,
-                                       default="http://butts.butts/butts.jpg",
-                                       help_text="The URL for the mobile-sized (width:300px, height:100px) logo to the website.")
-    desktop_logo_url = models.CharField(max_length=200,
-                                        default="http://butts.butts/deskbutts.jpg",
-                                        help_text="The URL for the desktop-sized (width:500px, height:100px) logo to the website.")
 
     # Google tracking code number
     google_tracking_code = models.CharField(max_length=50,
