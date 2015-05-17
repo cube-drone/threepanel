@@ -46,8 +46,10 @@ def manage(request):
 
 @login_required
 def trash(request):
-    # trash = Comic.trash()
-    pass
+    trash = Comic.trash()
+    return render(request, "comics/manage_trash.html", {
+        'trash': trash,
+    })
 
 
 @login_required

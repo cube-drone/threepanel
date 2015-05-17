@@ -119,14 +119,14 @@ class Comic(models.Model):
 
     @classmethod
     def archives(cls):
-        now = datetime.datetime.now()
+        now = timezone.now()
         return (Comic.objects.filter(hidden=False, posted__lte=now)
                                       .order_by('-posted')
                                       .prefetch_related("blogs"))
 
     @classmethod
     def backlog(cls):
-        now = datetime.datetime.now()
+        now = timezone.now()
         return (Comic.objects.filter(hidden=False, posted__gt=now)
                                        .order_by('-posted')
                                        .prefetch_related("blogs"))

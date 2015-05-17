@@ -1,3 +1,4 @@
+
 <li> <strong>{{comic.title}}</strong> - {{comic.posted}} -
     <a href="{% url 'comics.views.update' comic_slug=comic.slug %}">Update</a> -
     <form action="{% url 'comics.views.delete' comic_slug=comic.slug %}" method='POST'>
