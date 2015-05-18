@@ -6,6 +6,23 @@ from dashboard.models import SiteOptions
 
 from .models import EmailSubscriber
 
+VERIFICATION_EMAIL ="""
+You're so close to getting a mailbox full of sweet, sweet comics!
+
+Verify that you own this e-mail address by following this link:
+
+{}
+
+If you've no idea what this e-mail is about, just ignore it;
+Somebody probably put your e-mail address into my subscribe box accidentally.
+I won't send you any mail unless you follow the verification url.
+
+"""
+
+def _unsubscribe_url(request, subscriber):
+    return request.build_absolute_uri(reverse('publish.views.unsubscribe_email',
+                                              kwargs={'email':subscriber.email}))
+
 # Create your views here.
 def subscribe(request):
     """ A page detailing all of the fantastic ways one can subscribe """
@@ -21,27 +38,18 @@ def subscribe_email(request):
             subscriber = EmailSubscriber(email=email)
             subscriber.save()
 
-        try:
-            siteoptions = SiteOptions.get()
-            verify_url = request.build_absolute_uri(reverse('publish.views.verify',
-                            kwargs={'email':subscriber.email,
-                                    'verification_code':subscriber.verification_code}))
-            message = render(request, 'publish/verification_email.txt', {
-                                'verify_url':verify_url,
-                                'dashboard':siteoptions})
-            subscriber.send_mail(subject="Welcome to {}!".format(siteoptions.title),
-                                 message=message,
-                                 unsubscribe_url=request.build_absolute_uri(
-                                    reverse('publish.views.unsubscribe_email')))
-        except NoReverseMatch:
-            return HttpResponseRedirect(reverse("publish.views.bad_email"))
+        siteoptions = SiteOptions.get()
+        verify_url = request.build_absolute_uri(reverse('publish.views.verify',
+                        kwargs={'email':subscriber.email,
+                                'verification_code':subscriber.verification_code}))
+        message = VERIFICATION_EMAIL.format(verify_url)
+        subscriber.send_mail(subject="Welcome to {}!".format(siteoptions.title),
+                             message=message,
+                             unsubscribe_url=_unsubscribe_url(request, subscriber))
 
         return render(request, "publish/subscribe_success.html", {'email':email})
     else:
         return HttpResponseRedirect(reverse("publish.views.subscribe"))
-
-def bad_email(request):
-    return render(request, "publish/bad_email.html")
 
 def verify(request, email, verification_code):
     try:

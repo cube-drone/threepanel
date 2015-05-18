@@ -1,20 +1,14 @@
-{% extends "master.html" %}
-{% load staticfiles %}
+{% extends "message.html" %}
 
-{% block head_title %}{{dashboard.site_name}} - Subscribe!{% endblock %}
+{% block head_title %}{{dashboard.site_name}} - Bad E-mail!{% endblock %}
 
-{% block extraheader %}
-    <link rel="stylesheet" href="{% static 'css/single.css' %}"></script>
+{% block error %}
+    ERROR_WHATEVER_I_DONT_EVEN
 {% endblock %}
-
-{% block content %}
-
-    <h2>Boo!</h2>
-
-    <p>Either that e-mail doesn't exist or that verification code doesn't exist,
-    and either way we can't let you do the thing that you're trying to do.</p>
-
-    <p>If you're getting this message in error, please, PLEASE e-mail me at
-    curtis@lassam.net to let me know about it. </p>
-
+{% block error_description %}
+    Either that e-mail doesn't exist or that verification code doesn't exist,
+    and either way we can't let you do the thing that you're trying to do.
+{% endblock %}
+{% block action %}
+    If you're getting this message in error, please tweet angrily at me.
 {% endblock %}

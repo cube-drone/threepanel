@@ -1,17 +1,13 @@
-{% extends "master.html" %}
-{% load staticfiles %}
+{% extends "message.html" %}
 
-{% block head_title %}{{dashboard.site_name}} - Subscribe!{% endblock %}
+{% block head_title %}{{dashboard.site_name}} - Bad E-mail!{% endblock %}
 
-{% block extraheader %}
-    <link rel="stylesheet" href="{% static 'css/single.css' %}"></script>
+{% block error %}
+    Awesome!
 {% endblock %}
-
-{% block content %}
-
-    <h2>Awesome!</h2>
-
-    <p>Yeah, now you're going to get my comics in the mail, twice a week!</p>
-
+{% block error_description %}
+    Yeah, now you're going to get my comics in the mail, twice a week!
 {% endblock %}
-
+{% block action %}
+    <a class="btn btn-primary btn-lg" href="{% url 'comics.views.home' %}" role="button">Back to reality!</a>
+{% endblock %}

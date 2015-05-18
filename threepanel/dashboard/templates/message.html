@@ -1,0 +1,15 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block head_title %}{{dashboard.site_name}} - Subscribe!{% endblock %}
+
+{% block content %}
+<div class='row'>
+    <div class='jumbotron col-md-4 col-md-offset-4'>
+        <h2>{% block error %}{% endblock %}</h2>
+        <p>{% block error_description %}{% endblock %}</p>
+        <p>{% block action %}{% endblock %}</p>
+    </div>
+</div>
+
+{% endblock %}

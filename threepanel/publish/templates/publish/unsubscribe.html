@@ -1,20 +1,14 @@
-{% extends "master.html" %}
-{% load staticfiles %}
+{% extends "message.html" %}
 
-{% block head_title %}{{dashboard.site_name}} - Subscribe!{% endblock %}
+{% block head_title %}{{dashboard.site_name}} - Bad E-mail!{% endblock %}
 
-{% block extraheader %}
-    <link rel="stylesheet" href="{% static 'css/single.css' %}"></script>
+{% block error %}
+    You're Tearing Me Apart, Lisa!
 {% endblock %}
-
-{% block content %}
-
-    <h2>You're Tearing Me Apart, Lisa!</h2>
-
-    <p>Your e-mail has been removed from my mailing list software.</p>
-
-    <p>I won't bother you again!</p>
-
+{% block error_description %}
+    Your e-mail has been removed from my mailing list software.
+    I won't bother you again.
+{% endblock %}
+{% block action %}
     <iframe width="420" height="315" src="https://www.youtube.com/embed/Plz-bhcHryc" frameborder="0" allowfullscreen></iframe>
-
 {% endblock %}
