@@ -1,4 +1,5 @@
 import uuid
+from datetime import timedelta
 from django.utils import timezone
 
 from django.db import models
@@ -44,6 +45,9 @@ class Comic(models.Model):
 
     tags = TaggableManager()
 
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
+
     cached_hero = None
 
     def hide(self):
@@ -51,8 +55,11 @@ class Comic(models.Model):
         self.save()
 
     def save(self, reorder=True):
+        if not self.id:
+            self.created = timezone.now()
         super().save()
         if reorder:
+            self.updated = timezone.now()
             Comic.reorder()
 
     @property
@@ -134,6 +141,14 @@ class Comic(models.Model):
     @classmethod
     def trash(cls):
         return Comic.objects.filter(hidden=True)
+
+    @property
+    def blog_posts(self):
+        return self.blogs.filter(hidden=False)
+
+    @property
+    def has_blogs(self):
+        return len(self.blog_posts) > 0
 
     def __str__(self):
         return "<Comic: {}>".format(self.slug)

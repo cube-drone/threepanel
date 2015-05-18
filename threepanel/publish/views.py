@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, NoReverseMatch
 
 from dashboard.views import render
+from dashboard.models import SiteOptions
 
 from .models import EmailSubscriber
 

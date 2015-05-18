@@ -8,41 +8,62 @@
 {% endblock %}
 
 {% block content %}
-
-<div class='fpnl'>
-    <ul>
-        {% if comic.first %}
-        <li><a class='first' href='{% url 'comics.views.single_by_numerical_order' n=comic.first %}'>
-            First</a></li>
-        {% endif %}
+<nav>
+    <ul class="pager">
         {% if comic.previous %}
-        <li><a class='previous' href='{% url 'comics.views.single_by_numerical_order' n=comic.previous %}'>
-            Previous</a></li>
-        {% endif %}
-        {% if comic.next %}
-        <li><a class='next' href='{% url 'comics.views.single_by_numerical_order' n=comic.next %}'>
-            Next</a></li>
-        {% endif %}
-        {% if comic.last %}
-        <li><a class='next' href='{% url 'comics.views.single_by_numerical_order' n=comic.last %}'>
-            Last</a></li>
+            <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.first %}">
+                <span class='glyphicon glyphicon-backward'></span> First</a></li>
+            <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.previous %}">
+                <span class='glyphicon glyphicon-chevron-left'></span> Previous</a></li>
+        {% else %}
+            <li class='disabled'><a href="#">
+                <span class='glyphicon glyphicon-backward'></span> First</a></li>
+            <li class='disabled'><a href="#">
+                <span class='glyphicon glyphicon-chevron-left'></span> Previous</a></li>
         {% endif %}
 
+        <li><a href="#"><span class='glyphicon glyphicon-search'></span> Archives</a></li>
+
+        {% if not comic.is_hero %}
+            <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.next %}">
+                <span class='glyphicon glyphicon-chevron-right'></span> Next</a></li>
+            <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.last %}">
+                <span class='glyphicon glyphicon-forward'></span> Last</a></li>
+        {% else %}
+            <li class='disabled'><a href="#">
+                <span class='glyphicon glyphicon-chevron-right'></span> Next</a></li>
+            <li class='disabled'><a href="#">
+                <span class='glyphicon glyphicon-forward'></span> Last</a></li>
+        {% endif %}
     </ul>
-</div>
+</nav>
 
-<div class='comic'>
-<h2>{{comic.title}}</h2>
-<p class='posted'>{{comic.posted}}</p>
-<img class='comic' src='{{comic.image_url}}' alt='{{comic.alt_text}}' title='{{comic.secret_text}}' />
-<p class='secret_text'>{{comic.secret_text}}</p>
-</div>
-
-    {% for blog in comic.blogs.all %}
-        <h2>{{blog.title}}</h2>
-        <div class='content'>
-            {{blog.markdown_rendered|safe}}
+<div class='comic thumbnail'>
+    <img class='comic img-responsive' src='{{comic.image_url}}' alt='{{comic.alt_text}}' title='{{comic.secret_text}}' />
+    <div class='caption'>
+        <div class=''>
+            <h2 class='title'><strong>[{{comic.order}}]</strong> {{comic.title}} - <small>{{comic.posted}}</small></h2>
+            <p class='secret_text'><em>{{comic.secret_text}}</em></p>
         </div>
+    </div>
+</div>
+
+<div class='row'>
+</div>
+
+<div class='row'>
+    {% if comic.has_blogs %}
+    <div class='col-sm-8'>
+    {% for blog in comic.blog_posts %}
+            <h2>{{blog.title}}</h2>
+            <div class='content'>
+            {{blog.markdown_rendered|safe}}
+            </div>
     {% endfor %}
+    </div>
+    {% endif %}
+    <div class='col-sm-4'><h2>Meet The Cast!</h2></div>
+    <div class='col-sm-4'><h2><a href='{% url 'publish.views.subscribe' %}'>Subscribe!<a></h2></div>
+</div>
 
 {% endblock %}

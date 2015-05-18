@@ -15,7 +15,7 @@
 <div class='jumbotron'>
     <h2>Current Comic</h2>
     {% if hero %}
-    <ul>
+    <ul class='list-group'>
         {% include "comics/module_manage_comic.html" with comic=hero %}
     </ul>
     {% endif %}
@@ -23,18 +23,18 @@
 
 <div class='row'>
 
-<div class='col-sm-6'>
+<div class='col-sm-5'>
     <h2>Backlog</h2>
-    <ul>
+    <ul class='list-group'>
     {% for comic in backlog %}
         {% include "comics/module_manage_comic.html" with comic=comic %}
     {% endfor %}
     </ul>
 </div>
 
-<div class='col-sm-6'>
+<div class='col-sm-5 col-sm-offset-1'>
     <h2>Archives</h2>
-    <ul>
+    <ul class='list-group'>
     {% for comic in archives %}
         {% include "comics/module_manage_comic.html" with comic=comic %}
     {% endfor %}

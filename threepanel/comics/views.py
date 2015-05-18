@@ -1,6 +1,7 @@
 import logging
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -17,11 +18,13 @@ logger = logging.getLogger(__name__)
 
 def home(request):
     hero = Comic.hero()
-    return render(request, "comics/home.html", {'hero': hero})
+    return render(request, "comics/single.html", {'slug': hero.slug, 'comic':hero})
 
 
 def single_by_numerical_order(request, n):
     """ redirect to single by slug """
+    if int(n) <= 0:
+        raise Http404("There's no Comic 0.")
     comic = get_object_or_404(Comic, order=n)
     return HttpResponseRedirect(reverse("comics.views.single",
                                 kwargs={'comic_slug': comic.slug}))
@@ -29,7 +32,19 @@ def single_by_numerical_order(request, n):
 
 def single(request, comic_slug):
     comic = get_object_or_404(Comic, slug=comic_slug)
-    return render(request, "comics/single.html", {'slug': comic_slug,
+    if comic.hidden:
+        raise Http404("For whatever reason, I've removed this comic from circulation.")
+    if timezone.now() < comic.posted:
+        raise Http404("This comic hasn't been posted yet!")
+    return render(request, "comics/single.html", {'preview': False,
+                                                  'slug': comic_slug,
+                                                  'comic': comic})
+
+@login_required
+def preview(request, comic_slug):
+    comic = get_object_or_404(Comic, slug=comic_slug)
+    return render(request, "comics/single.html", {'preview': True,
+                                                  'slug': comic_slug,
                                                   'comic': comic})
 
 
@@ -113,9 +128,6 @@ def update_blog(request, comic_slug, slug):
     print("Blog {} Updated".format(blog))
     if request.method == 'POST':
         form = BlogForm(request.POST, instance=blog)
-        print("BUTTS")
-        print(form)
-        print("----")
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Blog Updated!')

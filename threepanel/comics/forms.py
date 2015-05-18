@@ -8,7 +8,7 @@ from .models import Comic, Blog
 class ComicForm(forms.ModelForm):
     class Meta:
         model = Comic
-        exclude = ['hidden', 'order', 'id', 'slug']
+        exclude = ['hidden', 'order', 'id', 'slug', 'created', 'updated']
         widgets = {
             'posted': DateTimeWidget(attrs={},
                                      usel10n=True,

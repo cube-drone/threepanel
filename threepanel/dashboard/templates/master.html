@@ -25,22 +25,11 @@
   <body>
   <div class='container'>
     {% if not hide_nav %}
-    <div class='row'>
-        <div class='col-md-8'>
-            <h1><a href='{% url 'comics.views.home' %}'>Cube Drone</a></h1>
-        </div>
-        <div class='col-md-4' style='align:right'>
-            <a href='{% url 'publish.views.subscribe' %}'>Subscribe</a>
-        </div>
-
-    </div>
-    {% endif %}
-        <!--
         <div class='header'>
             <nav class='navbar navbar-default' role="navigation">
                 <div class='container-fluid'>
                     <div class='navbar-header header-lg hidden-xs hidden-sm'>
-                        <a class='navbar-brand one' href="/">
+                        <a class='navbar-brand one' href="{% url 'comics.views.home' %}">
                             {{dashboard.title}}
                         </a>
                         <a class='navbar-brand two' href="/">
@@ -52,19 +41,49 @@
                             {{dashboard.title}} <small>{{dashboard.tagline}}</small>
                         </a>
                     </div>
-                    <ul class='nav navbar-nav navbar-right hidden-xs hidden-sm'>
-                        <li><a href="{{dashboard.author_website}}"><i class='fa fa-user'></i> {{dashboard.author_name}}</a></li>
-                        <li><a href="http://twitter.com/{{dashboard.twitter_username}}"><i class='fa fa-twitter'></i> Twitter</a></li>
-                        <li><a href="/rss.xml"><i class='fa fa-rss'></i> RSS</a></li>
+                    <ul class='nav navbar-nav navbar-right'>
+                        <li class='btn btn-warning btn-block'><a href="{% url 'publish.views.subscribe' %}">
+                            <span class='glyphicon glyphicon-bullhorn'></span>
+                        Subscribe</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
-        -->
+    {% endif %}
     {% block content_wrapper %}
         <h1>{% block title %}{% endblock %}</h1>
         {% block content %}{% endblock %}
     {% endblock %}
+    <div class='footer navbar navbar-inverse navbar-bottom'>
+        <div class='row'>
+        <div class='col-md-3'>
+            <h2>Advertising</h2>
+                <!-- Advertising Content -->
+                <a href="http://upup.fm" onclick="trackOutboundLink('http://upup.fm');" target="_top">
+                    <img src="http://www.upup.fm/images/logo.png" width="200" height="200" alt="" border="0"/>
+                </a>
+        </div>
+        <div class='col-md-3'>
+            <h2>Advertising</h2>
+                <!-- Advertising Content -->
+                <a href="http://upup.fm" onclick="trackOutboundLink('http://upup.fm');" target="_top">
+                    <img src="http://www.upup.fm/images/logo.png" width="200" height="200" alt="" border="0"/>
+                </a>
+        </div>
+        <div class='col-md-6 copyright'>
+            <p>&copy; <a href='http://curtis.lassam.net'>{{dashboard.author_name}}</a> 2012-2015</p>
+            <p>
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
+                </a>
+            </p>
+            <p>
+                <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/StillImage" property="dct:title" rel="dct:type">Cube Drone</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://cube-drone.com" property="cc:attributionName" rel="cc:attributionURL">Curtis Lassam</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>This site built using the <a href="http://curtis.lassam.net/arglebargle">Arglebargle Website Engine</a></p>
+        </div>
+        </div>
+    </div>
   </div>
 
 {% if dashboard.google_tracking_code %}
