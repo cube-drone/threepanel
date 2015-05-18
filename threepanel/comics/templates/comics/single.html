@@ -55,9 +55,11 @@
     {% if comic.has_blogs %}
     <div class='col-sm-8'>
     {% for blog in comic.blog_posts %}
-            <h2>{{blog.title}}</h2>
-            <div class='content'>
-            {{blog.markdown_rendered|safe}}
+            <div class='well well-sm'>
+                <h2>{{blog.title}}</h2>
+                <div class='content'>
+                {{blog.markdown_rendered|safe}}
+                </div>
             </div>
     {% endfor %}
     </div>
