@@ -8,5 +8,4 @@ urlpatterns = patterns('',
     url(r'^unsubscribe/'+EMAIL+'$', 'publish.views.unsubscribe_email', name='unsubscribe_email'),
     url(r'^verify/'+EMAIL+'/'+VERIFICATION_CODE+'$', 'publish.views.verify', name='verify'),
     url(r'^subscribe$', 'publish.views.subscribe', name='subscribe'),
-    url(r'^bad_email$', 'publish.views.bad_email', name='bad_email'),
 )
