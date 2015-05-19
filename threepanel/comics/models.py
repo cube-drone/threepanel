@@ -57,6 +57,7 @@ class Comic(models.Model):
     def save(self, reorder=True):
         if not self.id:
             self.created = timezone.now()
+            self.updated = timezone.now()
         super().save()
         if reorder:
             self.updated = timezone.now()
@@ -168,6 +169,9 @@ class Blog(models.Model):
 
     hidden = models.BooleanField(default=False)
 
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
+
     slug = AutoSlugField(populate_from=lambda c: c.title,
                          db_index=True,
                          slugify=slugify)
@@ -183,6 +187,9 @@ class Blog(models.Model):
         self.markdown_rendered = markdown.markdown(self.markdown)
 
     def save(self):
+        if not self.id:
+            self.created = timezone.now()
+        self.updated = timezone.now()
         self.render()
         super().save()
 

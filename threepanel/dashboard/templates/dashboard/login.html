@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block extraheader %}
 
 {# Load the tag library #}
 {% load bootstrap3 %}
@@ -10,36 +13,34 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Threepanel Management Login</title>
-    <!--
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    -->
-  </head>
-  <body>
-    <h1>Login</h1>
-    <form class="form-horizontal" method="POST">
-    {% csrf_token %}
-      <div class="form-group">
-        <label for="username" class="col-sm-2 control-label">Username</label>
-        <div class="col-sm-10">
-          <input type="input" class="form-control" id="username" name="username" placeholder="username">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="password" class="col-sm-2 control-label">Password</label>
-        <div class="col-sm-10">
-          <input type="password" class="form-control" id="password" name="password" placeholder="password">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">Sign in</button>
-        </div>
-      </div>
-    </form>
-  </body>
-</html>
+{% endblock %}
+
+{% block head_title %}{{dashboard.site_name}} - Login!{% endblock %}
+
+{% block content %}
+<div class='row'>
+    <div class='jumbotron col-md-6 col-md-offset-3'>
+        <h2>Login</h2>
+        <form class="form-horizontal" method="POST">
+        {% csrf_token %}
+          <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">Username</label>
+            <div class="col-sm-10">
+              <input type="input" class="form-control" id="username" name="username" placeholder="username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="password" name="password" placeholder="password">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Sign in</button>
+            </div>
+          </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

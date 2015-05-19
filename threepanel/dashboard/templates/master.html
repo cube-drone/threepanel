@@ -50,10 +50,24 @@
             </nav>
         </div>
     {% endif %}
+
+    {% if preview %}
+        <nav class='navbar navbar-inverse' role="navigation">
+            <div class='container-fluid'>
+                <div class='navbar-header'>
+                    <a class='btn btn-primary navbar-btn' href="{% url 'comics.views.manage' %}"> I'm Done Previewing </a>
+                </div>
+            </div>
+        </nav>
+
+    {% endif %}
+
     {% block content_wrapper %}
         <h1>{% block title %}{% endblock %}</h1>
         {% block content %}{% endblock %}
     {% endblock %}
+
+    {% if not hide_nav %}
     <div class='footer navbar navbar-inverse navbar-bottom'>
         <div class='row'>
         <div class='col-md-3'>
@@ -84,6 +98,7 @@
         </div>
         </div>
     </div>
+    {% endif %}
   </div>
 
 {% if dashboard.google_tracking_code %}
