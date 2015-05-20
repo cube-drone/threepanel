@@ -20,7 +20,10 @@ class Command(BaseCommand):
                       image_url = "http://curtis.lassam.net/comics/cube_drone/140.gif",
                       promo_text = "BWAAAAAAMP",
                       secret_text = "BWAAAMP is a great sound effect.",
+                      tags = ["hello", "butts"],
                       alt_text = "*fweep* Cube Drone: Oh, it's an incoming tweet! | *do bweep* I must have an e-mail! | *BWAAAAMP* And that's JIRA")
+            if i%3 == 0:
+                c.tags.append("Ahoy there!")
             if i%4 == 0:
                 c.title = c.title + " Hidden"
                 c.hidden = True

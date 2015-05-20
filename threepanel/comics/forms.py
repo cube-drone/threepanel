@@ -18,4 +18,4 @@ class ComicForm(forms.ModelForm):
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        exclude = ['hidden', 'markdown_rendered', 'slug']
+        exclude = ['hidden', 'markdown_rendered', 'slug', 'created', 'updated']

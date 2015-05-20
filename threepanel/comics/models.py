@@ -1,13 +1,12 @@
 import uuid
 from datetime import timedelta
-from django.utils import timezone
 
+from django.utils import timezone
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 from autoslug import AutoSlugField
 from slugify import slugify
-
-from taggit.managers import TaggableManager
 import markdown
 
 """
@@ -21,6 +20,10 @@ class Comic(models.Model):
     One comic. A single image, and a little bit of meta-data, like
     alt-text, secret-text, when it was posted, what it's called...
     """
+    slug = AutoSlugField(populate_from=lambda c: c.title,
+                         db_index=True,
+                         slugify=slugify)
+
     title = models.CharField(max_length=100, unique_for_date='posted',
         help_text="The title of the comic")
     posted = models.DateTimeField(db_index=True,
@@ -39,11 +42,9 @@ class Comic(models.Model):
 
     hidden = models.BooleanField(default=False)
 
-    slug = AutoSlugField(populate_from=lambda c: c.title,
-                         db_index=True,
-                         slugify=slugify)
 
-    tags = TaggableManager()
+    tags = ArrayField(base_field=models.CharField(max_length=50),
+                             blank=True, null=True)
 
     created = models.DateTimeField()
     updated = models.DateTimeField()
@@ -145,7 +146,7 @@ class Comic(models.Model):
 
     @property
     def blog_posts(self):
-        return self.blogs.filter(hidden=False)
+        return self.blogs.filter(hidden=False).order_by("-created")
 
     @property
     def has_blogs(self):

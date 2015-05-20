@@ -1,12 +1,35 @@
 
-<li class='list-group-item {% if comic.hidden %}disabled{% endif %} row'>
+<li class='list-group-item {% if comic.hidden %}disabled{% endif %}'>
+    <div class='row'>
     <div class='col-sm-8'>
         <h4><a href='{% url 'comics.views.preview' comic_slug=comic.slug %}'>{{comic.title}}</a>
             - <small>{{comic.posted}}</small></h4>
-        <ul class='list-group'>
+        {% for tag in comic.tags %}
+
+        {% endfor %}
+    </div>
+    <form class='col-sm-4 btn-group btn-group-sm' action="{% url 'comics.views.delete' comic_slug=comic.slug %}" method='POST'>
+        {% csrf_token %}
+        <input class='btn btn-default' type='submit' value="Delete"></input>
+        <a class='btn btn-default' href="{% url 'comics.views.update' comic_slug=comic.slug %}">Update</a>
+    </form>
+    </div>
+    {% if comic.is_hero %}
+        <img class='comic img-responsive' src='{{comic.image_url}}' alt='{{comic.alt_text}}' title='{{comic.secret_text}}' />
+    {% endif %}
+    <div class='row'>
+        <ul>
+        {% for tag in comic.tags %}
+            <li>{{tag}}</li>
+        {% endfor %}
+        </ul>
+        <ul class='list-group col-sm-10 col-sm-offset-1'>
         {% for blog in comic.blog_posts %}
             <li class='list-group-item'>
             <h5>{{blog.title}}</h5>
+            <div class='blog_excerpt'>
+                {{blog.markdown_rendered | truncatewords_html:20 | safe}}
+            </div>
             <form class='btn-group btn-group-sm' action="{% url 'comics.views.delete_blog' comic_slug=comic.slug slug=blog.slug %}" method='POST'>
                 {% csrf_token %}
                 <input class='btn btn-default' type='submit' value="Delete"></input>
@@ -17,9 +40,4 @@
             <a class='list-group-item' href="{% url 'comics.views.create_blog' comic_slug=comic.slug %}">Create Blog Post</a>
         </ul>
     </div>
-    <form class='col-sm-4 btn-group btn-group-sm' action="{% url 'comics.views.delete' comic_slug=comic.slug %}" method='POST'>
-        {% csrf_token %}
-        <input class='btn btn-default' type='submit' value="Delete"></input>
-        <a class='btn btn-default' href="{% url 'comics.views.update' comic_slug=comic.slug %}">Update</a>
-    </form>
 </li>

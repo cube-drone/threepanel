@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block head_title %}{{dashboard.site_name}} - Archives{% endblock %}
+
+{% block extraheader %}
+{% endblock %}
+
+{% block content %}
+<div class='page-header'>
+    <h2>Archives</h2>
+</div>
+<div class='row'>
+    <div class='list-group col-md-8'>
+        {% for comic in comics %}
+        <a class='list-group-item' href='{% url 'comics.views.single' comic_slug=comic.slug %}'>
+        <strong>{{comic.title}}</strong> <small>{{comic.posted}}</small>
+        <p><small>{{comic.promo_text}}</small></p>
+        <p><small><em>{{comic.alt_text}}</em></small></p>
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class='col-md-4'>
+        <h3>Search</h3>
+        <p> ... UNDER CONSTRUCTION </p>
+
+        <h3>Tags</h3>
+        <div class='list-group'>
+        {% for tag in tags %}
+            <a class='list-group-item' href='#'>{{tag}}</a>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

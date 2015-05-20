@@ -40,6 +40,17 @@ def single(request, comic_slug):
                                                   'slug': comic_slug,
                                                   'comic': comic})
 
+def archives(request):
+    archives = Comic.archives()
+    tags = []
+    for comic in archives:
+        for tag in comic.tags:
+            tags.append(tag)
+    tags = list(set(tags))
+    return render(request, "comics/archives.html", {'comics': archives,
+                                                    'tags': tags})
+
+
 @login_required
 def preview(request, comic_slug):
     comic = get_object_or_404(Comic, slug=comic_slug)
