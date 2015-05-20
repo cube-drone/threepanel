@@ -48,8 +48,6 @@ class Comic(models.Model):
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
-    cached_hero = None
-
     def hide(self):
         if not self.hidden:
             self.hidden = True
@@ -132,14 +130,8 @@ class Comic(models.Model):
         """
         Return the current 'hero' comic.
         """
-        if not Comic.cached_hero:
-            now = timezone.now()
-            try:
-                Comic.cached_hero = Comic.objects.filter(hidden=False,
-                                            posted__lte=now).order_by('-posted')[0]
-            except IndexError:
-                Comic.cached_hero = None
-        return Comic.cached_hero
+        now = timezone.now()
+        return Comic.objects.filter(hidden=False, posted__lte=now).order_by('-posted')[0]
 
     @classmethod
     def archives(cls):
