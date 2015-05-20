@@ -1,4 +1,5 @@
 import sys
+import datetime
 
 from django.shortcuts import render as django_render
 from django.http import HttpResponseRedirect
@@ -16,6 +17,7 @@ def render(request, template, options={}):
     dashboard.caller = f_code.co_name
     dashboard.filename = f_code.co_filename
     options['dashboard'] = dashboard
+    options['year'] = datetime.date.today().year
     return django_render(request, template, options)
 
 
