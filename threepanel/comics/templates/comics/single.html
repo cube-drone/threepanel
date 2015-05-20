@@ -22,7 +22,7 @@
                 <span class='glyphicon glyphicon-chevron-left'></span> Previous</a></li>
         {% endif %}
 
-        <li><a href="#"><span class='glyphicon glyphicon-search'></span> Archives</a></li>
+        <li><a href="{% url 'comics.views.archives' %}"><span class='glyphicon glyphicon-search'></span> Archives</a></li>
 
         {% if not comic.is_hero %}
             <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.next %}">

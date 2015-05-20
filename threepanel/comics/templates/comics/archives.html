@@ -8,28 +8,43 @@
 
 {% block content %}
 <div class='page-header'>
-    <h2>Archives</h2>
+    <h2>Archives {% if active_tag %}<small>{{active_tag}}</small>{% endif %}</h2>
 </div>
 <div class='row'>
-    <div class='list-group col-md-8'>
+    <ul class='list-group col-md-8'>
         {% for comic in comics %}
-        <a class='list-group-item' href='{% url 'comics.views.single' comic_slug=comic.slug %}'>
-        <strong>{{comic.title}}</strong> <small>{{comic.posted}}</small>
-        <p><small>{{comic.promo_text}}</small></p>
-        <p><small><em>{{comic.alt_text}}</em></small></p>
-        </a>
+        <li class='list-group-item'>
+            <a href='{% url 'comics.views.single' comic_slug=comic.slug %}'>
+            <h3>{{comic.title}} <small>{{comic.posted}}</small></h3>
+            </a>
+            <div class='tags'>
+            {% for tag in comic.tags %}
+                {% if active_tag == tag %}
+                    <strong><span class='glyphicon glyphicon-tag'></span> {{tag}}</strong>
+                {% else %}
+                    <em><a href='{% url 'comics.views.tag' slug=tag %}'>
+                        <span class='glyphicon glyphicon-tag'></span> {{tag}}</a></em>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <p><small>{{comic.promo_text}}</small></p>
+            <p><small><em>{{comic.alt_text}}</em></small></p>
+        </li>
         {% endfor %}
-    </div>
+    </ul>
 
     <div class='col-md-4'>
-        <h3>Search</h3>
-        <p> ... UNDER CONSTRUCTION </p>
+        <div data-spy="affix" data-offset-top="200">
+            <h3>Search</h3>
+            <p> ... UNDER CONSTRUCTION </p>
 
-        <h3>Tags</h3>
-        <div class='list-group'>
-        {% for tag in tags %}
-            <a class='list-group-item' href='#'>{{tag}}</a>
-        {% endfor %}
+            <h3>Tags</h3>
+            <div class='list-group'>
+            {% for tag in tags %}
+                <a class='list-group-item {% if tag == active_tag %}active{% endif %}'
+                    href='{% url 'comics.views.tag' slug=tag %}'>{{tag}}</a>
+            {% endfor %}
+            </div>
         </div>
     </div>
 </div>

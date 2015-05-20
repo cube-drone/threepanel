@@ -1,14 +1,7 @@
-{% extends "management.html" %}
+{% extends "comics/manage.html" %}
 
 {% block head_title %}Trash{% endblock %}
 {% block title %}Trash{% endblock %}
-
-{% block actions %}
-<div class='btn btn-group-vertical' role='group'>
-    <a class='btn btn-default' href="{% url 'comics.views.create' %}">Create New Comic</a>
-    <a class='btn btn-default' href="{% url 'comics.views.manage' %}">Manage</a>
-</div>
-{% endblock %}
 
 {% block content %}
 

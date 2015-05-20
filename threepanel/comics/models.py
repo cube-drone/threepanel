@@ -42,7 +42,6 @@ class Comic(models.Model):
 
     hidden = models.BooleanField(default=False)
 
-
     tags = ArrayField(base_field=models.CharField(max_length=50),
                              blank=True, null=True)
 
@@ -52,13 +51,29 @@ class Comic(models.Model):
     cached_hero = None
 
     def hide(self):
-        self.hidden = True
-        self.save()
+        if not self.hidden:
+            self.hidden = True
+            self.save()
+        else:
+            self.delete()
+
+    def slugify_tags(self):
+        """
+        If we want people to be able to navigate to a tag url, we're going to need to be
+        able to treat all of our tags as urls-
+        so ["Cube Drone", "Interlude", "Butts^^^"] ==> ["cube_drone", "interlude", "butts___"]
+        """
+        slugified_tags = []
+        if self.tags:
+            for tag in self.tags:
+                slugified_tags.append(slugify(tag))
+        self.tags = slugified_tags
 
     def save(self, reorder=True):
         if not self.id:
             self.created = timezone.now()
             self.updated = timezone.now()
+        self.slugify_tags()
         super().save()
         if reorder:
             self.updated = timezone.now()
@@ -132,6 +147,14 @@ class Comic(models.Model):
         return (Comic.objects.filter(hidden=False, posted__lte=now)
                                       .order_by('-posted')
                                       .prefetch_related("blogs"))
+
+    @classmethod
+    def all_tags(cls):
+        tgs = set()
+        for comic in Comic.objects.filter(hidden=False):
+            for tag in comic.tags:
+                tgs.add(tag)
+        return tgs
 
     @classmethod
     def backlog(cls):

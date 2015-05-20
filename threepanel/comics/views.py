@@ -42,13 +42,18 @@ def single(request, comic_slug):
 
 def archives(request):
     archives = Comic.archives()
-    tags = []
-    for comic in archives:
-        for tag in comic.tags:
-            tags.append(tag)
-    tags = list(set(tags))
+    tags = Comic.all_tags()
     return render(request, "comics/archives.html", {'comics': archives,
                                                     'tags': tags})
+
+
+def tag(request, slug):
+    archives = Comic.archives().filter(tags__contains=[slug])
+    tags = Comic.all_tags()
+    return render(request, "comics/archives.html", {'comics': archives,
+                                                    'active_tag': slug,
+                                                    'tags': tags})
+    pass
 
 
 @login_required
@@ -64,10 +69,23 @@ def manage(request):
     backlog = Comic.backlog()
     archives = Comic.archives()
     hero = Comic.hero()
+    tags = Comic.all_tags()
     return render(request, "comics/manage.html", {
+        'tags': tags,
         'backlog': backlog,
         'archives': archives,
         'hero': hero})
+
+@login_required
+def manage_tag(request, slug):
+    backlog = Comic.backlog().filter(tags__contains=[slug])
+    archives = Comic.archives().filter(tags__contains=[slug])
+    tags = Comic.all_tags()
+    return render(request, "comics/manage.html", {
+        'tags': tags,
+        'active_tag': slug,
+        'backlog': backlog,
+        'archives': archives})
 
 
 @login_required

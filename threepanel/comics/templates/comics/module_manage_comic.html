@@ -4,9 +4,19 @@
     <div class='col-sm-8'>
         <h4><a href='{% url 'comics.views.preview' comic_slug=comic.slug %}'>{{comic.title}}</a>
             - <small>{{comic.posted}}</small></h4>
+        <div class='tags'>
         {% for tag in comic.tags %}
-
+            {% if active_tag == tag %}
+                <strong><span class='glyphicon glyphicon-tag'></span> {{tag}}</strong>
+            {% else %}
+                <em><a href='{% url 'comics.views.manage_tag' slug=tag %}'>
+                    <span class='glyphicon glyphicon-tag'></span> {{tag}}</a></em>
+            {% endif %}
         {% endfor %}
+        </div>
+        <p><span class='glyphicon glyphicon-bullhorn'></span> {{comic.promo_text}}</p>
+        <p><span class='glyphicon glyphicon-search'></span> <em>{{comic.secret_text}}</em></p>
+        <p><small>{{comic.alt_text|linebreaks}}</small></p>
     </div>
     <form class='col-sm-4 btn-group btn-group-sm' action="{% url 'comics.views.delete' comic_slug=comic.slug %}" method='POST'>
         {% csrf_token %}
@@ -18,11 +28,6 @@
         <img class='comic img-responsive' src='{{comic.image_url}}' alt='{{comic.alt_text}}' title='{{comic.secret_text}}' />
     {% endif %}
     <div class='row'>
-        <ul>
-        {% for tag in comic.tags %}
-            <li>{{tag}}</li>
-        {% endfor %}
-        </ul>
         <ul class='list-group col-sm-10 col-sm-offset-1'>
         {% for blog in comic.blog_posts %}
             <li class='list-group-item'>
