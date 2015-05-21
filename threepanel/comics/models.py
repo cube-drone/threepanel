@@ -7,6 +7,8 @@ from django.contrib.postgres.fields import ArrayField
 
 from autoslug import AutoSlugField
 from slugify import slugify
+from djorm_fulltext.fields import VectorField
+from djorm_fulltext.models import SearchManager
 import markdown
 
 """
@@ -44,6 +46,12 @@ class Comic(models.Model):
 
     tags = ArrayField(base_field=models.CharField(max_length=50),
                              blank=True, null=True)
+
+    search_index = VectorField()
+
+    objects = SearchManager(
+        fields = ('title', 'alt_text', 'secret_text', 'promo_text'),
+        auto_update_search_field = True)
 
     created = models.DateTimeField()
     updated = models.DateTimeField()
@@ -187,6 +195,12 @@ class Blog(models.Model):
 
     created = models.DateTimeField()
     updated = models.DateTimeField()
+
+    search_index = VectorField()
+
+    objects = SearchManager(
+        fields = ('title', 'markdown'),
+        auto_update_search_field = True)
 
     slug = AutoSlugField(populate_from=lambda c: c.title,
                          db_index=True,

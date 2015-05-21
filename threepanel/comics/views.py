@@ -53,7 +53,17 @@ def tag(request, slug):
     return render(request, "comics/archives.html", {'comics': archives,
                                                     'active_tag': slug,
                                                     'tags': tags})
-    pass
+
+def search(request):
+    try:
+        search_term = request.GET['search']
+    except KeyError:
+        return HttpResponseRedirect(reverse("comics.views.archives"))
+    comics = Comic.objects.search(search_term).filter(hidden=False)
+    tags = Comic.all_tags()
+    return render(request, "comics/archives.html", {'comics':comics,
+                                                    'search_term': search_term,
+                                                    'tags': tags})
 
 
 @login_required

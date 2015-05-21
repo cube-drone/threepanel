@@ -65,6 +65,7 @@ INSTALLED_APPS = (
 #    'djrill',
     'datetimewidget',
     'bootstrap3',
+    'djorm_fulltext',
 
     'dashboard',
     'comics',
