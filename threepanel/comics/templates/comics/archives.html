@@ -9,7 +9,11 @@
 
 {% block content %}
 <div class='page-header'>
-    <h2>Archives {% if active_tag %}<small>{{active_tag}}</small>{% endif %}</h2>
+    <h2>Archives
+        {% if active_tag %}<small>{{active_tag}}</small>{% endif %}
+        {% if search_term %}<small>{{search_term}}</small>{% endif %}
+
+    </h2>
 </div>
 <div class='row'>
     <ul class='list-group col-md-8'>

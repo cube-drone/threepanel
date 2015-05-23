@@ -1,0 +1,25 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+{% load highlight %}
+
+{% block head_title %}{{dashboard.site_name}} - Archives{% endblock %}
+
+{% block extraheader %}
+{% endblock %}
+
+{% block content %}
+<div class='page-header'>
+    <h2>Blog</h2>
+</div>
+<div class='row'>
+    {% for blog in blogs %}
+    <div class='col-md-10 col-md-offset-1'>
+    <h3>{{blog.title}}</h3>
+    <div class='well'>
+    {{blog.markdown_rendered|safe}}
+    </div>
+    </div>
+    <br/>
+    {% endfor %}
+</div>
+{% endblock %}

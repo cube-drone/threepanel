@@ -65,6 +65,13 @@ def search(request):
                                                     'search_term': search_term,
                                                     'tags': tags})
 
+def blog(request):
+    archives = Comic.archives()
+    blogs = []
+    for comic in archives:
+        for blog_post in comic.blog_posts:
+            blogs.append(blog_post)
+    return render(request, "comics/blog.html", {'blogs':blogs})
 
 @login_required
 def preview(request, comic_slug):
