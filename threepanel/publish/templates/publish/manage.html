@@ -1,0 +1,37 @@
+{% extends "management.html" %}
+
+{% block head_title %}Manage Mailing List{% endblock %}
+{% block title %}Manage Mailing List{% endblock %}
+
+{% block actions %}
+{% endblock %}
+
+{% block content %}
+
+<table class='table table-striped'>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Verified</th>
+            <th>Created</th>
+            <th>Last Email Sent</th>
+            <th>Actions</th>
+    </thead>
+    <tbody>
+{% for subscriber in subscribers %}
+    <tr class='{% if not subscriber.verified %}warning{% endif %}'>
+        <td>{{subscriber.email}}</td>
+        <td>{{subscriber.verified}}</td>
+        <td>{{subscriber.created}}</td>
+        <td>{{subscriber.last_email_sent}}</td>
+        <td>
+            <a href="{% url 'publish.views.unsubscribe_email' email=subscriber.email  %}" class='btn btn-danger' title='delete'>
+                <span class='glyphicon glyphicon-trash'></span> </a>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

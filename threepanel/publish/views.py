@@ -1,5 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, NoReverseMatch
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from dashboard.views import render
 from dashboard.models import SiteOptions
@@ -23,7 +25,13 @@ def _unsubscribe_url(request, subscriber):
     return request.build_absolute_uri(reverse('publish.views.unsubscribe_email',
                                               kwargs={'email':subscriber.email}))
 
-# Create your views here.
+def _verify_url(request, subscriber):
+    return request.build_absolute_uri(reverse('publish.views.verify',
+                                              kwargs={'email':subscriber.email,
+                                                      'verification_code':subscriber.verification_code}))
+
+
+
 def subscribe(request):
     """ A page detailing all of the fantastic ways one can subscribe """
     return render(request, 'publish/subscribe.html')
@@ -39,9 +47,7 @@ def subscribe_email(request):
             subscriber.save()
 
         siteoptions = SiteOptions.get()
-        verify_url = request.build_absolute_uri(reverse('publish.views.verify',
-                        kwargs={'email':subscriber.email,
-                                'verification_code':subscriber.verification_code}))
+        verify_url = _verify_url(request, subscriber)
         message = VERIFICATION_EMAIL.format(verify_url)
         subscriber.send_mail(subject="Welcome to {}!".format(siteoptions.title),
                              message=message,
@@ -67,3 +73,10 @@ def unsubscribe_email(request, email):
         return render(request, "publish/unsubscribe.html")
     except EmailSubscriber.DoesNotExist:
         return render(request, "publish/unsubscribe.html")
+
+@login_required
+def manage(request):
+    subscribers = EmailSubscriber.objects.all()
+    return render(request, "publish/manage.html", {'subscribers':subscribers})
+
+
