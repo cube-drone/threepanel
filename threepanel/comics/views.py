@@ -18,7 +18,12 @@ logger = logging.getLogger(__name__)
 
 def home(request):
     hero = Comic.hero()
-    return render(request, "comics/single.html", {'slug': hero.slug, 'comic':hero})
+    permalink = _permalink(request, hero.slug)
+    return render(request,
+                  "comics/single.html",
+                  {'slug': hero.slug,
+                   'permalink': permalink,
+                   'comic':hero})
 
 
 def single_by_numerical_order(request, n):
@@ -29,6 +34,10 @@ def single_by_numerical_order(request, n):
     return HttpResponseRedirect(reverse("comics.views.single",
                                 kwargs={'comic_slug': comic.slug}))
 
+def _permalink(request, comic_slug):
+    return request.build_absolute_uri(reverse('comics.views.single',
+                                              kwargs={'comic_slug':comic_slug}))
+
 
 def single(request, comic_slug):
     comic = get_object_or_404(Comic, slug=comic_slug)
@@ -36,8 +45,10 @@ def single(request, comic_slug):
         raise Http404("For whatever reason, I've removed this comic from circulation.")
     if timezone.now() < comic.posted:
         raise Http404("This comic hasn't been posted yet!")
+    permalink = _permalink(request, comic_slug)
     return render(request, "comics/single.html", {'preview': False,
                                                   'slug': comic_slug,
+                                                  'permalink': permalink,
                                                   'comic': comic})
 
 def archives(request):
