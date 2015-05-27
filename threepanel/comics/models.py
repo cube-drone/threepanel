@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.utils import timezone
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.core.cache import cache
 
 from autoslug import AutoSlugField
 from slugify import slugify
@@ -84,6 +85,9 @@ class Comic(models.Model):
         if reorder:
             self.updated = timezone.now()
             Comic.reorder()
+            # We can be pretty aggressive with caching so long as
+            # we completely cream the cache every time we write anything
+            cache.clear()
 
     @property
     def is_hero(self):
@@ -222,4 +226,5 @@ class Blog(models.Model):
         self.updated = timezone.now()
         self.render()
         super().save()
+        cache.clear()
 

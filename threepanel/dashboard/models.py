@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.cache import cache
 
 
 # Create your models here.
@@ -30,6 +31,10 @@ class SiteOptions(models.Model):
     # Twitter
     twitter_username = models.CharField(max_length=50, default="classam")
     twitter_widget_id = models.CharField(max_length=50, default="304715092187025408")
+
+    def save(self):
+        super().save()
+        cache.clear()
 
     @classmethod
     def get(cls):
