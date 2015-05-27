@@ -2,3 +2,5 @@
 *.pyc
 db.sqlite3
 __pycache__
+*.db_backup
+get-pip*

@@ -4,11 +4,16 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 
 echo 'Dev Tools'
-apt-get install -y ack-grep vim
+sudo apt-get install -y ack-grep vim
 
 echo 'Shortcuts'
 echo "alias dj='python3 /home/vagrant/synced/threepanel/manage.py'" >> /home/vagrant/.bashrc
 echo "alias in='cd /home/vagrant/synced/ && invoke'" >> /home/vagrant/.bashrc
+
+echo "Redis"
+sudo apt-get install -y redis-server
+cp /home/vagrant/synced/redis.conf /etc/redis/redis.conf
+sudo service redis-server restart
 
 echo "PostgreSQL"
 sudo apt-get install -y postgresql postgresql-contrib libpq-dev
