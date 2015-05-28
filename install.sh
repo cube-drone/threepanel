@@ -9,6 +9,7 @@ sudo apt-get install -y ack-grep vim
 echo 'Shortcuts'
 echo "alias dj='python3 /home/vagrant/synced/threepanel/manage.py'" >> /home/vagrant/.bashrc
 echo "alias in='cd /home/vagrant/synced/ && invoke'" >> /home/vagrant/.bashrc
+echo "export PYTHONPATH=/home/vagrant/synced/threepanel" >> /home/vagrant/.bashrc
 
 echo "Redis"
 sudo apt-get install -y redis-server
@@ -27,3 +28,6 @@ sudo apt-get install -y python3 python3-dev
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python3 get-pip.py
 sudo pip install -r /home/vagrant/synced/requirements.txt --upgrade
+
+echo "Pythonpath"
+export PYTHONPATH=/home/vagrant/synced/threepanel

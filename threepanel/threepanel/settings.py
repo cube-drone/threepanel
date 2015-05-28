@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 ADMINS = ( ("Curtis", "curtis@lassam.net") )
@@ -30,6 +31,18 @@ ALLOWED_HOSTS = []
 
 # AUTH STUFF
 LOGIN_URL = "/dashboard/login"
+
+# TZ
+TIME_ZONE = 'America/Vancouver'
+USE_TZ = True
+
+CELERYBEAT_SCHEDULE = {
+    'words-go-here':{
+        'task':'comics.tasks.test',
+        'schedule': timedelta(seconds=1),
+    }
+}
+
 
 LOGGING = {
     'version': 1,
@@ -62,6 +75,11 @@ CACHES = {
 CACHE_MIDDLEWARE_ALIAS = "default"
 CACHE_MIDDLEWARE_SECONDS = 60 * 60
 
+# CELERY SETTINGS
+BROKER_URL = 'redis+socket:///tmp/redis.sock'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 
 # Application definition
@@ -132,13 +150,9 @@ else:
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+USE_I18N = False
 
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
+USE_L10N = False
 
 
 # Static files (CSS, JavaScript, Images)

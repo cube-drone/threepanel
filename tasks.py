@@ -37,6 +37,16 @@ def runserver():
     return dj("runserver 0:8000")
 
 @task()
+def celery():
+    print("Activating celery worker")
+    return dev("celery --app=threepanel worker -l info")
+
+@task()
+def beat():
+    print("We love the beat we love the beat... we love the beat!")
+    return dev("celery --app=threepanel beat")
+
+@task()
 def reset():
     print("Resetting db")
     #absolutely remove these lines once you've deployed
