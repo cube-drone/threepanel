@@ -16,7 +16,7 @@
     <div class='col-md-10 col-md-offset-1'>
     <h3>{{blog.title}}</h3>
     <div class='well'>
-    <a href='{% url 'comics.views.single' comic_slug=blog.comic.slug %}'>
+    <p><a href='{% url 'comics.views.single' comic_slug=blog.comic.slug %}'>{{blog.comic.title}}</a></p>
     {{blog.markdown_rendered|safe}}
     </div>
     </div>
