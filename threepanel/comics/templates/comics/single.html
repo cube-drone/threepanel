@@ -47,6 +47,11 @@
                 <h2 class='comic_title'>{{comic.title}} - <small>{{comic.posted}}</small></h2>
                 <p class='secret_text'><em>{{comic.secret_text}}</em></p>
                 <p class='url'><strong>Share Url:</strong> {{permalink}} </p>
+                <p class='share'>
+                    <a href="http://twitter.com/share?url={{comic.absolute_url}}&text={{comic.promo_text|urlencode}}">Share on Twitter</a>
+                    &mdash;
+                    <a href="http://www.facebook.com/sharer.php?u={{comic.absolute_url}}&t={{comic.title}}">Share on Facebutts</a>
+                </p>
             </div>
         </div>
     </div>
