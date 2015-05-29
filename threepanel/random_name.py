@@ -1,8 +1,13 @@
-import string 
+import string
 import random
+try:
+    from slugify import slugify
+except ImportError:
+    def slugify(words):
+        return words.lower().replace(" ", "-")
 
 titles = [
-    'captain', 
+    'captain',
     'lieutenant',
     'leftenant',
     'colonel',
@@ -24,6 +29,18 @@ titles = [
     'madame',
     'senor',
     'senorita',
+    'lord commander',
+    'luchadore',
+    'commodore',
+    'emperor',
+    'super-emperor',
+    'madam',
+    'dame',
+    'professor',
+    'father',
+    'brother',
+    'sister',
+    'reverend',
 ]
 
 adjectives = [
@@ -211,7 +228,13 @@ adjectives = [
     'unavoidable',
     'impressive',
     'impeccable',
-    'fussy'
+    'fussy',
+    'touchable',
+    'intermittent',
+    'scandalous',
+    'murky',
+    'sloshing',
+    'damp',
 ]
 
 nouns = [
@@ -280,7 +303,6 @@ nouns = [
     'shelf',
     'blanket',
     'dong',
-    'captain',
     'board',
     'indicator',
     'injection',
@@ -305,8 +327,69 @@ nouns = [
     'bag',
     'dispenser',
     'butter',
-    'potato'
+    'potato',
+    'sword',
+    'shield',
+    'spear',
+    'staff',
+    'shaft',
+    'slab',
+    'sandwich',
+    'song',
+    'glaive',
+    'axe',
+    'crossbow',
+    'armour',
+    'lamp',
+    'club',
+    'cage'
 ]
+
+firstnames = [
+    'carl',
+    'carla',
+    'tim',
+    'mary',
+    'peter',
+    'kimmy',
+    'steve',
+    'jennifer',
+    'frank',
+    'youssef',
+    'pierre',
+    'george',
+    'aya',
+    'thiago',
+    'daniel',
+    'liam',
+    'jack',
+    'agustin',
+    'santiago',
+    'noah',
+    'sofia',
+    'olivia',
+    'madison',
+    'chloe',
+    'camilla',
+    'hiroto',
+    'rasmus',
+    'charlie',
+    'miguel',
+    'alexander',
+    'emma',
+    'maya',
+    'sara',
+    'amelia',
+    'tiffany',
+    'arnold',
+    'ronald',
+    'hogan',
+    'doug',
+    'pete',
+    'jim',
+    'james',
+]
+
 
 
 def title():
@@ -321,18 +404,54 @@ def noun():
     return random.choice(nouns)
 
 
+def firstname():
+    return random.choice(firstnames)
+
+
 def name():
-    fn = random.choice([
-        lambda: title()+"-"+adjective(),
-        lambda: title()+"-"+noun(),
-        lambda: title()+"-"+noun()+noun(),
-        lambda: title()+"-"+adjective()+noun()])
-    return fn()
+    return slugify(proper_name())
 
 
 def thing():
     return adjective()+" "+noun()
 
 
+def proper_name():
+    slab = random.choice([
+        noun(),
+        adjective(),
+        noun()+noun(),
+        noun()+adjective(),
+        adjective()+noun()])
+    if random.choice([True, False]):
+        slab = firstname() + " " + slab
+    if random.choice([True, False]):
+        slab = title() + " " + slab
+    if len(slab.split(" ")) == 1:
+        slab = proper_name() + " " + slab
+
+    return slab.title()
+
 def special_thing():
-    return string.capwords("the %s of %s's %s" % (thing(), name(), thing()))
+    return random.choice([
+        "{}'s {}".format(proper_name(), noun().title()),
+        "{}'s {}".format(proper_name(), thing().title()),
+        "The {} of {}".format(thing().title(), proper_name()),
+        "The {} {} {} of {}".format(adjective().title(), adjective().title(), noun().title(), proper_name()),
+        ])
+
+def markdown():
+    words = ""
+    for i in range(0, 10):
+        if random.choice([True, False, False, False, False]):
+            words = words + "#### "
+        words = words + proper_name() + " "
+        for i in range(0, random.randrange(3,30,1)):
+            word = random.choice([noun(), adjective()])
+            if random.choice([True, False, False]):
+                word = "**{}**".format(word)
+            elif random.choice([True, False, False]):
+                word = "_{}_".format(word)
+            words = words + word + " "
+        words = words + ".\n\n"
+    return words

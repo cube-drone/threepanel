@@ -44,6 +44,7 @@ class Comic(models.Model):
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     hidden = models.BooleanField(default=False)
+    published = models.BooleanField(default=False)
 
     tags = ArrayField(base_field=models.CharField(max_length=50),
                              blank=True, null=True)

@@ -8,14 +8,11 @@ class SiteOptions(models.Model):
     title = models.CharField(max_length=100,
                              default="Cube Drone",
                              help_text="The title of your comic")
-    tagline = models.CharField(max_length=100,
+    tagline = models.CharField(max_length=200,
                                default="Code/comics, updates Tuesday & Thursday",
                                help_text="A short tagline for your comic")
     elevator_pitch = models.TextField(default="Comics about software development in a small Vancouver startup.",
                                       help_text="A Tweet-length description of your comic.")
-    email = models.CharField(max_length=100,
-                             default="curtis@lassam.net",
-                             help_text="The site sends e-mail from this address.")
 
     # Author
     author_name = models.CharField(max_length=100,

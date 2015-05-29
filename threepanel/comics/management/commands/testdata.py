@@ -1,9 +1,63 @@
 import datetime
-from django.utils import timezone
+import random
 
+from django.utils import timezone
 from django.core.management.base import BaseCommand, CommandError
+
+from slugify import slugify
+
 from comics.models import Comic, Blog
+from publish.models import EmailSubscriber
 from django.contrib.auth.models import User
+import random_name
+
+
+def random_comic(posted):
+    words = random_name.special_thing()
+
+    c = Comic(title=words,
+              image_url="http://curtis.lassam.net/comics/cube_drone/{}.gif".format(random.choice(range(0, 140))),
+              promo_text= "Promo text for {}".format(words)[:79],
+              posted=posted,
+              secret_text = "Secret text for {}".format(words),
+              alt_text = "Alt text for {}".format(words),
+              tags = [random_name.thing(), random_name.adjective(), random_name.noun()])
+    if random.choice([False, False, False, True]):
+        c.title = "Hidden {}".format(c.title)
+        c.hidden = True
+    c.save()
+    print("Creating {}".format(c))
+    return c
+
+def create_comics():
+    comics = []
+    for i in range(0,50):
+        n_days_ago = timezone.now() - datetime.timedelta(days=i)
+        comics.append(random_comic(n_days_ago))
+    for i in range(0,4):
+        n_days_ahead = timezone.now() + datetime.timedelta(days=i)
+        comics.append(random_comic(n_days_ahead))
+    return comics
+
+def create_blogs(comics):
+    for comic in comics:
+        b = Blog(comic=comic,
+                 title=random_name.thing().title(),
+                 markdown=random_name.markdown())
+        b.save()
+        print("Creating {}".format(b))
+
+def create_subscribers():
+    for i in range(0, 6):
+        n_hours_ago = timezone.now() - datetime.timedelta(hours=12*i)
+        email = "{}@sample.org".format(slugify(random_name.proper_name()))
+        verified = i % 2 == 0
+        e = EmailSubscriber(email = email,
+                            verified = verified)
+        e.save()
+        e.last_email_sent = n_hours_ago
+        e.save()
+        print("Creating {}".format(e))
 
 class Command(BaseCommand):
     help = 'Writes test data to the database'
@@ -12,68 +66,8 @@ class Command(BaseCommand):
         print("Creating superuser: classam/butts")
         user = User.objects.create_superuser('classam', 'curtis@lassam.net', 'butts')
         user.save()
-        comics = []
-        for i in range(0,10):
-            n_days_ago = timezone.now() - datetime.timedelta(hours=24*(10-i))
-            c = Comic(title="Comic {}".format(i),
-                      posted=n_days_ago,
-                      image_url = "http://curtis.lassam.net/comics/cube_drone/140.gif",
-                      promo_text = "BWAAAAAAMP",
-                      secret_text = "BWAAAMP is a great sound effect.",
-                      tags = ["hello", "butts"],
-                      alt_text = "*fweep* Cube Drone: Oh, it's an incoming tweet! | *do bweep* I must have an e-mail! | *BWAAAAMP* And that's JIRA")
-            if i%3 == 0:
-                c.tags.append("Ahoy there!")
-            if i%4 == 0:
-                c.title = c.title + " Hidden"
-                c.hidden = True
-            c.save()
-            print("Creating {}".format(c))
-            comics.append(c)
-        for i in range(0,10):
-            n_days_ago = timezone.now() + datetime.timedelta(hours=24*(10+i))
-            c = Comic(title="Comic {}".format(10+i),
-                      posted=n_days_ago,
-                      image_url = "http://curtis.lassam.net/comics/cube_drone/141.gif",
-                      promo_text = "In a lot of ways, coding is like magic.",
-                      secret_text = "secret text",
-                      alt_text = """A mage stands atop a mountain, holding a staff dramatically to the sky. It fizzles. 'Dammit'.| The mage in his workshop. 'Damn, the documentation says virgin blood, but the staff's API says my blood.'| 'I guess the mad wizard Azabale was not so popular with the ladies.'"""
-                      )
-            if i%4 == 0:
-                c.title = c.title + " Hidden"
-                c.hidden = True
-            c.save()
-            print("Creating {}".format(c))
-            comics.append(c)
 
-        for comic in comics:
-            b = Blog(comic=comic,
-                     title="Blog Post A",
-                     markdown="""
-An h1 header
-============
+        comics = create_comics()
+        create_blogs(comics)
+        create_subscribers()
 
-Paragraphs are separated by a blank line.
-
-2nd paragraph. *Italic*, **bold**, and `monospace`. Itemized lists
-look like:
-
-  * this one
-  * that one
-  * the other one
-
-Note that --- not considering the asterisk --- the actual text
-content starts at 4-columns in.
-
-> Block quotes are
-> written like so.
->
-> They can span multiple paragraphs,
-> if you like.
-
-Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
-in chapters 12--14"). Three dots ... will be converted to an ellipsis.
-Unicode is supported.
-                     """)
-            b.save()
-            print("Creating {}".format(b))

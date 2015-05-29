@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EmailSubscriber',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('email', models.CharField(unique=True, max_length=100)),
                 ('verification_code', models.CharField(max_length=200)),
                 ('verified', models.BooleanField(default=False)),

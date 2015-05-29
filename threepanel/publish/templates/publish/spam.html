@@ -1,0 +1,15 @@
+{% extends "message.html" %}
+
+{% block head_title %}{{dashboard.site_name}} - Spam!{% endblock %}
+
+{% block error %}
+    ERROR_SPAMMY_SAMMY
+{% endblock %}
+{% block error_description %}
+    I've already sent an e-mail to that address in the past 24 hours.
+    I can't send another. If it's your e-mail address, check your
+    junk mail folder.
+{% endblock %}
+{% block action %}
+    If you're getting this message in error, please tweet angrily at me.
+{% endblock %}

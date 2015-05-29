@@ -13,7 +13,7 @@ import os
 from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-ADMINS = ( ("Curtis", "curtis@lassam.net") )
+ADMINS = ( ("Curtis", "curtis@lassam.net"), )
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -38,8 +38,8 @@ USE_TZ = True
 
 CELERYBEAT_SCHEDULE = {
     'words-go-here':{
-        'task':'comics.tasks.test',
-        'schedule': timedelta(seconds=1),
+        'task':'comics.tasks.publish',
+        'schedule': timedelta(seconds=10),
     }
 }
 
@@ -144,6 +144,9 @@ else:
     #MANDRILL_API_KEY = "b8sBJX8OdA2oXrlhTUlCng"
     #MANDRILL_API_KEY = os.getenv('DJANGO_MANDRILL', MANDRILL_API_KEY)
     pass
+EMAIL_SUBJECT_PREFIX = "[cube_drone] "
+SERVER_EMAIL = "noreply@cubedrone.com"
+SITE_URL = "http://localhost:8080"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
