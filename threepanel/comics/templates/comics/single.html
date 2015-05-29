@@ -115,6 +115,14 @@
         </h2>
     </div>
     {% endif %}
+    {% if dashboard.patreon_page %}
+    <div class='col-sm-4'>
+        <h2><a class='btn btn-primary' href='{{ dashboard.patreon_page }}'>
+                <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/donate.png" alt="Donate"/>
+            </a>
+        </h2>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

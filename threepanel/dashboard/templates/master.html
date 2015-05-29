@@ -77,6 +77,15 @@
                             </a>
                         </li>
                     </ul>
+                    {% if dashboard.patreon_page %}
+                    <ul class='nav navbar-nav navbar-right hidden-xs hidden-sm'>
+                        <li class='btn btn-default btn-block'>
+                            <a href="{{dashboard.patreon_page}}">
+                                <img class='subscribe_btn' src="http://curtis.lassam.net/comics/cube_drone/misc_assets/donate.png" alt="Donate">
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
                 </div>
             </nav>
         </div>
