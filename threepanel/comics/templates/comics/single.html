@@ -66,7 +66,18 @@
                 </div>
             </div>
     {% endfor %}
+    {% for video in comic.videos %}
+            <div class='well well-sm'>
+                <h2>{{video.title}}</h2>
+                <div class='content'>
+                <iframe width="650" height="350" src="https://www.youtube.com/embed/{{video.youtube_video_code}}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+    {% endfor %}
         <a class='btn btn-primary' href="{% url 'comics.views.blog' %}">All Blog Posts</a>
+    {% if dashboard.youtube_channel %}
+        <a class='btn btn-primary' href="{{ dashboard.youtube_channel }}">All Videos</a>
+    {% endif %}
     </div>
     {% endif %}
     <div class='col-sm-4'><h2>Meet The Cast!</h2></div>

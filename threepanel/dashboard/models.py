@@ -25,6 +25,8 @@ class SiteOptions(models.Model):
     # Google tracking code number
     google_tracking_code = models.CharField(max_length=50,
                                             default="UA-41279849-1")
+    youtube_channel = models.CharField(max_length=150,
+                                            default="http://www.youtube.com/user/IkoIkoComic/playlists")
     # Twitter
     twitter_username = models.CharField(max_length=50, default="classam")
     twitter_widget_id = models.CharField(max_length=50, default="304715092187025408")

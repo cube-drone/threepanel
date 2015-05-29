@@ -2,17 +2,17 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 
-{% block head_title %}Update Blog{% endblock %}
-{% block title %}Update Blog{% endblock %}
+{% block head_title %}Update Video{% endblock %}
+{% block title %}Update Video{% endblock %}
 {% block extraheader %}{% endblock %}
 
 {% block content %}
 
-<form action="{% url 'comics.views.update_blog' comic_slug=comic_slug slug=slug %}" method='POST'>
+<form action="{% url 'comics.views.update_video' comic_slug=comic_slug slug=slug %}" method='POST'>
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}
-    <input type='submit' value="Update Blog"></input>
+    <input type='submit' value="Update Video"></input>
 </form>
 
 {% endblock %}

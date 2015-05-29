@@ -9,8 +9,8 @@ from django.shortcuts import get_object_or_404
 
 from dashboard.views import render
 
-from .models import Comic, Blog
-from .forms import ComicForm, BlogForm
+from .models import Comic, Blog, Video, Image
+from .forms import ComicForm, BlogForm, VideoForm, ImageForm
 
 
 logger = logging.getLogger(__name__)
@@ -38,6 +38,16 @@ def _permalink(request, comic_slug):
     return request.build_absolute_uri(reverse('comics.views.single',
                                               kwargs={'comic_slug':comic_slug}))
 
+@login_required
+def preview(request, comic_slug):
+    comic = get_object_or_404(Comic, slug=comic_slug)
+    return render(request, "comics/single.html", {'preview': True,
+                                                  'slug': comic_slug,
+                                                  'comic': comic})
+
+
+# Archives
+# --------------
 
 def single(request, comic_slug):
     comic = get_object_or_404(Comic, slug=comic_slug)
@@ -84,12 +94,6 @@ def blog(request):
             blogs.append(blog_post)
     return render(request, "comics/blog.html", {'blogs':blogs})
 
-@login_required
-def preview(request, comic_slug):
-    comic = get_object_or_404(Comic, slug=comic_slug)
-    return render(request, "comics/single.html", {'preview': True,
-                                                  'slug': comic_slug,
-                                                  'comic': comic})
 
 
 @login_required
@@ -202,4 +206,44 @@ def delete_blog(request, comic_slug, slug):
     logger.info("{} deleted".format(blog))
     messages.add_message(request, messages.INFO,
                          "\"{}\" Deleted".format(blog.title))
+    return HttpResponseRedirect(reverse('comics.views.manage'))
+
+@login_required
+def create_video(request, comic_slug):
+    comic = get_object_or_404(Comic, slug=comic_slug)
+    if request.method == 'POST':
+        form = VideoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Video Created!')
+            return HttpResponseRedirect(reverse("comics.views.manage"))
+    else:
+        form = VideoForm(initial={'comic':comic})
+
+    return render(request, 'comics/create_video.html', {'form': form, 'comic_slug': comic_slug})
+
+
+@login_required
+def update_video(request, comic_slug, slug):
+    video = get_object_or_404(Video, comic__slug=comic_slug, slug=slug)
+    print("Video {} Updated".format(video))
+    if request.method == 'POST':
+        form = VideoForm(request.POST, instance=video)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Video Updated!')
+            return HttpResponseRedirect(reverse("comics.views.manage"))
+    else:
+        form = VideoForm(instance=video)
+
+    return render(request, 'comics/update_video.html', {'form': form, 'comic_slug': comic_slug, 'slug': slug})
+
+
+@login_required
+def delete_video(request, comic_slug, slug):
+    video = get_object_or_404(Video, comic__slug=comic_slug, slug=slug)
+    video.hide()
+    logger.info("{} deleted".format(video))
+    messages.add_message(request, messages.INFO,
+                         "\"{}\" Deleted".format(video.title))
     return HttpResponseRedirect(reverse('comics.views.manage'))

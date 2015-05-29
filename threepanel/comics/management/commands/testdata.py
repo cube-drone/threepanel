@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from slugify import slugify
 
-from comics.models import Comic, Blog
+from comics.models import Comic, Blog, Video, Image
 from publish.models import EmailSubscriber
 from django.contrib.auth.models import User
 import random_name
@@ -47,6 +47,24 @@ def create_blogs(comics):
         b.save()
         print("Creating {}".format(b))
 
+def create_videos(comics):
+    for comic in comics:
+        vcode = random.choice(['VYvMOf3hsGA',
+            'uAOQQogTiaI',
+            'oiMZa8flyYY',
+            'Rb4lgOiHBZo',
+            'RrG4JnrN5GA',
+            'eA0RF5ciJXE',
+            'Bifmj1O3D24',
+            'YLO7tCdBVrA'
+        ])
+        v = Video(comic=comic,
+                  title=random_name.thing().title(),
+                  youtube_video_code=vcode)
+        v.save()
+        print("Creating {}".format(v))
+
+
 def create_subscribers():
     for i in range(0, 6):
         n_hours_ago = timezone.now() - datetime.timedelta(hours=12*i)
@@ -69,5 +87,6 @@ class Command(BaseCommand):
 
         comics = create_comics()
         create_blogs(comics)
+        create_videos(comics)
         create_subscribers()
 

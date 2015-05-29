@@ -1,0 +1,20 @@
+{% extends "management.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block head_title %}Create New Video{% endblock %}
+{% block title %}Create New Video{% endblock %}
+{% block extraheader %}
+{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'comics.views.create_video' comic_slug=comic_slug %}" method='POST'>
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    <input type='submit' value="Create Video"></input>
+</form>
+
+
+{% endblock %}

@@ -168,7 +168,9 @@ class Comic(models.Model):
         now = timezone.now()
         return (Comic.objects.filter(hidden=False, posted__gt=now)
                                        .order_by('-posted')
-                                       .prefetch_related("blogs"))
+                                       .prefetch_related("blogs")
+                                       .prefetch_related("video")
+                                       .prefetch_related("image"))
 
     @classmethod
     def trash(cls):
@@ -177,6 +179,14 @@ class Comic(models.Model):
     @property
     def blog_posts(self):
         return self.blogs.filter(hidden=False).order_by("-created")
+
+    @property
+    def videos(self):
+        return self.video.filter(hidden=False).order_by("-created")
+
+    @property
+    def images(self):
+        return self.image.filter(hidden=False).order_by("-created")
 
     @property
     def has_blogs(self):
@@ -241,4 +251,74 @@ class Blog(models.Model):
         self.render()
         super().save()
         cache.clear()
+
+
+class Video(models.Model):
+    """
+    A unit of YouTube video content attached to a comic.
+    """
+    comic = models.ForeignKey('Comic', related_name="video")
+    title = models.CharField(max_length=100,
+        help_text="The title of the video")
+    youtube_video_code = models.CharField(max_length=20,
+        help_text="The youtube video code - like 'izGwDsrQ1eQ'")
+
+    hidden = models.BooleanField(default=False)
+
+    created = models.DateTimeField()
+
+    slug = AutoSlugField(populate_from=lambda c: c.title,
+                         db_index=True,
+                         slugify=slugify)
+
+    def __str__(self):
+        return "<Video: {}>".format(self.slug)
+
+    def hide(self):
+        self.hidden = True
+        self.save()
+
+    def save(self):
+        if not self.id:
+            self.created = timezone.now()
+        super().save()
+        cache.clear()
+
+
+class Image(models.Model):
+    """
+    A unit of image content attached to a comic.
+    """
+    comic = models.ForeignKey('Comic', related_name="image")
+    title = models.CharField(max_length=100,
+        help_text="The title of the image")
+    image_url = models.CharField(max_length=300,
+        help_text="The url to the image file")
+    secret_text = models.TextField(blank=True, null=False, default="",
+        help_text="A small amount of text that pops up below the image")
+    alt_text = models.TextField(blank=True, null=False, default="",
+        help_text="""A complete transcript of the image, for screenreaders
+                    and search engines""")
+
+    hidden = models.BooleanField(default=False)
+
+    created = models.DateTimeField()
+
+    slug = AutoSlugField(populate_from=lambda c: c.title,
+                         db_index=True,
+                         slugify=slugify)
+
+    def __str__(self):
+        return "<Video: {}>".format(self.slug)
+
+    def hide(self):
+        self.hidden = True
+        self.save()
+
+    def save(self):
+        if not self.id:
+            self.created = timezone.now()
+        super().save()
+        cache.clear()
+
 

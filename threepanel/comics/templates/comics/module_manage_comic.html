@@ -31,7 +31,7 @@
         <ul class='list-group col-sm-10 col-sm-offset-1'>
         {% for blog in comic.blog_posts %}
             <li class='list-group-item'>
-            <h5>{{blog.title}}</h5>
+            <h5><span class='glyphicon glyphicon-font'></span> - {{blog.title}}</h5>
             <div class='blog_excerpt'>
                 {{blog.markdown_rendered | truncatewords_html:20 | safe}}
             </div>
@@ -42,7 +42,19 @@
             </form>
             </li>
         {% endfor %}
+        {% for video in comic.videos %}
+            <li class='list-group-item'>
+            <h5><span class='glyphicon glyphicon-play'></span> - {{video.title}}</h5>
+            <form class='btn-group btn-group-sm'
+                  action="{% url 'comics.views.delete_video' comic_slug=comic.slug slug=video.slug %}" method='POST'>
+                {% csrf_token %}
+                <input class='btn btn-default' type='submit' value="Delete"></input>
+                <a class='btn btn-default' href="{% url 'comics.views.update_video' comic_slug=comic.slug slug=video.slug %}">Update</a>
+            </form>
+            </li>
+        {% endfor %}
             <a class='list-group-item' href="{% url 'comics.views.create_blog' comic_slug=comic.slug %}">Create Blog Post</a>
+            <a class='list-group-item' href="{% url 'comics.views.create_video' comic_slug=comic.slug %}">Create Video</a>
         </ul>
     </div>
 </li>

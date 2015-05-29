@@ -33,8 +33,8 @@ def dj(command):
 
 @task()
 def runserver():
-    print("Running server on localhost:8000")
-    return dj("runserver 0:8000")
+    print("Running server on localhost:8080")
+    return dj("runserver 0:8080")
 
 @task()
 def celery():
@@ -45,6 +45,10 @@ def celery():
 def beat():
     print("We love the beat we love the beat... we love the beat!")
     return dev("celery --app=threepanel beat")
+
+@task()
+def clear():
+    dj("clear_cache")
 
 @task()
 def reset():
