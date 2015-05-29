@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.core.cache import cache
+from django.conf import settings
+from django.core.urlresolvers import reverse
 
 from autoslug import AutoSlugField
 from slugify import slugify
@@ -179,6 +181,17 @@ class Comic(models.Model):
     @property
     def has_blogs(self):
         return len(self.blog_posts) > 0
+
+    def absolute_url(self):
+        site_url = settings.SITE_URL
+        comic_relative_url = reverse('comics.views.single_by_numerical_order',
+                                     kwargs={'n':self.order})
+        return "{}{}".format(site_url, comic_relative_url)
+
+    def twitter_message(self):
+        promo_len = 138 - len(self.absolute_url())
+        return self.promo_text[:promo_len] + "\n " + self.absolute_url()
+
 
     def __str__(self):
         return "<Comic: {}>".format(self.slug)

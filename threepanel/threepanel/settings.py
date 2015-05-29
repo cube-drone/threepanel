@@ -147,7 +147,7 @@ else:
     pass
 EMAIL_SUBJECT_PREFIX = "[cube_drone] "
 SERVER_EMAIL = "noreply@cubedrone.com"
-SITE_URL = "http://localhost:8080"
+SITE_URL = "http://localhost:8000"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

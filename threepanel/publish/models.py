@@ -56,10 +56,7 @@ class EmailSubscriber(models.Model):
     def send_promo_email(self, comic):
         site_options = SiteOptions.get()
 
-        site_url = settings.SITE_URL
-        comic_relative_url = reverse('comics.views.single',
-                                     kwargs={'comic_slug':comic.slug})
-        comic_absolute_url = "{}{}".format(site_url, comic_relative_url)
+        comic_absolute_url = comic.absolute_url()
 
         subject = "{} - {}".format(site_options.title, comic.title)
         message = COMIC_EMAIL.format(promo_text=comic.promo_text,

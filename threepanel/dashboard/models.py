@@ -29,6 +29,11 @@ class SiteOptions(models.Model):
     twitter_username = models.CharField(max_length=50, default="classam")
     twitter_widget_id = models.CharField(max_length=50, default="304715092187025408")
 
+    twitter_consumer_key = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
+    twitter_consumer_secret = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
+    twitter_access_key = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
+    twitter_access_secret = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
+
     def save(self):
         super().save()
         cache.clear()
