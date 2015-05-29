@@ -7,12 +7,16 @@ from django.core.mail import mail_admins
 from dashboard.views import render
 from dashboard.models import SiteOptions
 
+from slugify import slugify
+
+import random_name
 from .models import EmailSubscriber, SpamSpamSpamSpam
 
 
 def subscribe(request):
     """ A page detailing all of the fantastic ways one can subscribe """
-    return render(request, 'publish/subscribe.html')
+    random_email = "{}@sample.org".format(slugify(random_name.proper_name()))
+    return render(request, 'publish/subscribe.html', {'random_email':random_email})
 
 def subscribe_email(request):
     """ POST an e-mail address to subscribe """

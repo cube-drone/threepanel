@@ -12,28 +12,28 @@
     <ul class="pager">
         {% if comic.previous %}
             <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.first %}">
-                <span class='glyphicon glyphicon-backward'></span> First</a></li>
+                <span class='glyphicon glyphicon-backward'></span> <span class='hidden-xs hidden-sm'>First</span></a></li>
             <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.previous %}">
-                <span class='glyphicon glyphicon-chevron-left'></span> Previous</a></li>
+                <span class='glyphicon glyphicon-chevron-left'></span> <span class='hidden-xs hidden-sm'>Previous</span></a></li>
         {% else %}
             <li class='disabled'><a href="#">
-                <span class='glyphicon glyphicon-backward'></span> First</a></li>
+                <span class='glyphicon glyphicon-backward'></span> <span class='hidden-xs hidden-sm'>First</span></a></li>
             <li class='disabled'><a href="#">
-                <span class='glyphicon glyphicon-chevron-left'></span> Previous</a></li>
+                <span class='glyphicon glyphicon-chevron-left'></span> <span class='hidden-xs hidden-sm'>Previous</span></a></li>
         {% endif %}
 
-        <li><a href="{% url 'comics.views.archives' %}"><span class='glyphicon glyphicon-search'></span> Archives</a></li>
+        <li><a href="{% url 'comics.views.archives' %}"><span class='glyphicon glyphicon-search'></span> <span class='hidden-xs hidden-sm'>Archives</span></a></li>
 
         {% if not comic.is_hero %}
             <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.next %}">
-                <span class='glyphicon glyphicon-chevron-right'></span> Next</a></li>
+                <span class='glyphicon glyphicon-chevron-right'></span> <span class='hidden-xs hidden-sm'>Next</span></a></li>
             <li><a href="{% url 'comics.views.single_by_numerical_order' n=comic.last %}">
-                <span class='glyphicon glyphicon-forward'></span> Last</a></li>
+                <span class='glyphicon glyphicon-forward'></span> <span class='hidden-xs hidden-sm'>Last</span></a></li>
         {% else %}
             <li class='disabled'><a href="#">
-                <span class='glyphicon glyphicon-chevron-right'></span> Next</a></li>
+                <span class='glyphicon glyphicon-chevron-right'></span> <span class='hidden-xs hidden-sm'>Next</span></a></li>
             <li class='disabled'><a href="#">
-                <span class='glyphicon glyphicon-forward'></span> Last</a></li>
+                <span class='glyphicon glyphicon-forward'></span> <span class='hidden-xs hidden-sm'>Last</span></a></li>
         {% endif %}
     </ul>
 </nav>
@@ -42,9 +42,9 @@
     <img class='comic img-responsive' src='{{comic.image_url}}' alt='{{comic.alt_text}}' title='{{comic.secret_text}}' />
     <div class='caption'>
         <div class='row'>
-            <div class='col-sm-2'><div class='order bg-primary'>{{comic.order}}</div></div>
+            <div class='col-sm-2 hidden-xs hidden-sm'><div class='order bg-primary'>{{comic.order}}</div></div>
             <div class='col-sm-10'>
-                <h2 class='title'>{{comic.title}} - <small>{{comic.posted}}</small></h2>
+                <h2 class='comic_title'>{{comic.title}} - <small>{{comic.posted}}</small></h2>
                 <p class='secret_text'><em>{{comic.secret_text}}</em></p>
                 <p class='url'><strong>Share Url:</strong> {{permalink}} </p>
             </div>
@@ -78,18 +78,38 @@
             <div class='well well-sm'>
                 <h2>{{video.title}}</h2>
                 <div class='content'>
-                <iframe width="650" height="350" src="https://www.youtube.com/embed/{{video.youtube_video_code}}" frameborder="0" allowfullscreen></iframe>
+                <iframe class='embed' src="https://www.youtube.com/embed/{{video.youtube_video_code}}" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
     {% endfor %}
-        <a class='btn btn-primary' href="{% url 'comics.views.blog' %}">All Blog Posts</a>
-    {% if dashboard.youtube_channel %}
-        <a class='btn btn-primary' href="{{ dashboard.youtube_channel }}">All Videos</a>
-    {% endif %}
     </div>
     {% endif %}
-    <div class='col-sm-4'><h2>Meet The Cast!</h2></div>
-    <div class='col-sm-4'><h2><a href='{% url 'publish.views.subscribe' %}'>Subscribe!<a></h2></div>
+    <div class='col-sm-4'>
+        <h2><a href="#" class='btn btn-primary'>
+                <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/meet.png" alt="Meet the Cast!"/>
+            </a>
+        </h2>
+    </div>
+    <div class='col-sm-4'>
+        <h2><a class='btn btn-primary' href='{% url 'publish.views.subscribe' %}'>
+                <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/subscribe.png" alt="Subscribe!"/>
+            </a>
+        </h2>
+    </div>
+    <div class='col-sm-4'>
+        <h2><a class='btn btn-primary' href='{% url 'comics.views.blog' %}'>
+                <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/blog.png" alt="Blog!"/>
+            </a>
+        </h2>
+    </div>
+    {% if dashboard.youtube_channel %}
+    <div class='col-sm-4'>
+        <h2><a class='btn btn-primary' href='{{ dashboard.youtube_channel }}'>
+                <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/video.png" alt="Video!"/>
+            </a>
+        </h2>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}
