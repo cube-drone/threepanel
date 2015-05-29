@@ -147,7 +147,11 @@ class Comic(models.Model):
         Return the current 'hero' comic.
         """
         now = timezone.now()
-        return Comic.objects.filter(hidden=False, posted__lte=now).order_by('-posted')[0]
+        comics = Comic.objects.filter(hidden=False, posted__lte=now).order_by('-posted')
+        if len(comics) > 0:
+            return comics[0]
+        else:
+            return None
 
     @classmethod
     def archives(cls):

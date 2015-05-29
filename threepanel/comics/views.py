@@ -18,6 +18,14 @@ logger = logging.getLogger(__name__)
 
 def home(request):
     hero = Comic.hero()
+    if not hero:
+        c = Comic(title="Hello World",
+                  image_url="http://curtis.lassam.net/comics/cube_drone/misc_assets/mail.png",
+                  posted = timezone.now(),
+                  published = True,
+                  secret_text = "There aren't any comics on this site, yet!")
+        c.save()
+        hero = Comic.hero()
     permalink = _permalink(request, hero.slug)
     return render(request,
                   "comics/single.html",

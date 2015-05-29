@@ -6,7 +6,7 @@ SLUG = "(?P<slug>[-_\w]+)"
 urlpatterns = patterns('',
     # View
     url(r'^$', 'comics.views.home', name='home'),
-    url(r'c/(?P<n>[0-9]+)', 'comics.views.single_by_numerical_order'),
+    url(r'n/(?P<n>[0-9]+)', 'comics.views.single_by_numerical_order'),
     url(r'c/' + COMIC_SLUG, 'comics.views.single', name='single'),
     url(r'p/' + COMIC_SLUG, 'comics.views.preview', name='preview'),
 
