@@ -37,9 +37,13 @@ TIME_ZONE = 'America/Vancouver'
 USE_TZ = True
 
 CELERYBEAT_SCHEDULE = {
-    'words-go-here':{
+    'publish':{
         'task':'comics.tasks.publish',
         'schedule': timedelta(minutes=10),
+    },
+    'tidy-subscribers':{
+        'task':'publish.tasks.tidy_subscribers',
+        'schedule': timedelta(days=1),
     }
 }
 CELERY_IGNORE_RESULT = True

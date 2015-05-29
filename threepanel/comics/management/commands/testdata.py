@@ -75,7 +75,7 @@ def create_images(comics):
         print("Creating {}".format(i))
 
 def create_subscribers():
-    for i in range(0, 6):
+    for i in range(0, 15):
         n_hours_ago = timezone.now() - datetime.timedelta(hours=12*i)
         email = "{}@sample.org".format(slugify(random_name.proper_name()))
         verified = i % 2 == 0
@@ -83,6 +83,7 @@ def create_subscribers():
                             verified = verified)
         e.save()
         e.last_email_sent = n_hours_ago
+        e.created = n_hours_ago
         e.save()
         print("Creating {}".format(e))
 

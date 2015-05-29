@@ -104,8 +104,11 @@ class EmailSubscriber(models.Model):
         two_days_old = timezone.now() - timedelta(days=2)
         unverified = EmailSubscriber.objects.filter(verified=False,
                                                     created__lt=two_days_old)
+        if not unverified:
+            return []
         for subscriber in unverified:
             subscriber.delete()
+        return unverified
 
     @classmethod
     def subscribers(cls):
