@@ -39,10 +39,11 @@ USE_TZ = True
 CELERYBEAT_SCHEDULE = {
     'words-go-here':{
         'task':'comics.tasks.publish',
-        'schedule': timedelta(seconds=10),
+        'schedule': timedelta(minutes=10),
     }
 }
-
+CELERY_IGNORE_RESULT = True
+CELERY_DISABLE_RATE_LIMITS = True
 
 LOGGING = {
     'version': 1,
