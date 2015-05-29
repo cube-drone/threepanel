@@ -33,4 +33,9 @@ urlpatterns = patterns('',
     url(r'^manage/update/' + COMIC_SLUG + '/create_video$', 'comics.views.create_video', name='create_video'),
     url(r'^manage/update/' + COMIC_SLUG + '/update_video/' + SLUG, 'comics.views.update_video', name='update_video'),
     url(r'^manage/update/' + COMIC_SLUG + '/delete_video/' + SLUG, 'comics.views.delete_video', name='delete_video'),
+
+    # Images
+    url(r'^manage/update/' + COMIC_SLUG + '/create_image$', 'comics.views.create_image', name='create_image'),
+    url(r'^manage/update/' + COMIC_SLUG + '/update_image/' + SLUG, 'comics.views.update_image', name='update_image'),
+    url(r'^manage/update/' + COMIC_SLUG + '/delete_image/' + SLUG, 'comics.views.delete_image', name='delete_image'),
 )

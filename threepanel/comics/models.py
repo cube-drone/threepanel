@@ -26,6 +26,7 @@ class Comic(models.Model):
     alt-text, secret-text, when it was posted, what it's called...
     """
     slug = AutoSlugField(populate_from=lambda c: c.title,
+                         unique=True,
                          db_index=True,
                          slugify=slugify)
 
@@ -224,14 +225,9 @@ class Blog(models.Model):
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
-    search_index = VectorField()
-
-    objects = SearchManager(
-        fields = ('title', 'markdown'),
-        auto_update_search_field = True)
-
     slug = AutoSlugField(populate_from=lambda c: c.title,
                          db_index=True,
+                         unique=True,
                          slugify=slugify)
 
     def __str__(self):
@@ -268,6 +264,7 @@ class Video(models.Model):
     created = models.DateTimeField()
 
     slug = AutoSlugField(populate_from=lambda c: c.title,
+                         unique=True,
                          db_index=True,
                          slugify=slugify)
 
@@ -305,11 +302,12 @@ class Image(models.Model):
     created = models.DateTimeField()
 
     slug = AutoSlugField(populate_from=lambda c: c.title,
+                         unique=True,
                          db_index=True,
                          slugify=slugify)
 
     def __str__(self):
-        return "<Video: {}>".format(self.slug)
+        return "<Image: {}>".format(self.slug)
 
     def hide(self):
         self.hidden = True

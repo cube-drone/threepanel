@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import mail_admins
 
 from dashboard.views import render
 from dashboard.models import SiteOptions
@@ -26,6 +27,8 @@ def subscribe_email(request):
         siteoptions = SiteOptions.get()
         try:
             subscriber.send_verification_email()
+            mail_admins(subject="Stage 1'd",
+                        message=email)
         except SpamSpamSpamSpam:
             return HttpResponseRedirect(reverse("publish.views.spam"))
 
@@ -41,6 +44,8 @@ def verify(request, email, verification_code):
         e = EmailSubscriber.objects.get(email=email, verification_code=verification_code)
         e.verified = True
         e.save()
+        mail_admins(subject="Verified!",
+                    message=email)
         return render(request, "publish/verify_success.html")
     except EmailSubscriber.DoesNotExist:
         return render(request, "publish/verify_failure.html")

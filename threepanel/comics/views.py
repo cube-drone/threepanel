@@ -247,3 +247,43 @@ def delete_video(request, comic_slug, slug):
     messages.add_message(request, messages.INFO,
                          "\"{}\" Deleted".format(video.title))
     return HttpResponseRedirect(reverse('comics.views.manage'))
+
+@login_required
+def create_image(request, comic_slug):
+    comic = get_object_or_404(Comic, slug=comic_slug)
+    if request.method == 'POST':
+        form = ImageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Image Created!')
+            return HttpResponseRedirect(reverse("comics.views.manage"))
+    else:
+        form = ImageForm(initial={'comic':comic})
+
+    return render(request, 'comics/create_image.html', {'form': form, 'comic_slug': comic_slug})
+
+
+@login_required
+def update_image(request, comic_slug, slug):
+    image = get_object_or_404(Image, comic__slug=comic_slug, slug=slug)
+    print("Image {} Updated".format(image))
+    if request.method == 'POST':
+        form = ImageForm(request.POST, instance=image)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Image Updated!')
+            return HttpResponseRedirect(reverse("comics.views.manage"))
+    else:
+        form = ImageForm(instance=image)
+
+    return render(request, 'comics/update_image.html', {'form': form, 'comic_slug': comic_slug, 'slug': slug})
+
+
+@login_required
+def delete_image(request, comic_slug, slug):
+    image = get_object_or_404(Image, comic__slug=comic_slug, slug=slug)
+    image.hide()
+    logger.info("{} deleted".format(image))
+    messages.add_message(request, messages.INFO,
+                         "\"{}\" Deleted".format(image.title))
+    return HttpResponseRedirect(reverse('comics.views.manage'))

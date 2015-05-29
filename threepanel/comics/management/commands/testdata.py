@@ -64,6 +64,15 @@ def create_videos(comics):
         v.save()
         print("Creating {}".format(v))
 
+def create_images(comics):
+    for comic in comics:
+        i = Image(comic=comic,
+                  title=random_name.thing().title(),
+                  image_url="http://curtis.lassam.net/comics/cube_drone/{}.gif".format(random.choice(range(0, 140))),
+                  secret_text=random_name.thing(),
+                  alt_text=random_name.adjective())
+        i.save()
+        print("Creating {}".format(i))
 
 def create_subscribers():
     for i in range(0, 6):
@@ -88,5 +97,6 @@ class Command(BaseCommand):
         comics = create_comics()
         create_blogs(comics)
         create_videos(comics)
+        create_images(comics)
         create_subscribers()
 

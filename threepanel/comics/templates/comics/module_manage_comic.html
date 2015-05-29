@@ -14,8 +14,8 @@
             {% endif %}
         {% endfor %}
         </div>
-        <p><span class='glyphicon glyphicon-bullhorn'></span> {{comic.promo_text}}</p>
-        <p><span class='glyphicon glyphicon-search'></span> <em>{{comic.secret_text}}</em></p>
+        <p><span class='glyphicon glyphicon-bullhorn'></span> &mdash; {{comic.promo_text}}</p>
+        <p><span class='glyphicon glyphicon-search'></span> &mdash; <em>{{comic.secret_text}}</em></p>
         <p><small>{{comic.alt_text|linebreaks}}</small></p>
     </div>
     <form class='col-sm-4 btn-group btn-group-sm' action="{% url 'comics.views.delete' comic_slug=comic.slug %}" method='POST'>
@@ -29,6 +29,17 @@
     {% endif %}
     <div class='row'>
         <ul class='list-group col-sm-10 col-sm-offset-1'>
+        {% for image in comic.images %}
+            <li class='list-group-item'>
+            <h5><span class='glyphicon glyphicon-picture'></span> - {{image.title}}</h5>
+            <form class='btn-group btn-group-sm'
+                  action="{% url 'comics.views.delete_image' comic_slug=comic.slug slug=image.slug %}" method='POST'>
+                {% csrf_token %}
+                <input class='btn btn-default' type='submit' value="Delete"></input>
+                <a class='btn btn-default' href="{% url 'comics.views.update_image' comic_slug=comic.slug slug=image.slug %}">Update</a>
+            </form>
+            </li>
+        {% endfor %}
         {% for blog in comic.blog_posts %}
             <li class='list-group-item'>
             <h5><span class='glyphicon glyphicon-font'></span> - {{blog.title}}</h5>
@@ -53,6 +64,7 @@
             </form>
             </li>
         {% endfor %}
+            <a class='list-group-item' href="{% url 'comics.views.create_image' comic_slug=comic.slug %}">Create Image</a>
             <a class='list-group-item' href="{% url 'comics.views.create_blog' comic_slug=comic.slug %}">Create Blog Post</a>
             <a class='list-group-item' href="{% url 'comics.views.create_video' comic_slug=comic.slug %}">Create Video</a>
         </ul>
