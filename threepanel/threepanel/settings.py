@@ -103,7 +103,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-#    'djrill',
+    'djrill',
     'datetimewidget',
     'bootstrap3',
     'djorm_fulltext',
@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'dashboard',
     'comics',
     'publish',
+    'pages'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -154,8 +155,8 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     # This is a test key
-    #MANDRILL_API_KEY = "b8sBJX8OdA2oXrlhTUlCng"
-    #MANDRILL_API_KEY = os.getenv('DJANGO_MANDRILL', MANDRILL_API_KEY)
+    MANDRILL_API_KEY = "b8sBJX8OdA2oXrlhTUlCng"
+    MANDRILL_API_KEY = os.getenv('DJANGO_MANDRILL', MANDRILL_API_KEY)
     pass
 EMAIL_SUBJECT_PREFIX = "[cube_drone] "
 SERVER_EMAIL = "noreply@cubedrone.com"

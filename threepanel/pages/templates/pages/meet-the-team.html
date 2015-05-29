@@ -1,0 +1,272 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block head_title %}{{dashboard.site_name}} - Meet the Team{% endblock %}
+
+{% block content %}
+<div class='row'>
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/cube_drone.png" alt="Cube Drone">
+      <div class="caption">
+        <h3>Cube Drone</h3>
+        <p>The titular character, Cube Drone is an ex-Java programmer
+        working for a trendy startup company in Vancouver.</p>
+        <p>Cube Drone predates the "Cube Drone" comic strip -
+        I've been drawing him since I worked at TELUS, although
+        he shaved his terrible moustache when he left the giant telecom
+        and started a strip of his own.</p>
+        <p>Cube Drone is the developer. Not the team lead,
+        or the senior developer, the front-end developer,
+        the dev/ops, or the back-end guy, he's just a vanilla developer.</p>
+        <p>Canonically, Cube Drone is the one responsible for the
+        Cube Drone animated shorts, although they're hosted on my
+        youtube account.</p>
+        <p>Cube Drone is suspicious of change, a cynic, a worrier,
+        the sort who's more concerned with his own lunch than his
+        company's goals.</p>
+
+        <h4>Favourite Books</h4>
+        <ul>
+            <li><a href="http://amzn.to/14Zfyuj">Clean Code</a></li>
+            <li><a href="http://www.cryptonomicon.com/beginning.html">In The Beginning Was the Command Line</a></li>
+            <li><a href="http://amzn.to/1xYtKiE">The Laundry Files</a></li>
+        </ul>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='cube-drone' %}" class="btn btn-primary" role="button">Find Cube Drone in the Archives</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/lain.png" alt="Lain">
+      <div class="caption">
+        <h3>Lain</h3>
+
+        <p>A front-end developer and designer.
+            Lain is a coder and artist.
+            She likes markers, and has a framed unicorn t-shirt at her desk.
+            Lain is an avid privacy advocate.
+            Lain wears a heavy jacket to work, even on hot days,
+            for reasons that she'd rather not discuss with you.
+            The office is air-conditioned anyways.</p>
+
+        <p>Lain is opinionated about food options in the city.
+        She's tried every food-truck in Vancouver and keeps an up-to-date
+        ranking of them on her blog. </p>
+
+        <h4>Favourite Books</h4>
+        <ul>
+            <li><a href="http://amzn.to/1z9KIfV">Don't Make Me Think</a></li>
+            <li><a href="http://amzn.to/1DXayTc">The Design of Everyday Things</a></li>
+            <li><a href="http://amzn.to/1z9KV2K">The Elements of Typographic Style</a></li>
+            <li><a href="http://amzn.to/14ZqJ6i">Secrets of the Javascript Ninja</a></li>
+        </ul>
+
+        <h4>Favourite Vancouver Restaurants</h4>
+        <ul>
+            <li><a href="http://www.yelp.com/biz/save-on-meats-vancouver">Save on Meats</a></li>
+            <li><a href="http://www.yelp.com/biz/finchs-tea-and-coffee-house-vancouver">Finch's Tea &amp; Coffee House</a></li>
+            <li><a href="http://www.yelp.com/biz/phnom-penh-vancouver">Phnom Penh</a></li>
+            <li><a href="http://www.yelp.com/biz/gyu-kaku-japanese-bbq-vancouver-4">Gyu Kaku</a></li>
+        </ul>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='lain' %}" class="btn btn-primary" role="button">Find Lain in the Archives</a>
+        </p>
+      </div>
+    </div>
+
+
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/walt.png" alt="Walt Rock">
+      <div class="caption">
+        <h3>Walt Rock</h3>
+
+        <p>Every team needs a project manager.
+        Walt is that project manager.
+        He's the Rands, the man in touch with both the needs of his
+        engineering team and the needs of the C*-level executives above him
+        &mdash; at the expense of being treated with a certain amount of
+        suspicion by both.</p>
+
+        <p>
+        Don't be fooled, though - Walt's an experienced programmer as well
+        - he just doesn't get as many opportunities to code as he used to.</p>
+
+        <p>
+        Walt is endlessly optimistic.
+        He's not just a glass half full type,
+        he's the sort of guy who would be delighted by an empty glass -
+        hey, free glass, right?
+        </p>
+
+
+        <h4>Favourite Books</h4>
+        <ul>
+            <li><a href="http://amzn.to/1wXVpwc">Peopleware: Productive Products and Teams</a></li>
+            <li><a href="http://amzn.to/1IIWWMe">Managing Humans</a></li>
+            <li><a href="http://amzn.to/1u55Xsq">Machiavelli's "The Prince"</a></li>
+        </ul>
+
+        <h4>Favourite Drinks</h4>
+        <ul>
+            <li>Scotch</li>
+            <li>Rum &amp; Pineapple Juice</li>
+            <li>Gin &amp; Tonic</li>
+            <li>Planter's Punch</li>
+        </ul>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='walt' %}" class="btn btn-primary" role="button">Find Walt in the Archives</a>
+        </p>
+      </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/miloslav.png" alt="Miloslav">
+      <div class="caption">
+        <h3>Miloslav</h3>
+
+        <p> Senior developer. Vaguely eastern-European,
+        although if you ask him where exactly he's from,
+        he'll just mumble something in an unidentifiable slavic
+        and then change the subject. Miloslav speaks at least four
+        languages fluently. (I don't, though, so don't expect
+        him to crack those out too often.)</p>
+
+        <p> Miloslav is pragmatic, has successfully completed a lot
+        of projects, and likes to project an air of competence,
+        authority, and grumpiness.</p>
+
+        <p> Upon discovering his first gray hair he shaved his entire head.
+        Some say out of vanity. Some say it was revenge. </p>
+
+        <h4>Details</h4>
+        <ul>
+            <li>He prefers not to say</li>
+        </ul>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='milo' %}" class="btn btn-primary" role="button">Find Milo in the Archives</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/warbeard.png" alt="Warbeard">
+      <div class="caption">
+        <h3>Warbeard the Mighty</h3>
+
+        <p>The operations guy. A tightly-wound ball of stress and
+        invective, he keeps all of the servers running.
+        He plays an obscene amount of D&amp;D, and he has a beard.
+        Thus the name.</p>
+
+        <p>Warbeard does not like new technology, and he especially doesn't
+        like developers mucking around with his pristine deployment
+        environments. He does his level best to keep everything
+        that the team throws at him up and running, but it's a hard job,
+        and he's the only ops guy on the team.
+        Seriously, they could at least hire someone to give him a break
+        from pager duty now and then, right?</p>
+
+        <p>Warbeard has many opinions about board games.
+        He will share them with you if you are not careful. </p>
+
+        <h4>Favourite Games</h4>
+        <ul>
+            <li><a href="https://boardgamegeek.com/boardgame/124742/android-netrunner">Android: Netrunner</a></li>
+            <li><a href="https://boardgamegeek.com/boardgame/68448/7-wonders">7 Wonders</a></li>
+            <li><a href="https://boardgamegeek.com/boardgame/12493/twilight-imperium-third-edition">Twilight Imperium</a></li>
+            <li><a href="https://boardgamegeek.com/boardgame/36218/dominion">Dominion</a></li>
+            <li><a href="https://boardgamegeek.com/boardgame/30618/eat-poop-you-cat">Eat Poop You Cat</a></li>
+        </ul>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='warbeard' %}" class="btn btn-primary" role="button">Find Warbeard in the Archives</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/sparky.png" alt="Sparky">
+      <div class="caption">
+        <h3>Sparky</h3>
+
+        <p>A lot of the time, co-op or intern employees are intelligent,
+        motivated, and able to contribute a lot to your team while at
+        the same time learning a ton about coding in the real world.</p>
+
+        <p>Sparky is not that intern.</p>
+
+        <p>Sparky is intelligent, motivated, and practically unable to
+        operate any system more complicated than a toaster without
+        causing a cascading series of failures.</p>
+
+        <h4>Favourite Conference Talks</h4>
+        <ul>
+            <li><a href="https://www.youtube.com/watch?v=IGwNQfjLTp0">PyCon 2015 - Hash Functions and You: Partners in Freedom</a></li>
+            <li><a href="https://www.youtube.com/watch?v=v0TFmdO4ZP0">Javascript Masterclass</a></li>
+            <li><a href="https://www.youtube.com/watch?v=gGeH1Ytpfs0">Making a JS Meetup Blow Minds</a></li>
+        </ul>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='sparky' %}" class="btn btn-primary" role="button">Find Sparky in the Archives</a>
+        </p>
+      </div>
+    </div>
+</div>
+&nbsp;
+
+<div class='row'>
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/ceo.png" alt="CEO">
+      <div class="caption">
+        <h3>CEO</h3>
+
+        <p>Technically, his name is "James Tilligan Moneysnatch", but
+        everybody in the office just thinks of him as the CEO. </p>
+
+        <p>He stands to be made fantastically wealthy by the startup
+        that everybody works at, just so long as he can find someone who
+        is interested in buying it for a spectacular amount of money.</p>
+
+        <p>The CEO can speak in a special language composed mostly of
+        buzzwords and financial terms. Only Walt can understand this
+        language.</p>
+
+        <h4>Favourite Things</h4>
+        <ul>
+            <li>Money</li>
+            <li>Boats</li>
+        </ul>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='ceo' %}" class="btn btn-primary" role="button">Find CEO in the Archives</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="thumbnail col-sm-4">
+      <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/xyzzy.png" alt="XYZZY">
+      <div class="caption">
+        <h3>XYZZY</h3>
+
+        <p>XYZZY works from home, which is why he is almost never seen in the
+        comic.</p>
+
+        <p>Trust me, though - he's working!</p>
+
+        <p>
+            <a href="{% url 'comics.views.tag' slug='xyzzy' %}" class="btn btn-primary" role="button">Find XYZZY in the Archives</a>
+        </p>
+      </div>
+    </div>
+
+
+</div>
+
+{% endblock %}
