@@ -8,11 +8,13 @@ register = template.Library()
 def highlight(value, arg):
     if not arg:
         return value
-    slarg = slugify(arg)
+    slargs = []
+    for item in arg.split(" "):
+        slargs.append(slugify(item))
     lst = value.split(" ")
     new_lst = []
     for item in lst:
-        if slugify(item) == slarg:
+        if slugify(item) in slargs:
             new_lst.append("<strong class='result'>{}</strong>".format(item))
         else:
             new_lst.append(item)

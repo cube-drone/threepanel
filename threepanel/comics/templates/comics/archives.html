@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class='page-header'>
-    <h2>Archives
+    <h2><a href="{% url 'comics.views.archives' %}">Archives</a>
         {% if active_tag %}<small>{{active_tag}}</small>{% endif %}
         {% if search_term %}<small>{{search_term}}</small>{% endif %}
 
