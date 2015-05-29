@@ -62,7 +62,7 @@
 
 <div class='row'>
     {% if comic.has_blogs %}
-    <div class='col-sm-8'>
+    <div class='col-md-6 col-lg-8'>
     {% for image in comic.images %}
             <div class='well well-sm'>
                 <h2>{{image.title}}</h2>
@@ -89,26 +89,26 @@
     {% endfor %}
     </div>
     {% endif %}
-    <div class='col-sm-4'>
+    <div class='col-sm-6 col-md-5 col-lg-4'>
         <h2><a href="{% url 'pages.views.page' slug='meet-the-team' %}" class='btn btn-primary'>
                 <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/meet.png" alt="Meet the Cast!"/>
             </a>
         </h2>
     </div>
-    <div class='col-sm-4'>
+    <div class='col-sm-6 col-md-5 col-lg-4'>
         <h2><a class='btn btn-primary' href='{% url 'publish.views.subscribe' %}'>
                 <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/subscribe.png" alt="Subscribe!"/>
             </a>
         </h2>
     </div>
-    <div class='col-sm-4'>
+    <div class='col-sm-6 col-md-5 col-lg-4'>
         <h2><a class='btn btn-primary' href='{% url 'comics.views.blog' %}'>
                 <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/blog.png" alt="Blog!"/>
             </a>
         </h2>
     </div>
     {% if dashboard.youtube_channel %}
-    <div class='col-sm-4'>
+    <div class='col-sm-6 col-md-5 col-lg-4'>
         <h2><a class='btn btn-primary' href='{{ dashboard.youtube_channel }}'>
                 <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/video.png" alt="Video!"/>
             </a>
@@ -116,7 +116,7 @@
     </div>
     {% endif %}
     {% if dashboard.patreon_page %}
-    <div class='col-sm-4'>
+    <div class='col-sm-6 col-md-5 col-lg-4'>
         <h2><a class='btn btn-primary' href='{{ dashboard.patreon_page }}'>
                 <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/donate.png" alt="Donate"/>
             </a>
