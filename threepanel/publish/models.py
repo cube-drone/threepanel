@@ -50,7 +50,7 @@ class EmailSubscriber(models.Model):
 
         subject = "Welcome to {}!".format(site_options.title)
         message = VERIFICATION_EMAIL.format(verification_absolute_url)
-        messsage_html = VERIFICATION_EMAIL_HTML.format(verification_absolute_url)
+        message_html = VERIFICATION_EMAIL_HTML.format(verification_absolute_url)
         self.send_mail(subject, message, message_html)
 
     def send_promo_email(self, comic):
