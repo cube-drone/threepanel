@@ -1,0 +1,25 @@
+
+DEBUG = False
+TEMPLATE_DEBUG = False
+ALLOWED_HOSTS = ['.cubedrone.com', '.cube-drone.com', '.cubedrone.link', '.cubedrone.net']
+SECRET_KEY = '3dypq3o4^%4_7%nzbjo1n_7op524ors3mjurpqa!yh-%jehe8$'
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '/tmp/redis.sock',
+    },
+}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'threepanel',
+        'USER': 'threepanel',
+        'PASSWORD': 'threepass',
+        'HOST': 'localhost',
+    }
+}
+CACHE_MIDDLEWARE_ALIAS = "default"
+CACHE_MIDDLEWARE_SECONDS = 60 * 60
+
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+MANDRILL_API_KEY = "b8sBJX8OdA2oXrlhTUlCng"

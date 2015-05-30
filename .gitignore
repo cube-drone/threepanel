@@ -5,3 +5,4 @@ __pycache__
 *.db_backup
 get-pip*
 celerybeat-schedule
+production_settings.py
