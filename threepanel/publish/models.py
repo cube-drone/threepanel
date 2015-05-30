@@ -34,7 +34,7 @@ class EmailSubscriber(models.Model):
     def save(self):
         if not self.id:
             self.created = timezone.now()
-            self.last_email_sent = timezone.now()
+            self.last_email_sent = timezone.now() - timedelta(days=24)
         if not self.verification_code:
             self.verification_code = slugify(random_name.special_thing())
         super().save()
