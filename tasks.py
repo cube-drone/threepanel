@@ -68,6 +68,6 @@ def prod_restart():
     run("sudo service uwsgi restart")
 
 @task
-def prod_start()
+def prod_start():
     run("sudo service uwsgi start")
 
