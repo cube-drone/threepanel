@@ -61,6 +61,7 @@
 </div>
 
 <div class='row'>
+    {% if comic.images or comic.blog_posts or comic.videos %}
     <div class='col-md-6 col-lg-8'>
     {% for image in comic.images %}
             <div class='well well-sm'>
@@ -87,6 +88,8 @@
             </div>
     {% endfor %}
     </div>
+    {% endif %}
+
     <div class='col-sm-6 col-md-5 col-lg-4'>
         <h2><a href="{% url 'pages.views.page' slug='meet-the-team' %}" class='btn btn-primary'>
                 <img src="http://curtis.lassam.net/comics/cube_drone/misc_assets/meet.png" alt="Meet the Cast!"/>
