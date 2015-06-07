@@ -163,7 +163,7 @@ def update(request, comic_slug):
     else:
         form = ComicForm(instance=comic)
 
-    return render(request, 'comics/update.html', {'form': form, 'slug': comic_slug})
+    return render(request, 'comics/update.html', {'form': form, 'slug': comic_slug, 'comic':comic})
 
 
 @login_required
