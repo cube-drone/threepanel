@@ -199,8 +199,8 @@ class Comic(models.Model):
 
     def absolute_url(self):
         site_url = settings.SITE_URL
-        comic_relative_url = reverse('comics.views.single_by_numerical_order',
-                                     kwargs={'n':self.order})
+        comic_relative_url = reverse('comics.views.single',
+                                     kwargs={'comic_slug':self.slug})
         return "{}{}".format(site_url, comic_relative_url)
 
     def twitter_message(self):
