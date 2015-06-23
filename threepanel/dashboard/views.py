@@ -1,5 +1,6 @@
 import sys
 import datetime
+import random
 
 from django.shortcuts import render as django_render
 from django.http import HttpResponseRedirect
@@ -18,6 +19,7 @@ def render(request, template, options={}):
     dashboard.filename = f_code.co_filename
     options['dashboard'] = dashboard
     options['year'] = datetime.date.today().year
+    options['dice'] = random.choice([1,2,3,4,5,6])
     return django_render(request, template, options)
 
 

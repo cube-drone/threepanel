@@ -45,7 +45,16 @@
             <div class='col-sm-2 hidden-xs hidden-sm'><div class='order bg-primary'>{{comic.order}}</div></div>
             <div class='col-sm-10'>
                 <h2 class='comic_title'>{{comic.title}} - <small>{{comic.posted}}</small></h2>
-                <p class='secret_text'><em>{{comic.secret_text}}</em></p>
+                <p class='secret_text'><em>{{comic.secret_text}}</em> &mdash;
+                    {% for tag in comic.tags %}
+                        {% if active_tag == tag %}
+                            <strong><span class='glyphicon glyphicon-tag'></span> {{tag}}</strong>
+                        {% else %}
+                            <em><a href='{% url 'comics.views.tag' slug=tag %}'>
+                                <span class='glyphicon glyphicon-tag'></span> {{tag}}</a></em>
+                        {% endif %}
+                    {% endfor %}
+                </p>
                 <p class='url'><strong>Share Url:</strong> {{permalink}} </p>
                 <p class='share'>
                     <a href="http://twitter.com/share?url={{comic.absolute_url}}&text={{comic.promo_text|urlencode}}">Share on Twitter</a>
@@ -93,6 +102,14 @@
                 </div>
             </div>
     {% endfor %}
+    {% if dice < 3 %}
+        <div class='well well-sm'>
+            <!-- Google Ad -->
+            <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6640687113189982" data-ad-slot="9119781951" data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    {% endif %}
     </div>
     {% endif %}
 
