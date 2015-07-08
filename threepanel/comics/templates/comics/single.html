@@ -87,7 +87,7 @@
     {% endfor %}
     {% for blog in comic.blog_posts %}
             <div class='well well-sm'>
-                <h2 name="{{blog.title}}">{{blog.title}}</h2>
+                <h2 name="{{blog.title}}" id="{{blog.title}}">{{blog.title}}</h2>
                 <div class='content'>
                 {{blog.markdown_rendered|safe}}
                 </div>
