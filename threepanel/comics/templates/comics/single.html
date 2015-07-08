@@ -78,24 +78,27 @@
 <div class='row'>
     <div class='col-md-6 col-lg-8'>
     {% for image in comic.images %}
-            <div class='well well-sm'>
-                <h2 name="{{image.title}}">{{image.title}}</h2>
+            <div id="{{image.title}}" class='well well-sm'>
+                <img style='width:200px' src="http://curtis.lassam.net/comics/cube_drone/misc_assets/blog.png" alt="Blog!"/>
+                <h2>{{image.title}}</h2>
                 <div class='content'>
                     <img class='img-responsive' src='{{image.image_url}}' alt='{{image.alt_text}}' title='{{image.secret_text}}' />
                 </div>
             </div>
     {% endfor %}
     {% for blog in comic.blog_posts %}
-            <div class='well well-sm'>
-                <h2 name="{{blog.title}}" id="{{blog.title}}">{{blog.title}}</h2>
+            <div id="{{blog.title}}" class='well well-sm'>
+                <img style='width:200px' src="http://curtis.lassam.net/comics/cube_drone/misc_assets/blog.png" alt="Blog!"/>
+                <h2>{{blog.title}}</h2>
                 <div class='content'>
                 {{blog.markdown_rendered|safe}}
                 </div>
             </div>
     {% endfor %}
     {% for video in comic.videos %}
-            <div class='well well-sm'>
-                <h2 name="{{video.title}}">{{video.title}}</h2>
+            <div id="{{video.title}}" class='well well-sm'>
+                <img style='width:200px' src="http://curtis.lassam.net/comics/cube_drone/misc_assets/video.png" alt="Blog!"/>
+                <h2>{{video.title}}</h2>
                 <div class='content'>
                 <iframe class='embed' src="https://www.youtube.com/embed/{{video.youtube_video_code}}" frameborder="0" allowfullscreen></iframe>
                 </div>
