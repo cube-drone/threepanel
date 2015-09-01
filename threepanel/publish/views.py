@@ -65,6 +65,9 @@ def unsubscribe_email(request, email):
 @login_required
 def manage(request):
     subscribers = EmailSubscriber.objects.all()
-    return render(request, "publish/manage.html", {'subscribers':subscribers})
+    number_of_subscribers = len(subscribers)
+    return render(request, "publish/manage.html",
+            {'subscribers':subscribers,
+             'number_of_subscribers':number_of_subscribers})
 
 
