@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 from django.http import HttpResponseRedirect, Http404
 from django.utils import timezone
@@ -138,6 +139,7 @@ def trash(request):
 
 @login_required
 def create(request):
+    now = datetime.datetime.now()
     if request.method == 'POST':
         form = ComicForm(request.POST)
         if form.is_valid():
@@ -145,7 +147,7 @@ def create(request):
             messages.add_message(request, messages.SUCCESS, 'Comic Created!')
             return HttpResponseRedirect(reverse("comics.views.manage"))
     else:
-        form = ComicForm()
+        form = ComicForm(initial={'posted':now})
 
     return render(request, 'comics/create.html', {'form': form})
 
