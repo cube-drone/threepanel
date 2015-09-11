@@ -35,6 +35,8 @@ def subscribe_email(request):
                         message=email)
         except SpamSpamSpamSpam:
             return HttpResponseRedirect(reverse("publish.views.spam"))
+        except NoReverseMatch:
+            return HttpResponseRedirect(reverse("publish.views.bad"))
 
         return render(request, "publish/subscribe_success.html", {'email':email})
     else:
@@ -42,6 +44,9 @@ def subscribe_email(request):
 
 def spam(request):
     return render(request, "publish/spam.html")
+
+def bad(request):
+    return render(request, "publish/bad.html")
 
 def verify(request, email, verification_code):
     try:

@@ -1,0 +1,15 @@
+{% extends "message.html" %}
+
+{% block head_title %}{{dashboard.site_name}} - Invalid{% endblock %}
+
+{% block error %}
+    ERROR_EMAIL_WHAT_EVEN
+{% endblock %}
+{% block error_description %}
+    It seems like you're trying to create an e-mail containing a
+    character that I don't understand even a little bit, like
+    a horcrux or a &copy;. Sorry, dude, I can't... I can't do that.
+{% endblock %}
+{% block action %}
+    If you're getting this message in error, please tweet angrily at me.
+{% endblock %}
