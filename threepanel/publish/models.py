@@ -5,6 +5,7 @@ from django.db import models
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
+from django.utils.html import escape
 
 from slugify import slugify
 
@@ -73,9 +74,9 @@ class EmailSubscriber(models.Model):
         message = COMIC_EMAIL.format(promo_text=comic.promo_text,
                                      alt_text=comic.alt_text,
                                      comic_absolute_url=comic_absolute_url)
-        message_html = COMIC_EMAIL_HTML.format(promo_text=comic.promo_text,
-                                     alt_text=comic.alt_text,
-                                     secret_text=comic.secret_text,
+        message_html = COMIC_EMAIL_HTML.format(promo_text=escape(comic.promo_text),
+                                     alt_text=escape(comic.alt_text),
+                                     secret_text=escape(comic.secret_text),
                                      image_url=comic.image_url,
                                      comic_absolute_url=comic_absolute_url)
         self.send_mail(subject, message, message_html)
