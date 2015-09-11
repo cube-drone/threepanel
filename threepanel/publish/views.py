@@ -10,7 +10,7 @@ from dashboard.models import SiteOptions
 from slugify import slugify
 
 import random_name
-from .models import EmailSubscriber, SpamSpamSpamSpam
+from .models import EmailSubscriber, SpamSpamSpamSpam, InvalidEmail
 
 
 def subscribe(request):
@@ -25,14 +25,15 @@ def subscribe_email(request):
         try:
             subscriber = EmailSubscriber.objects.get(email=email)
         except EmailSubscriber.DoesNotExist:
-            subscriber = EmailSubscriber(email=email)
-            subscriber.save()
+            try:
+                subscriber = EmailSubscriber(email=email)
+                subscriber.save()
+            except InvalidEmail:
+                return HttpResponseRedirect(reverse("publish.views.bad"))
 
         siteoptions = SiteOptions.get()
         try:
             subscriber.send_verification_email()
-            mail_admins(subject="Stage 1'd",
-                        message=email)
         except SpamSpamSpamSpam:
             return HttpResponseRedirect(reverse("publish.views.spam"))
         except NoReverseMatch:

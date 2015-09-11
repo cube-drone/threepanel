@@ -1,4 +1,5 @@
 from datetime import timedelta
+import re
 
 from django.db import models
 from django.core.mail import send_mail
@@ -15,9 +16,17 @@ import random_name
 
 from .email import VERIFICATION_EMAIL, VERIFICATION_EMAIL_HTML
 
+EMAIL_REGEX = "[-+_\w\.@]+"
+
 class SpamSpamSpamSpam(Exception):
     """
     Thrown when you try to email the EmailSubscriber more than once a day.
+    """
+    pass
+
+class InvalidEmail(Exception):
+    """
+    Thrown when you try to create an invalid e-mail address.
     """
     pass
 
@@ -32,6 +41,8 @@ class EmailSubscriber(models.Model):
     last_email_sent = models.DateTimeField()
 
     def save(self):
+        if not re.match(EMAIL_REGEX, self.email):
+            raise InvalidEmail(self.email)
         if not self.id:
             self.created = timezone.now()
             self.last_email_sent = timezone.now() - timedelta(days=24)
