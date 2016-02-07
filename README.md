@@ -6,6 +6,10 @@ Threepanel Continuous Integration Edition
  * vagrant
  * virtualbox
 
+2. `vagrant plugin install vagrant-scp`
+
+3. `vagrant plugin install vagrant-digitalocean`
+
 2. `pyvenv ./threepenv`
 
 3. `source threepenv/bin/activate`

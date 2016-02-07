@@ -67,12 +67,21 @@ def stall(*args, **kwargs):
     return install(*args, **kwargs)
 
 @task
+def get_current_db():
+    db_password = os.environ['POSTGRES_DB_PASSWORD']
+    run("ssh cubedrone.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
+    run("scp cubedrone.com:/tmp/last.db_backup /tmp/last.db_backup")
+    run("vagrant scp /tmp/last.db_backup /tmp/last.db_backup")
+    vagrant("sudo -u postgres psql -d threepanel -f /tmp/last.db_backup".format(db_password))
+
+@task
 def install(production=False):
     if not production:
         run("vagrant up --provider virtualbox")
         install_path = "/home/vagrant/vagrant_django/configuration/install.py"
         cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
         vagrant(cmd)
+        get_current_db()
         vagrant_invoke("makemigrations")
         vagrant_invoke("migrate")
     else:

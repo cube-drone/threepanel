@@ -71,7 +71,9 @@ def dump():
 
 @task()
 def restore(filename):
-    """ Restore the Postgres DB from a file. """
+    """ Restore the Postgres DB from a file.
+    hey, past Curtis, does this actually work? be honest
+    """
     print("Dumping DB")
     dump()
     print("Destrying DB")
