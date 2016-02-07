@@ -67,6 +67,10 @@ def stall(*args, **kwargs):
     return install(*args, **kwargs)
 
 @task
+def get_media():
+    run("scp cubedrone.com:/home/classam/media .")
+
+@task
 def get_current_db():
     db_password = os.environ['POSTGRES_DB_PASSWORD']
     run("ssh cubedrone.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
