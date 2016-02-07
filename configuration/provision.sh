@@ -9,6 +9,9 @@ sudo apt-get -y update
 echo 'Install Dev Tools'
 sudo apt-get install -y ack-grep vim dos2unix
 
+echo 'Install Build Tools'
+sudo apt-get install -y build-essential gcc
+
 echo "Install Redis"
 sudo apt-get install -y redis-server
 
