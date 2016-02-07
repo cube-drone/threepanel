@@ -85,15 +85,18 @@ def install(production=False):
         vagrant_invoke("makemigrations")
         vagrant_invoke("migrate")
     else:
-        print("This isn't done yet")
+        run("vagrant up --provider digitalocean")
+        install_path = "/home/vagrant/vagrant_django/configuration/install.py"
+        cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
+        vagrant(cmd)
+        get_current_db()
+        vagrant_invoke("makemigrations")
+        vagrant_invoke("migrate")
 
 
 @task
-def clean(production=False):
-    if not production:
-        run("vagrant destroy -f")
-        run("rm -rf vars.ini")
-        run("rm -rf scripts")
-        run("rm -rf __pycache__")
-    else:
-        print("This isn't done yet")
+def clean():
+    run("vagrant destroy -f")
+    run("rm -rf vars.ini")
+    run("rm -rf scripts")
+    run("rm -rf __pycache__")
