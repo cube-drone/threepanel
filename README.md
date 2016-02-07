@@ -1,14 +1,13 @@
+Threepanel Continuous Integration Edition
+-----------------------------------------
 
-Install
--------
+1. Requirements:
+ * python3
+ * vagrant
+ * virtualbox
 
-1. Install Python3
+2. `pip install -r requirements.txt`
 
-2. Install VirtualBox
+3. Set environment variables
 
-3. Install Vagrant
-
-4. Command Line
-
-    $> pip install invoke
-    $> invoke install
+4. `invoke install`

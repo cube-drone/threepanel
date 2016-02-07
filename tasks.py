@@ -1,73 +1,65 @@
-from invoke import task, run
-from invoke.exceptions import Failure
+from __future__ import print_function
+import os
+import sys
 
-def multiple(*args):
-    return " && ".join(args)
+from invoke import run, task
 
-@task()
-def install():
-    run("chmod a+x /home/vagrant/synced/install.sh")
-    run("chmod a+x /home/vagrant/synced/resetdb.sh")
-    run("bash /home/vagrant/synced/install.sh")
-
-@task
-def dev(command):
-    return run(multiple("cd /home/vagrant/synced/threepanel/", command))
+def runprint(cmd, *args, **kwargs):
+    """
+    like run, but it prints out the thing it's running first
+    """
+    print(cmd)
+    run(cmd, *args, **kwargs)
 
 @task
-def lint():
-    return dev(multiple("pep8 */*.py --ignore=\"E128,E501,E402\"",
-                       "pyflakes */*.py"))
+def env_to_string():
+    keys = ['DIGITALOCEAN_API_TOKEN',
+            'DJANGO_PROJECT_SLUG',
+            'DJANGO_DEBUG',
+            'DJANGO_DOMAIN',
+            'DJANGO_ADMIN_NAME',
+            'DJANGO_ADMIN_EMAIL',
+            'POSTGRES_DB_PASSWORD',
+            'MANDRILL_KEY',
+            'DJANGO_SECRET_KEY']
+    for key in keys:
+        if key not in os.environ:
+            print("Warning: {} not defined.".format(key), file=sys.stderr)
+    env_variables = {"{}=\"{}\"".format(key,os.environ[key]) for key in
+                     os.environ if key in keys}
+    string = " ".join(env_variables)
+    return string
 
 @task
-def watchlint():
-    from watchie import Watchie
-    w = Watchie()
-    w.watch(path=".",
-            result_fn=lint)
-    w.start()
+def vagrant(command):
+    runprint("vagrant ssh -c '{}'".format(command))
 
 @task
-def dj(command):
-    return dev("python3 manage.py {}".format(command))
+def invoke(command):
+    runprint(vagrant("source django_environment/bin/activate && cd vagrant_django/threepanel && invoke {}".format(command)))
 
-@task()
+@task
 def runserver():
-    print("Running server on localhost:8080")
-    return dj("runserver 0:8080")
-
-@task()
-def celery():
-    print("Activating celery worker")
-    return dev("celery --app=threepanel worker -l info")
-
-@task()
-def beat():
-    print("We love the beat we love the beat... we love the beat!")
-    return dev("celery --app=threepanel beat")
-
-@task()
-def clear():
-    dj("clear_cache")
-
-@task()
-def reset():
-    print("Resetting db")
-    #absolutely remove these lines once you've deployed
-    run("rm -rf /home/vagrant/synced/threepanel/comics/migrations/00*")
-    run("rm -rf /home/vagrant/synced/threepanel/dashboard/migrations/00*")
-    run("rm -rf /home/vagrant/synced/threepanel/publish/migrations/00*")
-
-    run("bash /home/vagrant/synced/resetdb.sh")
-    dj("makemigrations")
-    dj("migrate --noinput")
-    dj("testdata")
+    invoke("runserver")
 
 @task
-def prod_restart():
-    run("sudo service uwsgi restart")
+def install(production=False):
+    if not production:
+        runprint("vagrant up --provider virtualbox")
+        install_path = "/home/vagrant/vagrant_django/configuration/install.py"
+        cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
+        vagrant(cmd)
+        invoke("migrate")
+    else:
+        print("This isn't done yet")
+
 
 @task
-def prod_start():
-    run("sudo service uwsgi start")
-
+def clean(production=False):
+    if not production:
+        runprint("vagrant destroy -f")
+        runprint("rm -rf vars.ini")
+        runprint("rm -rf scripts")
+        runprint("rm -rf __pycache__")
+    else:
+        print("This isn't done yet")

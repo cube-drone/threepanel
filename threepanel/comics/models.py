@@ -9,7 +9,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from autoslug import AutoSlugField
-from slugify import slugify
+from slugify import slugify as slugify_wont_serialize
 from djorm_fulltext.fields import VectorField
 from djorm_fulltext.models import SearchManager
 import markdown
@@ -19,13 +19,21 @@ You're going to see the term 'Hero' a bunch in here.
 I'm using "Hero" to mean "The Most Recent Comic".
 """
 
+def title(c):
+    """
+    This in response to a serialization problem with lambdas
+    """
+    return c.title
+
+def slugify(s):
+    return slugify_wont_serialize(s)
 
 class Comic(models.Model):
     """
     One comic. A single image, and a little bit of meta-data, like
     alt-text, secret-text, when it was posted, what it's called...
     """
-    slug = AutoSlugField(populate_from=lambda c: c.title,
+    slug = AutoSlugField(populate_from=title,
                          unique=True,
                          db_index=True,
                          slugify=slugify)
@@ -229,7 +237,7 @@ class Blog(models.Model):
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
-    slug = AutoSlugField(populate_from=lambda c: c.title,
+    slug = AutoSlugField(populate_from=title,
                          db_index=True,
                          unique=True,
                          slugify=slugify)
@@ -267,7 +275,7 @@ class Video(models.Model):
 
     created = models.DateTimeField()
 
-    slug = AutoSlugField(populate_from=lambda c: c.title,
+    slug = AutoSlugField(populate_from=title,
                          unique=True,
                          db_index=True,
                          slugify=slugify)
@@ -305,7 +313,7 @@ class Image(models.Model):
 
     created = models.DateTimeField()
 
-    slug = AutoSlugField(populate_from=lambda c: c.title,
+    slug = AutoSlugField(populate_from=title,
                          unique=True,
                          db_index=True,
                          slugify=slugify)

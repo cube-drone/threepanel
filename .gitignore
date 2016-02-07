@@ -1,8 +1,7 @@
-.vagrant
-*.pyc
-db.sqlite3
+scripts
+set_token.sh
 __pycache__
-*.db_backup
-get-pip*
-celerybeat-schedule
-production_settings.py
+.vagrant
+threepanel/tasks.py
+settings.py
+vars.ini
