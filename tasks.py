@@ -79,7 +79,7 @@ def install(production=False):
     if not production:
         run("vagrant up --provider virtualbox")
     else:
-        run("vagrant up --provider digitalocean")
+        run("vagrant up --provider digital_ocean")
     install_path = "/home/vagrant/vagrant_django/configuration/install.py"
     cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
     vagrant(cmd)
