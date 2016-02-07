@@ -2,17 +2,36 @@ from __future__ import print_function
 import os
 import sys
 
-from invoke import run, task
+from invoke import run as silently_run
+from invoke import task
+from colorama import init
+from colorama import Fore, Back, Style
 
-def runprint(cmd, *args, **kwargs):
-    """
-    like run, but it prints out the thing it's running first
-    """
-    print(cmd)
-    run(cmd, *args, **kwargs)
+init()
+print(Fore.RED, file=sys.stderr)
 
-@task
+def run(cmd, *args, **kwargs):
+    """
+    We're overwriting invoke's "run" to always
+    print out the command it's running before it runs.
+    It also does color things.
+    """
+    print(Fore.RED, file=sys.stderr)
+    if not cmd:
+        return
+    print(Fore.GREEN + cmd)
+    print(Style.RESET_ALL)
+    print(Style.DIM)
+    silently_run(cmd, *args, **kwargs)
+    print(Style.RESET_ALL)
+
 def env_to_string():
+    """
+    These keys need to be defined in the environment for
+    the installation to work. We check if they are all
+    defined, then convert them to a string so that
+    we can pass them in to the installation script.
+    """
     keys = ['DIGITALOCEAN_API_TOKEN',
             'DJANGO_PROJECT_SLUG',
             'DJANGO_DEBUG',
@@ -32,28 +51,30 @@ def env_to_string():
 
 @task
 def vagrant(command):
-    runprint("vagrant ssh -c '{}'".format(command))
+    return run("vagrant ssh -c '{}'".format(command))
 
 @task
-def invoke(command):
-    runprint(vagrant("source django_environment/bin/activate && cd vagrant_django/threepanel && invoke {}".format(command)))
-
-@task
-def runserver():
-    invoke("runserver")
+def vagrant_invoke(command):
+    return run(vagrant("source django_environment/bin/activate && cd vagrant_django/threepanel && invoke {}".format(command)))
 
 @task
 def stall(*args, **kwargs):
+    """
+    this is a pun, so that if you've aliased invoke
+     to 'in', the way that I have, you can type in
+     'inv stall' and things will install
+     """
     return install(*args, **kwargs)
 
 @task
 def install(production=False):
     if not production:
-        runprint("vagrant up --provider virtualbox")
+        run("vagrant up --provider virtualbox")
         install_path = "/home/vagrant/vagrant_django/configuration/install.py"
         cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
         vagrant(cmd)
-        invoke("migrate")
+        vagrant_invoke("makemigrations")
+        vagrant_invoke("migrate")
     else:
         print("This isn't done yet")
 
@@ -61,9 +82,9 @@ def install(production=False):
 @task
 def clean(production=False):
     if not production:
-        runprint("vagrant destroy -f")
-        runprint("rm -rf vars.ini")
-        runprint("rm -rf scripts")
-        runprint("rm -rf __pycache__")
+        run("vagrant destroy -f")
+        run("rm -rf vars.ini")
+        run("rm -rf scripts")
+        run("rm -rf __pycache__")
     else:
         print("This isn't done yet")

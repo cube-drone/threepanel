@@ -185,13 +185,6 @@ def configure_the_motherfucker(config_args):
                                       arguments=config_args,
                                       destination=bashrc_path)
 
-    # Put tasks.py in place
-    tasks_path = '{}/tasks.py'.format(config_args['django_path'])
-    if not os.path.exists(tasks_path):
-        write_config_template_to_location(template='template.tasks.py',
-                                          arguments=config_args,
-                                          destination=tasks_path)
-
     # Put settings.py in place
     settings_path = os.path.join(config_args['django_path'],
                                  config_args['project_slug'],

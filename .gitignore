@@ -2,6 +2,6 @@ scripts
 set_token.sh
 __pycache__
 .vagrant
-threepanel/tasks.py
 settings.py
 vars.ini
+threepenv

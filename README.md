@@ -6,11 +6,15 @@ Threepanel Continuous Integration Edition
  * vagrant
  * virtualbox
 
-2. `pip install -r requirements.txt`
+2. `pyvenv ./threepenv`
 
-3. Set environment variables. You might add these to your `.bashrc` or `.bash_profile`
-```
-    alias in="invoke"
+3. `source threepenv/bin/activate`
+
+4. `pip install --upgrade pip`
+
+5. `pip install -r requirements.txt`
+
+6. Set environment variables. You might add these to your `.bashrc` or `.bash_profile` ```
     export DIGITALOCEAN_API_TOKEN="digitalooooocean"
     export DJANGO_PROJECT_SLUG="threepanel"
     export DJANGO_DEBUG="True"
@@ -21,4 +25,4 @@ Threepanel Continuous Integration Edition
     export DJANGO_SECRET_KEY="seeeecreeeet"
     export POSTGRES_DB_PASSWORD="daaaaatabaaaaaaase"
 ```
-4. `in stall`
+7. `inv stall`

@@ -3,7 +3,7 @@ import os
 from invoke import task, run
 from invoke.exceptions import Failure
 
-YOUR_APP_NAME = "${project_slug}"
+YOUR_APP_NAME = "threepanel"
 HOME_PATH = os.environ['HOME']
 DJANGO_PATH = os.path.join(HOME_PATH, 'vagrant_django', YOUR_APP_NAME)
 SCRIPTS_PATH = os.path.join(HOME_PATH, 'vagrant_django', 'scripts')
@@ -39,6 +39,11 @@ def runserver():
 def dev_start():
     """ Run a django development server """
     return runserver()
+
+@task
+def makemigrations():
+    """ Prep the prepping of the database """
+    return dj("makemigrations")
 
 @task
 def migrate():
