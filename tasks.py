@@ -43,6 +43,10 @@ def runserver():
     invoke("runserver")
 
 @task
+def stall(*args, **kwargs):
+    return install(*args, **kwargs)
+
+@task
 def install(production=False):
     if not production:
         runprint("vagrant up --provider virtualbox")

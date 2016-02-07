@@ -9,7 +9,6 @@ Threepanel Continuous Integration Edition
 2. `pip install -r requirements.txt`
 
 3. Set environment variables. You might add these to your `.bashrc` or `.bash_profile`
-
 ```
     alias in="invoke"
     export DIGITALOCEAN_API_TOKEN="digitalooooocean"
@@ -22,5 +21,4 @@ Threepanel Continuous Integration Edition
     export DJANGO_SECRET_KEY="seeeecreeeet"
     export POSTGRES_DB_PASSWORD="daaaaatabaaaaaaase"
 ```
-
-4. `invoke install`
+4. `in stall`
