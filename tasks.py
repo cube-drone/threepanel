@@ -68,7 +68,7 @@ def stall(*args, **kwargs):
 
 @task
 def get_media():
-    run("scp cubedrone.com:/home/classam/media .")
+    run("scp -r cubedrone.com:/home/classam/media .")
 
 @task
 def get_current_db():
