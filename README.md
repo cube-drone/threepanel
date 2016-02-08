@@ -18,7 +18,8 @@ Threepanel Continuous Integration Edition
 
 5. `pip install -r requirements.txt`
 
-6. Set environment variables. You might add these to your `.bashrc` or `.bash_profile` ```
+6. Set environment variables. You might add these to your `.bashrc` or `.bash_profile`
+```
     export DIGITALOCEAN_API_TOKEN="digitalooooocean"
     export DJANGO_PROJECT_SLUG="threepanel"
     export DJANGO_DEBUG="True"
@@ -29,4 +30,4 @@ Threepanel Continuous Integration Edition
     export DJANGO_SECRET_KEY="seeeecreeeet"
     export POSTGRES_DB_PASSWORD="daaaaatabaaaaaaase"
 ```
-7. `inv stall`
+7. `invoke install`

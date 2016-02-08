@@ -4,7 +4,7 @@ nohup uwsgi --chdir=${home}/vagrant_django/${project_slug}/ \
             --module=threepanel.wsgi:application \
             --env DJANGO_SETTINGS_MODULE=threepanel.settings \
             --master --socket=/tmp/threepanel.sock \
-            --home=${home}/threepanel_environment \
+            --home=${home}/django_environment \
             --chmod-socket=666 \
             --processes=4 \
             --die-on-term \

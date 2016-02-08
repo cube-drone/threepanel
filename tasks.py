@@ -58,15 +58,6 @@ def vagrant_invoke(command):
     return run(vagrant("source django_environment/bin/activate && cd vagrant_django/threepanel && invoke {}".format(command)))
 
 @task
-def stall(*args, **kwargs):
-    """
-    this is a pun, so that if you've aliased invoke
-     to 'in', the way that I have, you can type in
-     'inv stall' and things will install
-     """
-    return install(*args, **kwargs)
-
-@task
 def get_media():
     run("scp -r cubedrone.com:/home/classam/media .")
 
@@ -90,7 +81,7 @@ def install(production=False):
     get_current_db()
     vagrant_invoke("makemigrations")
     vagrant_invoke("migrate")
-    vagrant_invoke("prod_start")
+    vagrant_invoke("prod_restart")
 
 @task
 def clean():
