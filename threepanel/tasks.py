@@ -98,7 +98,7 @@ def clear():
 def uwsgi():
     print("writing logs to {}".format(UWSGI_LOG_PATH))
     print("writing pidfile to {}".format(UWSGI_PID_PATH))
-    run("bash {}/uwsgi.sh".format(HOME_PATH))
+    run("bash {}/uwsgi.sh".format(SCRIPTS_PATH))
 
 @task
 def kill_uwsgi():

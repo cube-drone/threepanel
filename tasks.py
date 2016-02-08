@@ -87,14 +87,10 @@ def install(production=False):
     install_path = "/home/vagrant/vagrant_django/configuration/install.py"
     cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
     vagrant(cmd)
-    if not production:
-        # TODO: test data?
-        pass
-    else:
-        get_current_db()
+    get_current_db()
     vagrant_invoke("makemigrations")
     vagrant_invoke("migrate")
-
+    vagrant_invoke("prod_start")
 
 @task
 def clean():
