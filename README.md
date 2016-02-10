@@ -34,5 +34,6 @@ Threepanel Continuous Integration Edition
 ```
 Host threepanel.com
     StrictHostKeyChecking no
+    User vagrant
 ```
 7. `invoke install`
