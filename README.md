@@ -30,4 +30,9 @@ Threepanel Continuous Integration Edition
     export DJANGO_SECRET_KEY="seeeecreeeet"
     export POSTGRES_DB_PASSWORD="daaaaatabaaaaaaase"
 ```
+8. The server that threepanel.com points to is going to change a lot, so add this to your ssh config:
+```
+Host threepanel.com
+    StrictHostKeyChecking no
+```
 7. `invoke install`
