@@ -59,3 +59,20 @@ TEMPLATES = [
         },
     },
 ]
+
+CELERYBEAT_SCHEDULE = {
+    'heartbeat':{
+        'task':'dashboard.tasks.heartbeat'
+        'schedule': timedelta(minutes=1)
+    }
+    'publish':{
+        'task':'comics.tasks.publish',
+        'schedule': timedelta(minutes=10),
+    },
+    'tidy-subscribers':{
+        'task':'publish.tasks.tidy_subscribers',
+        'schedule': timedelta(days=1),
+    }
+}
+CELERY_IGNORE_RESULT = True
+CELERY_DISABLE_RATE_LIMITS = True

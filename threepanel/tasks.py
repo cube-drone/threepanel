@@ -1,4 +1,6 @@
 import os
+import subprocess
+import shlex
 
 from invoke import task, run
 from invoke.exceptions import Failure
@@ -89,6 +91,7 @@ def clear():
 
 @task
 def uwsgi():
+    """ Activate the Python Application Server. """
     print("writing logs to {}".format(UWSGI_LOG_PATH))
     print("writing pidfile to {}".format(UWSGI_PID_PATH))
     run("bash {}/uwsgi.sh".format(SCRIPTS_PATH))
@@ -99,40 +102,63 @@ def kill_uwsgi():
         print("Killing UWSGI...")
         run("kill `cat {}/uwsgi.pid`".format(HOME_PATH), pty=True)
         run("sleep 1")
-        run("ps aux | grep uwsgi")
+        run("ps aux | grep \"[u]wsgi\"")
         print("UWSGI Dead...")
     else:
         print("UWSGI not running!")
 
-@task()
+@task
 def celery():
     """ Activate the task running system. """
     print("Activating celery worker.")
-    return home("nohup celery --app={} worker -l info --pidfile=/tmp/celeryworker.pid --logfile=$HOME/logs/celeryworker.log &".format(YOUR_APP_NAME))
+    run("bash {}/celery.sh".format(SCRIPTS_PATH))
 
-@task()
-def beat():
-    """ Activate the task scheduling system. """
-    print("Activating celery beat")
-    return home("nohup celery --app={} beat --pidfile=/tmp/celerybeat.pid --logfile=$HOME/logs/celerybeat.log &".format(YOUR_APP_NAME))
+@task
+def kill_celery():
+    if os.path.exists("{}/celery.pid".format(HOME_PATH)):
+        print("Killing Celery...")
+        run("kill `cat {}/celery.pid`".format(HOME_PATH), pty=True)
+        run("sleep 1")
+        run("ps aux | grep \"[c]elery\"")
+        print("Celery Dead...")
+    else:
+        print("Celery not running!")
+
+@task
+def nginx():
+    print("Starting Nginx...")
+    run("sudo service nginx start")
+
+@task
+def kill_nginx():
+    print("Killing Nginx...")
+    run("sudo service nginx stop")
+
+@task
+def redis():
+    print("Starting Redis...")
+    run("sudo service redis-server start")
+
+@task
+def kill_redis():
+    print("Killing Redis...")
+    run("sudo service redis-server stop")
 
 @task
 def prod_start():
     """ Start all of the services in the production stack"""
     uwsgi()
-    run("sudo service nginx start")
-    run("sudo service redis-server start")
     celery()
-    beat()
+    nginx()
+    redis()
 
 @task
 def prod_stop():
     """ Stop all of the services in the production stack"""
     kill_uwsgi()
-    print("Killing Nginx...")
-    run("sudo service nginx stop")
-    print("Killing Redis...")
-    run("sudo service redis-server stop")
+    kill_celery()
+    kill_nginx()
+    kill_redis()
 
 @task
 def prod_restart():

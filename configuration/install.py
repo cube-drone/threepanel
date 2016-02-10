@@ -211,13 +211,6 @@ def configure_the_motherfucker(config_args):
     # Make a scripts path exist
     subprocess.call("mkdir -p {}".format(SCRIPTS_PATH).split())
 
-    # Put UWSGI configuration in place
-    write_config_template_to_location(template='template.uwsgi.sh',
-                                      arguments=config_args,
-                                      destination='{}/uwsgi.sh'.format(SCRIPTS_PATH))
-    subprocess.call("chmod a+x {}/uwsgi.sh".format(SCRIPTS_PATH).split())
-
-
     # Put Redis configuration in place
     subprocess.call("mv /etc/redis/redis.conf /etc/redis/redis.conf.backup".split())
     subprocess.call("ln -s {}/template.redis.conf /etc/redis/redis.conf".format(CONF_PATH).split())
@@ -226,7 +219,9 @@ def configure_the_motherfucker(config_args):
     scripts = ['template.create_postgres.sh',
                'template.backup_postgres.sh',
                'template.rebuild_postgres.sh',
-               'template.reset_postgres.sh']
+               'template.reset_postgres.sh',
+               'template.uwsgi.sh',
+               'template.celery.sh']
     for script in scripts:
         filename = script[9:]
         dest = os.path.join(SCRIPTS_PATH, filename)
@@ -234,6 +229,7 @@ def configure_the_motherfucker(config_args):
                                           arguments=config_args,
                                           destination=dest)
         subprocess.call("dos2unix {}".format(dest).split())
+        subprocess.call("chmod a+x {}".format(dest).split())
 
     # Create PostgreSQL Database
     postgres_call = "bash {}/create_postgres.sh".format(SCRIPTS_PATH)
