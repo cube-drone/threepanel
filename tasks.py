@@ -25,17 +25,18 @@ def run(cmd, *args, **kwargs):
     silently_run(cmd, *args, **kwargs)
     print(Style.RESET_ALL)
 
-def env_to_string():
+def env_to_string(debug='True'):
     """
     These keys need to be defined in the environment for
     the installation to work. We check if they are all
     defined, then convert them to a string so that
     we can pass them in to the installation script.
     """
+    os.environ['DJANGO_DEBUG'] = debug
     keys = ['DIGITALOCEAN_API_TOKEN',
             'DJANGO_PROJECT_SLUG',
-            'DJANGO_DEBUG',
             'DJANGO_DOMAIN',
+            'DJANGO_DEBUG',
             'DJANGO_ADMIN_NAME',
             'DJANGO_ADMIN_EMAIL',
             'POSTGRES_DB_PASSWORD',
@@ -73,12 +74,15 @@ def get_current_db():
 def install(production=False):
     if not production:
         run("vagrant up --provider virtualbox")
+        install_path = "/home/vagrant/vagrant_django/configuration/install.py"
+        cmd = "sudo {} python3 {}".format(env_to_string(debug='True'), install_path)
+        vagrant(cmd)
     else:
         run("vagrant up --provider digital_ocean")
         get_media()
-    install_path = "/home/vagrant/vagrant_django/configuration/install.py"
-    cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
-    vagrant(cmd)
+        install_path = "/home/vagrant/vagrant_django/configuration/install.py"
+        cmd = "sudo {} python3 {}".format(env_to_string(debug='False'), install_path)
+        vagrant(cmd)
     get_current_db()
     vagrant_invoke("auth_keys")
     vagrant_invoke("makemigrations")
