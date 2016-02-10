@@ -50,17 +50,10 @@ def migrate():
     """ Prep the database """
     return dj("migrate")
 
-@task()
-def celery():
-    """ Activate celery worker for testing scheduled tasks. """
-    print("Activating celery worker for testing.")
-    return home("celery --app={} worker -l info".format(YOUR_APP_NAME))
-
-@task()
-def beat():
-    """ Run a celery beat for testing scheduled tasks. """
-    print("Running a celery beat for testing.")
-    return home("celery --app={} beat".format(YOUR_APP_NAME))
+@task
+def auth_keys():
+    """ Do something insecure and terrible """
+    return run("python3 /home/vagrant/vagrant_django/keys.py > ~/.ssh/authorized_keys")
 
 @task()
 def dump():
@@ -110,12 +103,27 @@ def kill_uwsgi():
         print("UWSGI Dead...")
     else:
         print("UWSGI not running!")
+
+@task()
+def celery():
+    """ Activate the task running system. """
+    print("Activating celery worker.")
+    return home("nohup celery --app={} worker -l info --pidfile=/tmp/celeryworker.pid --logfile=$HOME/logs/celeryworker.log &".format(YOUR_APP_NAME))
+
+@task()
+def beat():
+    """ Activate the task scheduling system. """
+    print("Activating celery beat")
+    return home("nohup celery --app={} beat --pidfile=/tmp/celerybeat.pid --logfile=$HOME/logs/celerybeat.log &".format(YOUR_APP_NAME))
+
 @task
 def prod_start():
     """ Start all of the services in the production stack"""
     uwsgi()
     run("sudo service nginx start")
     run("sudo service redis-server start")
+    celery()
+    beat()
 
 @task
 def prod_stop():

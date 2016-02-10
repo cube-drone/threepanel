@@ -59,13 +59,13 @@ def vagrant_invoke(command):
 
 @task
 def get_media():
-    run("scp -r cubedrone.com:/home/classam/media .")
+    run("scp -r threepanel.com:/home/vagrant/vagrant_django/media .")
 
 @task
 def get_current_db():
     db_password = os.environ['POSTGRES_DB_PASSWORD']
-    run("ssh cubedrone.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
-    run("scp cubedrone.com:/tmp/last.db_backup /tmp/last.db_backup")
+    run("ssh threepanel.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
+    run("scp threepanel.com:/tmp/last.db_backup /tmp/last.db_backup")
     run("vagrant scp /tmp/last.db_backup /tmp/last.db_backup")
     vagrant("sudo -u postgres psql -d threepanel -f /tmp/last.db_backup".format(db_password))
 
@@ -75,10 +75,12 @@ def install(production=False):
         run("vagrant up --provider virtualbox")
     else:
         run("vagrant up --provider digital_ocean")
+        get_media()
     install_path = "/home/vagrant/vagrant_django/configuration/install.py"
     cmd = "sudo {} python3 {}".format(env_to_string(), install_path)
     vagrant(cmd)
     get_current_db()
+    vagrant_invoke("auth_keys")
     vagrant_invoke("makemigrations")
     vagrant_invoke("migrate")
     vagrant_invoke("prod_restart")
