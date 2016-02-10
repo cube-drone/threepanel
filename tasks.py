@@ -59,13 +59,13 @@ def vagrant_invoke(command):
 
 @task
 def get_media():
-    run("scp -r threepanel.com:/home/vagrant/vagrant_django/media .")
+    run("scp -r vagrant@threepanel.com:/home/vagrant/vagrant_django/media .")
 
 @task
 def get_current_db():
     db_password = os.environ['POSTGRES_DB_PASSWORD']
-    run("ssh threepanel.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
-    run("scp threepanel.com:/tmp/last.db_backup /tmp/last.db_backup")
+    run("ssh vagrant@threepanel.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
+    run("scp vagrant@threepanel.com:/tmp/last.db_backup /tmp/last.db_backup")
     run("vagrant scp /tmp/last.db_backup /tmp/last.db_backup")
     vagrant("sudo -u postgres psql -d threepanel -f /tmp/last.db_backup".format(db_password))
 
