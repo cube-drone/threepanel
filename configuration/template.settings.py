@@ -27,7 +27,7 @@ if DEBUG:
 else:
     print("Loading in PRODUCTION mode!")
 
-ALLOWED_HOSTS = ['.${domain}']
+ALLOWED_HOSTS = ['*']
 
 if DEBUG:
     # When we're in debug mode, we don't want any caching to occur
@@ -72,9 +72,9 @@ DATABASES = {
 if DEBUG:
     SITE_URL = 'http://localhost:8080'
 else:
-    SITE_URL = "http://{$domain}"
+    SITE_URL = "http://${domain}"
 
-EMAIL_SUBJECT_PREFIX = '[{$domain}] '
+EMAIL_SUBJECT_PREFIX = '[${domain}] '
 SERVER_EMAIL = 'noreply@${domain}'
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
