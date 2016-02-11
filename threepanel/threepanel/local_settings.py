@@ -1,3 +1,4 @@
+import timedelta
 
 # AUTH STUFF
 LOGIN_URL = "/dashboard/login"
