@@ -62,9 +62,9 @@ TEMPLATES = [
 
 CELERYBEAT_SCHEDULE = {
     'heartbeat':{
-        'task':'dashboard.tasks.heartbeat'
-        'schedule': timedelta(minutes=1)
-    }
+        'task':'dashboard.tasks.heartbeat',
+        'schedule': timedelta(minutes=1),
+    },
     'publish':{
         'task':'comics.tasks.publish',
         'schedule': timedelta(minutes=10),
