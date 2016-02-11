@@ -13,6 +13,9 @@ UWSGI_LOG_PATH = os.path.join(HOME_PATH, 'logs', 'uwsgi.log')
 UWSGI_SH_PATH = os.path.join(HOME_PATH, 'uwsgi.sh')
 UWSGI_PID_PATH = os.path.join(HOME_PATH, 'uwsgi.pid')
 
+def background(cmd):
+    subprocess.Popen(shlex.split(cmd))
+
 def multiple(*args):
     return " && ".join(args)
 
@@ -111,7 +114,7 @@ def kill_uwsgi():
 def celery():
     """ Activate the task running system. """
     print("Activating celery worker.")
-    run("bash {}/celery.sh".format(SCRIPTS_PATH))
+    background("bash {}/celery.sh".format(SCRIPTS_PATH))
 
 @task
 def kill_celery():
