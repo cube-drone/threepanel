@@ -78,8 +78,8 @@ def install(production=False):
         cmd = "sudo {} python3 {}".format(env_to_string(debug='True'), install_path)
         vagrant(cmd)
     else:
-        run("vagrant up --provider digital_ocean")
         get_media()
+        run("vagrant up --provider digital_ocean")
         install_path = "/home/vagrant/vagrant_django/configuration/install.py"
         cmd = "sudo {} python3 {}".format(env_to_string(debug='False'), install_path)
         vagrant(cmd)
