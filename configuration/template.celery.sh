@@ -1,6 +1,6 @@
 #!/bin/bash
 
-nohup celery --app=${project_slug} \
+nohup celery worker --app=${project_slug} \
              --loglevel=info \
              --beat \
              --pidfile=${home}/celery.pid \
