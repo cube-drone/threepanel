@@ -97,10 +97,7 @@ USE_L10N = False
 
 STATIC_URL = '/static/'
 
-try:
-    from ${project_slug}.local_settings import *
-    print("Loaded local settings")
-except ImportError:
-    print("No available local settings")
+print("Loading local settings")
+from ${project_slug}.local_settings import *
 
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
