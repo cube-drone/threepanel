@@ -72,19 +72,18 @@ def get_current_db():
 
 @task
 def install(production=False):
+    install_path = "/home/vagrant/vagrant_django/configuration/install.py"
     if not production:
         run("vagrant up --provider virtualbox")
-        install_path = "/home/vagrant/vagrant_django/configuration/install.py"
         cmd = "sudo {} python3 {}".format(env_to_string(debug='True'), install_path)
         vagrant(cmd)
     else:
         get_media()
         run("vagrant up --provider digital_ocean")
-        install_path = "/home/vagrant/vagrant_django/configuration/install.py"
         cmd = "sudo {} python3 {}".format(env_to_string(debug='False'), install_path)
         vagrant(cmd)
+        vagrant_invoke("auth_keys")
     get_current_db()
-    vagrant_invoke("auth_keys")
     vagrant_invoke("makemigrations")
     vagrant_invoke("migrate")
     vagrant_invoke("prod_restart")
