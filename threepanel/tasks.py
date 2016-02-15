@@ -97,7 +97,7 @@ def uwsgi():
     """ Activate the Python Application Server. """
     print("writing logs to {}".format(UWSGI_LOG_PATH))
     print("writing pidfile to {}".format(UWSGI_PID_PATH))
-    run("bash {}/uwsgi.sh".format(SCRIPTS_PATH))
+    background("bash {}/uwsgi.sh".format(SCRIPTS_PATH))
 
 @task
 def kill_uwsgi():
