@@ -86,7 +86,8 @@ def install(production=False):
     get_current_db()
     vagrant_invoke("makemigrations")
     vagrant_invoke("migrate")
-    vagrant_invoke("prod_restart")
+    if production:
+        vagrant_invoke("prod_restart")
 
 @task
 def clean():
