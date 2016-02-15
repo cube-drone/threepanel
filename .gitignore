@@ -7,3 +7,4 @@ vars.ini
 threepenv
 media
 deploys
+threepanel/celerybeat-schedule
