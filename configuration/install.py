@@ -2,8 +2,6 @@ from string import Template
 import sys
 import subprocess
 import os
-import configparser
-from uuid import uuid4
 
 
 HOME_PATH = os.environ['HOME']
@@ -13,7 +11,7 @@ CONF_PATH = os.path.join(VAGRANT_DJANGO_PATH, 'configuration')
 SCRIPTS_PATH = os.path.join(VAGRANT_DJANGO_PATH, 'scripts')
 
 
-if not(sys.version_info > (3, 0)):
+if not sys.version_info > (3, 0):
     sys.stderr.write("You're using python2. Use python3 or higher.")
     exit()
 
@@ -154,10 +152,10 @@ def install(environment_dict):
 
 
 if __name__ == '__main__':
-    environment_dict = dict(os.environ)
-    environment_dict["DJANGO_PATH"] = os.path.join(VAGRANT_DJANGO_PATH, environment_dict["DJANGO_PROJECT_SLUG"])
-    environment_dict["VIRTUALENV_PATH"] = VIRTUALENV_PATH
-    for key in environment_dict:
-        print "{}: {}".format(key, environment_dict[key])
-    install(environment_dict)
+    env_dict = dict(os.environ)
+    env_dict["DJANGO_PATH"] = os.path.join(VAGRANT_DJANGO_PATH, env_dict["DJANGO_PROJECT_SLUG"])
+    env_dict["VIRTUALENV_PATH"] = VIRTUALENV_PATH
+    for key in env_dict:
+        print("{}: {}".format(key, env_dict[key]))
+    install(env_dict)
 
