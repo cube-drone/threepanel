@@ -29,8 +29,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-export PYTHONPATH=${django_path}
-source ${virtualenv_path}/bin/activate
+export PYTHONPATH=${DJANGO_PATH}
+source ${VIRTUALENV_PATH}/bin/activate
 alias dj='python3 ${DJANGO_PATH}/manage.py'
 alias in='cd ${DJANGO_PATH} && invoke'
 
