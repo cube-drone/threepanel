@@ -98,6 +98,6 @@ USE_L10N = False
 STATIC_URL = '/static/'
 
 print("Loading local settings")
-from ${project_slug}.local_settings import *
+from ${DJANGO_PROJECT_SLUG}.local_settings import *
 
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
