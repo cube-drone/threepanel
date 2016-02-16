@@ -1,9 +1,9 @@
 #!/bin/bash
 
-nohup uwsgi --chdir=${HOME}/vagrant_django/${PROJECT_SLUG}/ \
-            --module=${PROJECT_SLUG}.wsgi:application \
-            --env DJANGO_SETTINGS_MODULE=${PROJECT_SLUG}.settings \
-            --master --socket=/tmp/${PROJECT_SLUG}.sock \
+nohup uwsgi --chdir=${HOME}/vagrant_django/${DJANGO_PROJECT_SLUG}/ \
+            --module=${DJANGO_PROJECT_SLUG}.wsgi:application \
+            --env DJANGO_SETTINGS_MODULE=${DJANGO_PROJECT_SLUG}.settings \
+            --master --socket=/tmp/${DJANGO_PROJECT_SLUG}.sock \
             --home=${HOME}/django_environment \
             --chmod-socket=666 \
             --processes=4 \
