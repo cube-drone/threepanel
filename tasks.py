@@ -96,24 +96,25 @@ def get_current_db(db=None):
 
 
 @task
-def run_python_install_script(production=False):
+def run_python_install_script(vagrant_hostname="default", production=False):
     install_path = "/home/vagrant/vagrant_django/configuration/install.py"
     environment_dict = environment_subset(REQUIRED_ENVIRONMENT_VARIABLES)
     environment_dict['DJANGO_DEBUG'] = str(not production)
+    environment_dict['VAGRANT_HOSTNAME'] = vagrant_hostname
     environment_string = environment_dict_to_string(environment_dict)
     cmd = "sudo {} python3 {}".format(environment_string, install_path)
     vagrant(cmd)
 
 
 @task
-def install(production=False, name="devbox", db=None, media=None):
+def install(production=False, name="vagrant-devbox", db=None, media=None):
     if not production:
         run("VAGRANT_HOSTNAME={} vagrant up --provider virtualbox".format(name))
-        run_python_install_script(production=False)
+        run_python_install_script(vagrant_hostname=name, production=False)
     else:
         get_media(media)
         run("VAGRANT_HOSTNAME={} vagrant up --provider digital_ocean".format(name))
-        run_python_install_script(production=True)
+        run_python_install_script(vagrant_hostname=name, production=True)
         vagrant_invoke("auth_keys")
 
     get_current_db(db)

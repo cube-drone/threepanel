@@ -14,6 +14,8 @@ import os
 from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+VAGRANT_HOSTNAME = "${VAGRANT_HOSTNAME}"
+
 ADMINS = ( ("${DJANGO_ADMIN_NAME}", "${DJANGO_ADMIN_EMAIL}"), )
 
 # SECURITY WARNING: keep the secret key used in production secret!
