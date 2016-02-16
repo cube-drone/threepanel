@@ -74,17 +74,25 @@ def vagrant_invoke(command):
 
 
 @task
-def get_media():
-    run("scp -r vagrant@threepanel.com:/home/vagrant/vagrant_django/media .")
+def get_media(media=None):
+    if not media:
+        run("scp -r vagrant@threepanel.com:/home/vagrant/vagrant_django/media .")
+        run("cp -r media /tmp/last_media")
+    else:
+        run("cp -r {} media".format(media))
 
 
 @task
-def get_current_db():
-    db_password = os.environ['POSTGRES_DB_PASSWORD']
-    run("ssh vagrant@threepanel.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
-    run("scp vagrant@threepanel.com:/tmp/last.db_backup /tmp/last.db_backup")
-    run("vagrant scp /tmp/last.db_backup /tmp/last.db_backup")
-    vagrant("sudo -u postgres psql -d threepanel -f /tmp/last.db_backup".format(db_password))
+def get_current_db(db=None):
+    if not db:
+        db_password = os.environ['POSTGRES_DB_PASSWORD']
+        run("ssh vagrant@threepanel.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
+        run("scp vagrant@threepanel.com:/tmp/last.db_backup /tmp/last.db_backup")
+        run("vagrant scp /tmp/last.db_backup /tmp/last.db_backup")
+        vagrant("sudo -u postgres psql -d threepanel -f /tmp/last.db_backup".format(db_password))
+    else:
+        run("vagrant scp {} /tmp/last.db_backup".format(db))
+        vagrant("sudo -u postgres psql -d threepanel -f /tmp/last.db_backup".format(db_password))
 
 
 @task
@@ -98,17 +106,17 @@ def run_python_install_script(production=False):
 
 
 @task
-def install(production=False, name="devbox"):
+def install(production=False, name="devbox", db=None, media=None):
     if not production:
         run("VAGRANT_HOSTNAME={} vagrant up --provider virtualbox".format(name))
         run_python_install_script(production=False)
     else:
-        get_media()
+        get_media(media)
         run("VAGRANT_HOSTNAME={} vagrant up --provider digital_ocean".format(name))
         run_python_install_script(production=True)
         vagrant_invoke("auth_keys")
 
-    get_current_db()
+    get_current_db(db)
     vagrant_invoke("makemigrations")
     vagrant_invoke("migrate")
 
