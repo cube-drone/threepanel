@@ -84,8 +84,8 @@ def get_media(media=None):
 
 @task
 def get_current_db(db=None):
+    db_password = os.environ['POSTGRES_DB_PASSWORD']
     if not db:
-        db_password = os.environ['POSTGRES_DB_PASSWORD']
         run("ssh vagrant@threepanel.com \"sudo -u postgres pg_dump threepanel > /tmp/last.db_backup\"")
         run("scp vagrant@threepanel.com:/tmp/last.db_backup /tmp/last.db_backup")
         run("vagrant scp /tmp/last.db_backup /tmp/last.db_backup")
