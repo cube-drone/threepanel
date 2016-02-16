@@ -98,13 +98,13 @@ def run_python_install_script(production=False):
 
 
 @task
-def install(production=False):
+def install(production=False, name="devbox"):
     if not production:
-        run("vagrant up --provider virtualbox")
+        run("VAGRANT_HOSTNAME={} vagrant up --provider virtualbox".format(name))
         run_python_install_script(production=False)
     else:
         get_media()
-        run("vagrant up --provider digital_ocean")
+        run("VAGRANT_HOSTNAME={} vagrant up --provider digital_ocean".format(name))
         run_python_install_script(production=True)
         vagrant_invoke("auth_keys")
 

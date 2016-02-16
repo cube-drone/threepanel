@@ -425,10 +425,8 @@ def proper_name():
         adjective()+noun()])
     if random.choice([True, False]):
         slab = firstname() + " " + slab
-    if random.choice([True, False]):
+    else:
         slab = title() + " " + slab
-    if len(slab.split(" ")) == 1:
-        slab = proper_name() + " " + slab
 
     return slab.title()
 
@@ -455,3 +453,6 @@ def markdown():
             words = words + word + " "
         words = words + ".\n\n"
     return words
+
+if __name__ == '__main__':
+    print(name())

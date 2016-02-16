@@ -10,7 +10,7 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-  config.vm.hostname = Time.now.to_i.to_s
+  config.vm.hostname = ENV["VAGRANT_HOSTNAME"]
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -69,7 +69,7 @@ Vagrant.configure(2) do |config|
     override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box = 'digital_ocean'
     #override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-    provider.name = Time.now.to_i.to_s
+    provider.name = ENV["VAGRANT_HOSTNAME"]
     provider.token = ENV["DIGITALOCEAN_API_TOKEN"]
     provider.image = 'ubuntu-15-10-x64'
     provider.region = 'nyc2'

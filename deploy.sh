@@ -1,7 +1,8 @@
 #!/bin/bash
 
-DEPLOY_REPO=`date +%s`-threepanel
 DEPLOY_BRANCH=continuous
+VAGRANT_HOSTNAME=`date +%s`-`python threepanel/random_name.py`
+DEPLOY_REPO=$VAGRANT_HOSTNAME
 
 mkdir -p deploys
 pushd deploys
@@ -16,7 +17,7 @@ source threepenv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
-invoke install --production
+invoke install --production --name=$VAGRANT_HOSTNAME
 
 popd
 popd
