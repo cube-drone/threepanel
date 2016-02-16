@@ -4,11 +4,24 @@ import sys
 
 from invoke import run as silently_run
 from invoke import task
-from colorama import init
+from colorama import init as colorama_init
 from colorama import Fore, Back, Style
 
-init()
+
+colorama_init()
 print(Fore.RED, file=sys.stderr)
+
+
+REQUIRED_ENVIRONMENT_VARIABLES = ['DIGITALOCEAN_API_TOKEN',
+                                  'DJANGO_PROJECT_SLUG',
+                                  'DJANGO_DOMAIN',
+                                  'DJANGO_ADMIN_NAME',
+                                  'DJANGO_ADMIN_EMAIL',
+                                  'POSTGRES_DB_PASSWORD',
+                                  'MANDRILL_KEY',
+                                  'DJANGO_SECRET_KEY',
+                                  'PAPERTRAIL_SERVER']
+
 
 def run(cmd, *args, **kwargs):
     """
@@ -25,42 +38,45 @@ def run(cmd, *args, **kwargs):
     silently_run(cmd, *args, **kwargs)
     print(Style.RESET_ALL)
 
-def env_to_string(debug='True'):
+
+def environment_subset(keys):
     """
-    These keys need to be defined in the environment for
-    the installation to work. We check if they are all
-    defined, then convert them to a string so that
-    we can pass them in to the installation script.
+    Prepare a subset of the environment containing only the keys that
+    are useful to deploy.
     """
-    os.environ['DJANGO_DEBUG'] = debug
-    keys = ['DIGITALOCEAN_API_TOKEN',
-            'DJANGO_PROJECT_SLUG',
-            'DJANGO_DOMAIN',
-            'DJANGO_DEBUG',
-            'DJANGO_ADMIN_NAME',
-            'DJANGO_ADMIN_EMAIL',
-            'POSTGRES_DB_PASSWORD',
-            'MANDRILL_KEY',
-            'DJANGO_SECRET_KEY']
+    env = {}
     for key in keys:
         if key not in os.environ:
             print("Warning: {} not defined.".format(key), file=sys.stderr)
-    env_variables = {"{}=\"{}\"".format(key,os.environ[key]) for key in
-                     os.environ if key in keys}
-    string = " ".join(env_variables)
-    return string
+        else:
+            env[key] = os.environ[key]
+    return env
+
+
+def environment_dict_to_string(env_dict):
+    """
+    Convert the environment dict into a string that can be passed as an
+    argument to a shell command:
+    ENV_VAR1="hello" ENV_VAR2="world"
+    """
+    env_list = ["{}=\"{}\"".format(key, env_dict[key]) for key in env_dict]
+    return " ".join(env_list)
+
 
 @task
 def vagrant(command):
     return run("vagrant ssh -c '{}'".format(command))
 
+
 @task
 def vagrant_invoke(command):
     return run(vagrant("source django_environment/bin/activate && cd vagrant_django/threepanel && invoke {}".format(command)))
 
+
 @task
 def get_media():
     run("scp -r vagrant@threepanel.com:/home/vagrant/vagrant_django/media .")
+
 
 @task
 def get_current_db():
@@ -70,24 +86,35 @@ def get_current_db():
     run("vagrant scp /tmp/last.db_backup /tmp/last.db_backup")
     vagrant("sudo -u postgres psql -d threepanel -f /tmp/last.db_backup".format(db_password))
 
+
+@task
+def run_python_install_script(production=False):
+    install_path = "/home/vagrant/vagrant_django/configuration/install.py"
+    environment_dict = environment_subset(REQUIRED_ENVIRONMENT_VARIABLES)
+    environment_dict['DJANGO_DEBUG'] = str(not production)
+    environment_string = environment_dict_to_string(environment_dict)
+    cmd = "sudo {} python3 {}".format(environment_string, install_path)
+    vagrant(cmd)
+
+
 @task
 def install(production=False):
-    install_path = "/home/vagrant/vagrant_django/configuration/install.py"
     if not production:
         run("vagrant up --provider virtualbox")
-        cmd = "sudo {} python3 {}".format(env_to_string(debug='True'), install_path)
-        vagrant(cmd)
+        run_python_install_script(production=False)
     else:
         get_media()
         run("vagrant up --provider digital_ocean")
-        cmd = "sudo {} python3 {}".format(env_to_string(debug='False'), install_path)
-        vagrant(cmd)
+        run_python_install_script(production=True)
         vagrant_invoke("auth_keys")
+
     get_current_db()
     vagrant_invoke("makemigrations")
     vagrant_invoke("migrate")
+
     if production:
         vagrant_invoke("prod_restart")
+
 
 @task
 def clean():

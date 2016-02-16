@@ -1,7 +1,7 @@
 #!/bin/bash
 
-nohup celery worker --app=${project_slug} \
+nohup celery worker --app=${DJANGO_PROJECT_SLUG} \
              --loglevel=info \
              --beat \
-             --pidfile=${home}/celery.pid \
-             --logfile=${home}/logs/celery.log 2>&1 &
+             --pidfile=${HOME}/celery.pid \
+             --logfile=${HOME}/logs/celery.log 2>&1 &

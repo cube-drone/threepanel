@@ -29,6 +29,7 @@ Threepanel Continuous Integration Edition
     export MANDRILL_KEY="maaaaandriiiiiilllll"
     export DJANGO_SECRET_KEY="seeeecreeeet"
     export POSTGRES_DB_PASSWORD="daaaaatabaaaaaaase"
+    export PAPERTRAIL_SERVER="logs.papertrail.whatever:12345"
 ```
 8. The server that threepanel.com points to is going to change a lot, so add this to your ssh config:
 ```

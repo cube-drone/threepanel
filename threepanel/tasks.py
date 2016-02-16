@@ -148,12 +148,18 @@ def kill_redis():
     run("sudo service redis-server stop")
 
 @task
+def restart_syslog():
+    print("Restarting Syslog...")
+    run("sudo service rsyslog restart")
+
+@task
 def prod_start():
     """ Start all of the services in the production stack"""
     uwsgi()
     celery()
     nginx()
     redis()
+    restart_syslog()
 
 @task
 def prod_stop():

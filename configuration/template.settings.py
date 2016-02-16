@@ -14,13 +14,13 @@ import os
 from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-ADMINS = ( ("${admin_name}", "${admin_email}"), )
+ADMINS = ( ("${DJANGO_ADMIN_NAME}", "${DJANGO_ADMIN_EMAIL}"), )
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '${secret_key}'
+SECRET_KEY = '${DJANGO_SECRET_KEY}'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ${debug}
+DEBUG = ${DJANGO_DEBUG}
 
 if DEBUG:
     print("Loading in DEBUG mode!")
@@ -52,9 +52,9 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-ROOT_URLCONF = '${project_slug}.urls'
+ROOT_URLCONF = '${DJANGO_PROJECT_SLUG}.urls'
 
-WSGI_APPLICATION = '${project_slug}.wsgi.application'
+WSGI_APPLICATION = '${DJANGO_PROJECT_SLUG}.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -62,9 +62,9 @@ WSGI_APPLICATION = '${project_slug}.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '${project_slug}',
-        'USER': '${project_slug}',
-        'PASSWORD': '${db_password}',
+        'NAME': '${DJANGO_PROJECT_SLUG}',
+        'USER': '${DJANGO_PROJECT_SLUG}',
+        'PASSWORD': '${POSTGRES_DB_PASSWORD}',
         'HOST': 'localhost',
     }
 }
@@ -72,15 +72,15 @@ DATABASES = {
 if DEBUG:
     SITE_URL = 'http://localhost:8080'
 else:
-    SITE_URL = "http://${domain}"
+    SITE_URL = "http://${DJANGO_DOMAIN}"
 
-EMAIL_SUBJECT_PREFIX = '[${domain}] '
-SERVER_EMAIL = 'noreply@${domain}'
+EMAIL_SUBJECT_PREFIX = '[${DJANGO_PROJECT_SLUG}] '
+SERVER_EMAIL = 'noreply@${DJANGO_DOMAIN}'
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
-    MANDRILL_API_KEY = '${mandrill_key}'
+    MANDRILL_API_KEY = '${MANDRILL_KEY}'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

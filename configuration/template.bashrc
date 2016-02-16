@@ -31,11 +31,15 @@ alias l='ls -CF'
 
 export PYTHONPATH=${django_path}
 source ${virtualenv_path}/bin/activate
-alias dj='python3 ${django_path}/manage.py'
-alias in='cd ${django_path} && invoke'
+alias dj='python3 ${DJANGO_PATH}/manage.py'
+alias in='cd ${DJANGO_PATH} && invoke'
 
-export DJANGO_PROJECT_SLUG=${project_slug}
-export DJANGO_DOMAIN=${domain}
-export DJANGO_ADMIN_NAME="${admin_name}"
-export DJANGO_ADMIN_EMAIL="${admin_email}"
-export DJANGO_MANDRILL_KEY="${mandrill_key}"
+export DJANGO_PROJECT_SLUG="${DJANGO_PROJECT_SLUG}"
+export DJANGO_DEBUG="${DJANGO_DEBUG}"
+export DJANGO_DOMAIN="${DJANGO_DOMAIN}"
+export DJANGO_ADMIN_NAME="${DJANGO_ADMIN_NAME}"
+export DJANGO_ADMIN_EMAIL="${DJANGO_ADMIN_EMAIL}"
+export MANDRILL_KEY="${MANDRILL_KEY}"
+export DJANGO_SECRET_KEY="${DJANGO_SECRET_KEY}"
+export POSTGRES_DB_PASSWORD="${POSTGRES_DB_PASSWORD}"
+export PAPERTRAIL_SERVER="${PAPERTRAIL_SERVER}"
