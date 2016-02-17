@@ -24,6 +24,9 @@ sudo apt-get install -y nginx
 echo "Install Python"
 sudo apt-get install -y python3 python3-dev python3-venv
 
+echo "Install fail2ban"
+sudo apt-get install -y fail2ban
+
 echo "Create a Virtual Environment, Install Pip & Python Dependencies"
 mkdir $VIRTUALENV
 pyvenv $VIRTUALENV
