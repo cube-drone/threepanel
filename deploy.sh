@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DEPLOY_BRANCH=continuous
-VAGRANT_HOSTNAME=`date +%s`-`python threepanel/random_name.py`
+VAGRANT_HOSTNAME=`python threepanel/random_name.py`-`date +%s`
 DEPLOY_REPO=$VAGRANT_HOSTNAME
 
 mkdir -p deploys
