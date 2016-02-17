@@ -14,6 +14,7 @@ sudo apt-get install -y build-essential gcc
 
 echo "Install Redis"
 sudo apt-get install -y redis-server
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
 
 echo "Install PostgreSQL"
 sudo apt-get install -y postgresql postgresql-contrib libpq-dev
