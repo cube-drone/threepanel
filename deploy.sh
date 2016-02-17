@@ -16,7 +16,7 @@ source threepenv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
-invoke install --production --name=$VAGRANT_HOSTNAME
+invoke install --production --name=$VAGRANT_HOSTNAME | tee deploy_log.txt
 
 popd
 popd

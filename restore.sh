@@ -16,7 +16,7 @@ source threepenv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
-invoke install --production --name=$VAGRANT_HOSTNAME --db=/tmp/last.db_backup --media=/tmp/last_media
+invoke install --production --name=$VAGRANT_HOSTNAME --db=/tmp/last.db_backup --media=/tmp/last_media | tee deploy_log.txt
 
 popd
 popd
