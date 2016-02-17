@@ -103,9 +103,7 @@ def uwsgi():
 def kill_uwsgi():
     if os.path.exists("{}/uwsgi.pid".format(HOME_PATH)):
         print("Killing UWSGI...")
-        run("kill `cat {}/uwsgi.pid`".format(HOME_PATH), pty=True)
-        run("sleep 1")
-        run("ps aux | grep \"[u]wsgi\"")
+        return run("kill `cat {}/uwsgi.pid`".format(HOME_PATH), pty=True)
         print("UWSGI Dead...")
     else:
         print("UWSGI not running!")
@@ -120,58 +118,68 @@ def celery():
 def kill_celery():
     if os.path.exists("{}/celery.pid".format(HOME_PATH)):
         print("Killing Celery...")
-        run("kill `cat {}/celery.pid`".format(HOME_PATH), pty=True)
-        run("sleep 1")
-        run("ps aux | grep \"[c]elery\"")
+        return run("kill `cat {}/celery.pid`".format(HOME_PATH), pty=True)
         print("Celery Dead...")
     else:
         print("Celery not running!")
 
 @task
+def postgres():
+    print("Starting Postgres...")
+    return run("sudo service postgresql stop")
+
+@task
+def kill_postgres():
+    print("Killing Postgres...")
+    return run("sudo service postgresql start")
+
+@task
 def nginx():
     print("Starting Nginx...")
-    run("sudo service nginx start")
+    return run("sudo service nginx start")
 
 @task
 def kill_nginx():
     print("Killing Nginx...")
-    run("sudo service nginx stop")
+    return run("sudo service nginx stop")
 
 @task
 def redis():
     print("Starting Redis...")
-    run("sudo service redis-server start")
+    return run("sudo service redis-server start")
 
 @task
 def kill_redis():
     print("Killing Redis...")
-    run("sudo service redis-server stop")
+    return run("sudo service redis-server stop")
 
 @task
 def restart_syslog():
     print("Restarting Syslog...")
-    run("sudo service rsyslog restart")
+    return run("sudo service rsyslog restart")
 
 @task
 def prod_start():
     """ Start all of the services in the production stack"""
+    postgres()
     uwsgi()
     celery()
     nginx()
     redis()
-    restart_syslog()
+    return restart_syslog()
 
 @task
 def prod_stop():
     """ Stop all of the services in the production stack"""
+    kill_postgres()
     kill_uwsgi()
     kill_celery()
     kill_nginx()
-    kill_redis()
+    return kill_redis()
 
 @task
 def prod_restart():
     """ Restart all of the services in the production stack """
     prod_stop()
-    prod_start()
+    return prod_start()
 
