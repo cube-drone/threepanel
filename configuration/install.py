@@ -90,7 +90,7 @@ def install_redis(environment_dict):
 
 def install_postgres(environment_dict):
     print("Installing postgres configuration to /etc/postgresql/9.4/main/postgresql.conf")
-    write_config_template_to_location(template='template.postgres.conf',
+    write_config_template_to_location(template='template.postgresql.conf',
                                       arguments=environment_dict,
                                       destination='/etc/postgresql/9.4/main/postgresql.conf')
 
