@@ -126,12 +126,12 @@ def kill_celery():
 @task
 def postgres():
     print("Starting Postgres...")
-    return run("sudo service postgresql stop")
+    return run("sudo service postgresql start")
 
 @task
 def kill_postgres():
     print("Killing Postgres...")
-    return run("sudo service postgresql start")
+    return run("sudo service postgresql stop")
 
 @task
 def nginx():
