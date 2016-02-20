@@ -2,14 +2,14 @@
 <li class='list-group-item {% if comic.hidden %}disabled{% endif %}'>
     <div class='row'>
     <div class='col-sm-8'>
-        <h4><a href='{% url 'comics.views.preview' comic_slug=comic.slug %}'>{{comic.title}}</a>
+        <h4><a href='{% url 'comics.views.preview' comic_slug=comic.slug site_slug=site_slug %}'>{{comic.title}}</a>
             - <small>{{comic.posted}}</small></h4>
         <div class='tags'>
         {% for tag in comic.tags %}
             {% if active_tag == tag %}
                 <strong><span class='glyphicon glyphicon-tag'></span> {{tag}}</strong>
             {% else %}
-                <em><a href='{% url 'comics.views.manage_tag' slug=tag %}'>
+                <em><a href='{% url 'comics.views.manage_tag' slug=tag site_slug=site_slug %}'>
                     <span class='glyphicon glyphicon-tag'></span> {{tag}}</a></em>
             {% endif %}
         {% endfor %}
@@ -18,10 +18,10 @@
         <p><span class='glyphicon glyphicon-search'></span> &mdash; <em>{{comic.secret_text}}</em></p>
         <p><small>{{comic.alt_text|linebreaks}}</small></p>
     </div>
-    <form class='col-sm-4 btn-group btn-group-sm' action="{% url 'comics.views.delete' comic_slug=comic.slug %}" method='POST'>
+    <form class='col-sm-4 btn-group btn-group-sm' action="{% url 'comics.views.delete' comic_slug=comic.slug site_slug=site_slug %}" method='POST'>
         {% csrf_token %}
         <input class='btn btn-default' type='submit' value="Delete"></input>
-        <a class='btn btn-default' href="{% url 'comics.views.update' comic_slug=comic.slug %}">Update</a>
+        <a class='btn btn-default' href="{% url 'comics.views.update' comic_slug=comic.slug site_slug=site_slug %}">Update</a>
     </form>
     </div>
     {% if comic.is_hero %}
@@ -33,10 +33,10 @@
             <li class='list-group-item'>
             <h5><span class='glyphicon glyphicon-picture'></span> - {{image.title}}</h5>
             <form class='btn-group btn-group-sm'
-                  action="{% url 'comics.views.delete_image' comic_slug=comic.slug slug=image.slug %}" method='POST'>
+                  action="{% url 'comics.views.delete_image' comic_slug=comic.slug slug=image.slug site_slug=site_slug%}" method='POST'>
                 {% csrf_token %}
                 <input class='btn btn-default' type='submit' value="Delete"></input>
-                <a class='btn btn-default' href="{% url 'comics.views.update_image' comic_slug=comic.slug slug=image.slug %}">Update</a>
+                <a class='btn btn-default' href="{% url 'comics.views.update_image' comic_slug=comic.slug slug=image.slug site_slug=site_slug %}">Update</a>
             </form>
             </li>
         {% endfor %}
@@ -46,10 +46,10 @@
             <div class='blog_excerpt'>
                 {{blog.markdown_rendered | truncatewords_html:20 | safe}}
             </div>
-            <form class='btn-group btn-group-sm' action="{% url 'comics.views.delete_blog' comic_slug=comic.slug slug=blog.slug %}" method='POST'>
+            <form class='btn-group btn-group-sm' action="{% url 'comics.views.delete_blog' comic_slug=comic.slug slug=blog.slug site_slug=site_slug %}" method='POST'>
                 {% csrf_token %}
                 <input class='btn btn-default' type='submit' value="Delete"></input>
-                <a class='btn btn-default' href="{% url 'comics.views.update_blog' comic_slug=comic.slug slug=blog.slug %}">Update</a>
+                <a class='btn btn-default' href="{% url 'comics.views.update_blog' comic_slug=comic.slug slug=blog.slug site_slug=site_slug %}">Update</a>
             </form>
             </li>
         {% endfor %}
@@ -57,16 +57,16 @@
             <li class='list-group-item'>
             <h5><span class='glyphicon glyphicon-play'></span> - {{video.title}}</h5>
             <form class='btn-group btn-group-sm'
-                  action="{% url 'comics.views.delete_video' comic_slug=comic.slug slug=video.slug %}" method='POST'>
+                  action="{% url 'comics.views.delete_video' comic_slug=comic.slug slug=video.slug site_slug=site_slug %}" method='POST'>
                 {% csrf_token %}
                 <input class='btn btn-default' type='submit' value="Delete"></input>
-                <a class='btn btn-default' href="{% url 'comics.views.update_video' comic_slug=comic.slug slug=video.slug %}">Update</a>
+                <a class='btn btn-default' href="{% url 'comics.views.update_video' comic_slug=comic.slug slug=video.slug site_slug=site_slug%}">Update</a>
             </form>
             </li>
         {% endfor %}
-            <a class='list-group-item' href="{% url 'comics.views.create_image' comic_slug=comic.slug %}">Create Image</a>
-            <a class='list-group-item' href="{% url 'comics.views.create_blog' comic_slug=comic.slug %}">Create Blog Post</a>
-            <a class='list-group-item' href="{% url 'comics.views.create_video' comic_slug=comic.slug %}">Create Video</a>
+            <a class='list-group-item' href="{% url 'comics.views.create_image' comic_slug=comic.slug site_slug=site_slug %}">Create Image</a>
+            <a class='list-group-item' href="{% url 'comics.views.create_blog' comic_slug=comic.slug site_slug=site_slug %}">Create Blog Post</a>
+            <a class='list-group-item' href="{% url 'comics.views.create_video' comic_slug=comic.slug site_slug=site_slug %}">Create Video</a>
         </ul>
     </div>
 </li>

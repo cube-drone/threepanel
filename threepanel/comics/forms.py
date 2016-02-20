@@ -6,13 +6,12 @@ from .models import Comic, Blog, Video, Image
 class ComicForm(forms.ModelForm):
     class Meta:
         model = Comic
-        exclude = ['hidden', 'order', 'id', 'slug', 'created', 'updated']
+        exclude = ['hidden', 'order', 'id', 'slug', 'created', 'updated', 'site']
 
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
         exclude = ['hidden', 'markdown_rendered', 'slug', 'created', 'updated']
-
 
 class VideoForm(forms.ModelForm):
     class Meta:

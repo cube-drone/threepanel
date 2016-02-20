@@ -1,13 +1,37 @@
 from django.db import models
 from django.core.cache import cache
+from django.contrib.auth.models import User
+
+from autoslug import AutoSlugField
+from slugify import slugify as slugify_wont_serialize
 
 
-# Create your models here.
+def title(c):
+    """
+    This in response to a serialization problem with lambdas
+    """
+    return c.title
+
+
+def slugify(s):
+    return slugify_wont_serialize(s)
+
+
 class SiteOptions(models.Model):
+    owner = models.ManyToManyField(User)
+    domain = models.CharField(max_length=100,
+                              default="cube-drone.com",
+                              db_index=True)
     # Basic
     title = models.CharField(max_length=100,
                              default="Cube Drone",
                              help_text="The title of your comic")
+    slug = AutoSlugField(populate_from=title,
+                         default="cube-drone",
+                         unique=True,
+                         db_index=True,
+                         slugify=slugify)
+
     tagline = models.CharField(max_length=200,
                                default="Code/comics, updates Tuesday & Thursday",
                                help_text="A short tagline for your comic")
@@ -46,11 +70,5 @@ class SiteOptions(models.Model):
         cache.clear()
 
     @classmethod
-    def get(cls):
-        opts = SiteOptions.objects.all()
-        if len(opts) > 0:
-            return opts[0]
-        else:
-            new_options = SiteOptions()
-            new_options.save()
-            return new_options
+    def get(cls, request):
+        return SiteOptions.objects.get(domain=request.META['HTTP_HOST'])

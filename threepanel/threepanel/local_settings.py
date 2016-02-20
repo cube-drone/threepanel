@@ -7,6 +7,10 @@ LOGIN_URL = "/dashboard/login"
 TIME_ZONE = 'America/Vancouver'
 USE_TZ = True
 
+FAVICON = 'http://curtis.lassam.net/comics/cube_drone/misc_assets/favicon-1.png'
+SITE_TITLE = 'Threepanel'
+DEBUG_DOMAIN = 'cube-drone.com'
+
 # Application definition
 
 INSTALLED_APPS = (

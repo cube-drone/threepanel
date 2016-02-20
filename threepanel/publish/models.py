@@ -17,7 +17,9 @@ import random_name
 
 from .email import VERIFICATION_EMAIL, VERIFICATION_EMAIL_HTML
 
+
 EMAIL_REGEX = "[-+_\w\.@]+"
+
 
 class SpamSpamSpamSpam(Exception):
     """
@@ -25,16 +27,19 @@ class SpamSpamSpamSpam(Exception):
     """
     pass
 
+
 class InvalidEmail(Exception):
     """
     Thrown when you try to create an invalid e-mail address.
     """
     pass
 
+
 class EmailSubscriber(models.Model):
     """
     One e-mail, subscribed to your comic.
     """
+    site = models.ForeignKey(SiteOptions, related_name="email_subscribers", default=1)
     email = models.CharField(max_length=100, null=False, blank=False, unique=True)
     verification_code = models.CharField(max_length=200, null=False, blank=False)
     verified = models.BooleanField(default=False)
@@ -52,7 +57,7 @@ class EmailSubscriber(models.Model):
         super().save()
 
     def send_verification_email(self):
-        site_options = SiteOptions.get()
+        site_options = self.site
 
         site_url = settings.SITE_URL
         verification_relative_url = reverse('publish.views.verify',
@@ -66,7 +71,7 @@ class EmailSubscriber(models.Model):
         self.send_mail(subject, message, message_html)
 
     def send_promo_email(self, comic):
-        site_options = SiteOptions.get()
+        site_options = self.site
 
         comic_absolute_url = comic.absolute_url()
 
@@ -86,7 +91,7 @@ class EmailSubscriber(models.Model):
         if self.last_email_sent > one_day_ago:
             raise SpamSpamSpamSpam("You're sending e-mail too often.")
 
-        site_options = SiteOptions.get()
+        site_options = self.site
 
         site_url = settings.SITE_URL
         unsubscribe_relative_url = reverse('publish.views.unsubscribe_email',

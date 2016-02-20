@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<form action="{% url 'comics.views.create_blog' comic_slug=comic_slug %}" method='POST'>
+<form action="{% url 'comics.views.create_blog' comic_slug=comic_slug site_slug=site_slug%}" method='POST'>
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}

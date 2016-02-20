@@ -7,11 +7,11 @@
 
 {% block content %}
 
-<form action="{% url 'dashboard.views.site_options' %}" method='POST'>
+<form action="{% url 'dashboard.views.site_options' site_slug=site_slug%}" method='POST'>
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}
     <input type='submit' value="Update Options"></input>
-</form> 
+</form>
 
 {% endblock %}

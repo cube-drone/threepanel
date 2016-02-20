@@ -6,15 +6,15 @@
 {% block actions %}
 <h3>Actions</h3>
 <div class='list-group' role='group'>
-    <a class='list-group-item' href="{% url 'comics.views.create' %}">Create New Comic</a>
-    <a class='list-group-item' href="{% url 'comics.views.trash' %}">Trash</a>
+    <a class='list-group-item' href="{% url 'comics.views.create' site_slug=site_slug %}">Create New Comic</a>
+    <a class='list-group-item' href="{% url 'comics.views.trash' site_slug=site_slug %}">Trash</a>
 </div>
 {% if tags %}
 <h3>Tags</h3>
 <div class='list-group' role='group'>
 {% for tag in tags %}
     <a class='list-group-item {% if tag == active_tag %}active{% endif %}'
-        href='{% url 'comics.views.manage_tag' slug=tag %}'>{{tag}}</a>
+        href='{% url 'comics.views.manage_tag' slug=tag site_slug=site_slug %}'>{{tag}}</a>
 {% endfor %}
 </div>
 {% endif %}

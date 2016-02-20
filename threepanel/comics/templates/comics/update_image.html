@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<form action="{% url 'comics.views.update_image' comic_slug=comic_slug slug=slug %}" method='POST'>
+<form action="{% url 'comics.views.update_image' comic_slug=comic_slug slug=slug site_slug=site_slug%}" method='POST'>
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}

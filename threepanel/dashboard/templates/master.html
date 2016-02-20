@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="description" content="{{dashboard.elevator_pitch}}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>{{dashboard.title}} - {% block head_title %}Threepanel{% endblock %}</title>
+    <title>{{dashboard.site_title}} - {{dashboard.title}} - {{dashboard.page_title}} </title>
     {# Load CSS and JavaScript #}
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <link href='http://curtis.lassam.net/comics/cube_drone/misc_assets/favicon-1.png' rel='icon' type="image/png">
@@ -101,7 +101,7 @@
         <nav class='navbar navbar-inverse' role="navigation">
             <div class='container-fluid'>
                 <div class='navbar-header'>
-                    <a class='btn btn-primary navbar-btn' href="{% url 'comics.views.manage' %}"> I'm Done Previewing </a>
+                    <a class='btn btn-primary navbar-btn' href="{% url 'comics.views.manage' site_slug=site_slug %}"> I'm Done Previewing </a>
                 </div>
             </div>
         </nav>
@@ -122,7 +122,7 @@
         <div class='col-md-3'>
         </div>
         <div class='col-md-6 copyright'>
-            <p>&copy; <a href='{{dashboard.author_website}}'>{{dashboard.author_name}}</a> 2012-{{year}}</p>
+            <p>&copy; <a href='{{dashboard.author_website}}'>{{dashboard.author_name}}</a> 2012-{{dashboard.year}}</p>
             <p>
                 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
                     <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />

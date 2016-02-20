@@ -13,7 +13,7 @@
 
 <img style='width:700px' class='comic img-responsive' src='{{comic.image_url}}' alt='{{comic.alt_text}}' title='{{comic.secret_text}}' />
 
-<form action="{% url 'comics.views.update' comic_slug=slug %}" method='POST'>
+<form action="{% url 'comics.views.update' comic_slug=slug site_slug=site_slug%}" method='POST'>
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}

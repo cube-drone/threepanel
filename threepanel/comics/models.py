@@ -14,10 +14,13 @@ from djorm_fulltext.fields import VectorField
 from djorm_fulltext.models import SearchManager
 import markdown
 
+from dashboard.models import SiteOptions
+
 """
 You're going to see the term 'Hero' a bunch in here.
 I'm using "Hero" to mean "The Most Recent Comic".
 """
+
 
 def title(c):
     """
@@ -25,15 +28,18 @@ def title(c):
     """
     return c.title
 
+
 def slugify(s):
     return slugify_wont_serialize(s)
+
 
 class Comic(models.Model):
     """
     One comic. A single image, and a little bit of meta-data, like
     alt-text, secret-text, when it was posted, what it's called...
     """
-    slug = AutoSlugField(populate_from=title,
+    site = models.ForeignKey(SiteOptions, related_name="comics", default=1)
+    slug = AutoSlugField(populate_from='title',
                          unique=True,
                          db_index=True,
                          slugify=slugify)
@@ -96,7 +102,7 @@ class Comic(models.Model):
         super().save()
         if reorder:
             self.updated = timezone.now()
-            Comic.reorder()
+            Comic.reorder(site=self.site)
             # We can be pretty aggressive with caching so long as
             # we completely cream the cache every time we write anything
             cache.clear()
@@ -107,15 +113,15 @@ class Comic(models.Model):
 
     @property
     def first(self):
-        if Comic.hero():
+        if Comic.hero(self.site):
             return 1
         else:
             return None
 
     @property
     def last(self):
-        if Comic.hero():
-            return Comic.hero().order
+        if Comic.hero(self.site):
+            return Comic.hero(self.site).order
         else:
             return None
 
@@ -129,17 +135,17 @@ class Comic(models.Model):
 
     @property
     def next(self):
-        if Comic.hero():
-            return min(self.order + 1, Comic.hero().order)
+        if Comic.hero(self.site):
+            return min(self.order + 1, Comic.hero(self.site).order)
         else:
             return None
 
     @classmethod
-    def reorder(cls):
+    def reorder(cls, site):
         """
         Set the 'order' field on every Comic object in the database.
         """
-        comics = Comic.objects.all().order_by('posted')
+        comics = Comic.objects.filter(site=site).order_by('posted')
         counter = 1
         for comic in comics:
             if not comic.hidden:
@@ -150,44 +156,44 @@ class Comic(models.Model):
             comic.save(reorder=False)
 
     @classmethod
-    def hero(cls):
+    def hero(cls, site):
         """
         Return the current 'hero' comic.
         """
         now = timezone.now()
-        comics = Comic.objects.filter(hidden=False, posted__lte=now).order_by('-posted')
+        comics = Comic.objects.filter(hidden=False, posted__lte=now, site=site).order_by('-posted')
         if len(comics) > 0:
             return comics[0]
         else:
             return None
 
     @classmethod
-    def archives(cls):
+    def archives(cls, site):
         now = timezone.now()
-        return (Comic.objects.filter(hidden=False, posted__lte=now)
+        return (Comic.objects.filter(hidden=False, site=site, posted__lte=now)
                                       .order_by('-posted')
                                       .prefetch_related("blogs"))
 
     @classmethod
-    def all_tags(cls):
+    def all_tags(cls, site):
         tgs = set()
-        for comic in Comic.objects.filter(hidden=False):
+        for comic in Comic.objects.filter(hidden=False, site=site):
             for tag in comic.tags:
                 tgs.add(tag)
         return tgs
 
     @classmethod
-    def backlog(cls):
+    def backlog(cls, site):
         now = timezone.now()
-        return (Comic.objects.filter(hidden=False, posted__gt=now)
+        return (Comic.objects.filter(hidden=False, posted__gt=now, site=site)
                                        .order_by('-posted')
                                        .prefetch_related("blogs")
                                        .prefetch_related("video")
                                        .prefetch_related("image"))
 
     @classmethod
-    def trash(cls):
-        return Comic.objects.filter(hidden=True)
+    def trash(cls, site):
+        return Comic.objects.filter(hidden=True, site=site)
 
     @property
     def blog_posts(self):
@@ -206,7 +212,7 @@ class Comic(models.Model):
         return len(self.blog_posts) > 0
 
     def absolute_url(self):
-        site_url = settings.SITE_URL
+        site_url = "http://{}".format(self.site.domain)
         comic_relative_url = reverse('comics.views.single',
                                      kwargs={'comic_slug':self.slug})
         return "{}{}".format(site_url, comic_relative_url)
@@ -214,7 +220,6 @@ class Comic(models.Model):
     def twitter_message(self):
         promo_len = 138 - len(self.absolute_url())
         return self.promo_text[:promo_len] + "\n " + self.absolute_url()
-
 
     def __str__(self):
         return "<Comic: {}>".format(self.slug)
@@ -237,7 +242,7 @@ class Blog(models.Model):
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
-    slug = AutoSlugField(populate_from=title,
+    slug = AutoSlugField(populate_from='title',
                          db_index=True,
                          unique=True,
                          slugify=slugify)
@@ -275,7 +280,7 @@ class Video(models.Model):
 
     created = models.DateTimeField()
 
-    slug = AutoSlugField(populate_from=title,
+    slug = AutoSlugField(populate_from='title',
                          unique=True,
                          db_index=True,
                          slugify=slugify)
@@ -313,7 +318,7 @@ class Image(models.Model):
 
     created = models.DateTimeField()
 
-    slug = AutoSlugField(populate_from=title,
+    slug = AutoSlugField(populate_from='title',
                          unique=True,
                          db_index=True,
                          slugify=slugify)
