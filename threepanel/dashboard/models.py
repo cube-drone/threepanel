@@ -72,3 +72,10 @@ class SiteOptions(models.Model):
     @classmethod
     def get(cls, request):
         return SiteOptions.objects.get(domain=request.META['HTTP_HOST'])
+
+    @property
+    def site_url(self):
+        if self.domain and self.domain != '':
+            return "http://{}".format(self.domain)
+        else:
+            return "http://{}.threepanel.com".format(self.slug)

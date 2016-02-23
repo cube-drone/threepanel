@@ -1,0 +1,11 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<h2>Hosted Sites</h2>
+<ul>
+{% for site in sites %}
+    <a href='{{site.site_url}}'>{{site.title}}</a>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 @dashboard
 def home(request):
     hero = Comic.hero(site=request.site)
+
     if not hero:
         c = Comic(title="Hello World",
                   image_url="http://curtis.lassam.net/comics/cube_drone/misc_assets/mail.png",
@@ -49,6 +50,7 @@ def single_by_numerical_order(request, n):
 def _permalink(request, comic_slug):
     return request.build_absolute_uri(reverse(single,
                                               kwargs={'comic_slug':comic_slug}))
+
 
 @login_required
 def preview(request, site_slug, comic_slug):
@@ -106,6 +108,7 @@ def search(request):
                                                     'search_term': search_term,
                                                     'tags': tags})
 
+
 @dashboard
 def blog(request):
     archives = Comic.archives(site=request.site)
@@ -134,6 +137,7 @@ def manage(request, site_slug):
         'archives': archives,
         'site_slug': site_slug,
         'hero': hero})
+
 
 @login_required
 def manage_tag(request, site_slug, slug):

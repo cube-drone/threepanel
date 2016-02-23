@@ -13,28 +13,36 @@ from .models import SiteOptions
 from .forms import SiteOptionsForm
 
 
-def dashboard(f, domain_multiplex=True):
+def dashboard(f):
     """
-    Wrap your views in dashboard to get access to crucial dashboard
-    variables that we use in the master views.
+    Check if we're coming in from a domain that has a SiteOptions object
+    associated with it. If we're not, bounce us to home.
     """
     @wraps(f)
     def func_wrapper(request, *args, **kwargs):
-        domain = request.META['HTTP_HOST']
+
+        try:
+            domain = request.GET['FAKE_DOMAIN']
+        except KeyError:
+            domain = request.META['HTTP_HOST']
+
         request.domain = domain
         print(request.domain)
-        if domain_multiplex:
-            if ".threepanel.com" in request.domain:
-                subdomain = request.domain[:request.domain.find(".")]
-                site_options = SiteOptions.objects.filter(slug=subdomain)
-            elif settings.DEBUG:
-                request.domain = settings.DEBUG_DOMAIN
-                site_options = SiteOptions.objects.filter(domain=request.domain)
-            else:
-                site_options = SiteOptions.objects.filter(domain=request.domain)
 
-            if len(site_options) > 0:
-                request.site = site_options[0]
+        if ".threepanel.com" in request.domain:
+            subdomain = request.domain[:request.domain.find(".")]
+            site_options = SiteOptions.objects.filter(slug=subdomain)
+        elif settings.DEBUG:
+            request.domain = settings.DEBUG_DOMAIN
+            site_options = SiteOptions.objects.filter(domain=request.domain)
+        else:
+            site_options = SiteOptions.objects.filter(domain=request.domain)
+
+        if len(site_options) > 0:
+            request.site = site_options[0]
+        else:
+            return HttpResponseRedirect(reverse(all_sites))
+
         return f(request, *args, **kwargs)
     return func_wrapper
 
@@ -126,3 +134,7 @@ def login(request):
 
     return render(request, "dashboard/login.html", {'hide_nav':True})
 
+
+def all_sites(request):
+    sites = SiteOptions.objects.all()
+    return render(request, "dashboard/all_sites.html", {'sites':sites})
