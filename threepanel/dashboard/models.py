@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.cache import cache
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from autoslug import AutoSlugField
 from slugify import slugify as slugify_wont_serialize
@@ -71,7 +72,26 @@ class SiteOptions(models.Model):
 
     @classmethod
     def get(cls, request):
-        return SiteOptions.objects.get(domain=request.META['HTTP_HOST'])
+        try:
+            domain = request.GET['FAKE_DOMAIN']
+        except KeyError:
+            domain = request.META['HTTP_HOST']
+
+        request.domain = domain
+
+        if ".threepanel.com" in request.domain:
+            subdomain = request.domain[:request.domain.find(".")]
+            site_options = SiteOptions.objects.filter(slug=subdomain)
+        elif settings.DEBUG:
+            request.domain = settings.DEBUG_DOMAIN
+            site_options = SiteOptions.objects.filter(domain=request.domain)
+        else:
+            site_options = SiteOptions.objects.filter(domain=request.domain)
+
+        if len(site_options) > 0:
+            return site_options[0]
+        else:
+            return None
 
     @property
     def site_url(self):

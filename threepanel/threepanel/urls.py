@@ -3,7 +3,7 @@ from comics.feeds import LatestEntriesFeed
 from comics import urls as comics_urls
 from comics.views import manage_redirect
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'threepanel.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
@@ -14,5 +14,5 @@ urlpatterns = patterns('',
     url(r'^subscribe/', include('publish.urls')),
     url(r'^pages/', include('pages.urls')),
     url(r'^subscribe$', 'publish.views.subscribe'),
-    url(r'rss.xml', LatestEntriesFeed())
-)
+    url(r'rss.xml', LatestEntriesFeed()),
+]

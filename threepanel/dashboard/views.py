@@ -20,29 +20,11 @@ def dashboard(f):
     """
     @wraps(f)
     def func_wrapper(request, *args, **kwargs):
-
-        try:
-            domain = request.GET['FAKE_DOMAIN']
-        except KeyError:
-            domain = request.META['HTTP_HOST']
-
-        request.domain = domain
-
-        if ".threepanel.com" in request.domain:
-            subdomain = request.domain[:request.domain.find(".")]
-            site_options = SiteOptions.objects.filter(slug=subdomain)
-        elif settings.DEBUG:
-            request.domain = settings.DEBUG_DOMAIN
-            site_options = SiteOptions.objects.filter(domain=request.domain)
-        else:
-            site_options = SiteOptions.objects.filter(domain=request.domain)
-
-        if len(site_options) > 0:
-            request.site = site_options[0]
+        request.site = SiteOptions.get(request)
+        if request.site:
+            return f(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse(all_sites))
-
-        return f(request, *args, **kwargs)
     return func_wrapper
 
 
@@ -75,6 +57,9 @@ def render(request, template, options=None):
         dashboard['patreon_page'] = site_options.patreon_page
         dashboard['twitter_username'] = site_options.twitter_username
     except AttributeError:
+        pass
+        # TODO: log dis
+    except TypeError:
         pass
         # TODO: log dis
     dashboard['favicon'] = settings.FAVICON
