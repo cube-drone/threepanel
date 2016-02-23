@@ -27,7 +27,6 @@ def dashboard(f):
             domain = request.META['HTTP_HOST']
 
         request.domain = domain
-        print(request.domain)
 
         if ".threepanel.com" in request.domain:
             subdomain = request.domain[:request.domain.find(".")]
