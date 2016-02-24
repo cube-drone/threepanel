@@ -54,7 +54,7 @@ def makemigrations():
 def collectstatic():
     """ Collect all of the static files from the django codebase
         and plop them in the STATIC_ROOT defined in settings.py """
-    return dj("collectstatic")
+    return dj("collectstatic --clear --noinput")
 
 @task
 def migrate():
