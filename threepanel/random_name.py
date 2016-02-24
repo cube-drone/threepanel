@@ -235,6 +235,7 @@ adjectives = [
     'murky',
     'sloshing',
     'damp',
+    'chubby',
 ]
 
 nouns = [
@@ -342,7 +343,14 @@ nouns = [
     'armour',
     'lamp',
     'club',
-    'cage'
+    'cage',
+    'typewriter',
+    'hole',
+    'ass',
+    'chump',
+    'jerk',
+    'feet',
+    'spud',
 ]
 
 firstnames = [
@@ -388,6 +396,12 @@ firstnames = [
     'pete',
     'jim',
     'james',
+    'wilhelm',
+    'mandy',
+    'andy',
+    'cole',
+    'miloslav',
+    'walter',
 ]
 
 
@@ -422,6 +436,8 @@ def proper_name():
         adjective(),
         noun()+noun(),
         noun()+adjective(),
+        noun()+adjective(),
+        adjective()+noun(),
         adjective()+noun()])
     if random.choice([True, False]):
         slab = firstname() + " " + slab
