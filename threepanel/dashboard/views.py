@@ -72,7 +72,7 @@ def render(request, template, options=None):
     dashboard['year'] = datetime.date.today().year
     dashboard['page_title'] = unslugify(dashboard['caller'].capitalize())
 
-    log.info("{}:{}".format(dashboard['filename'], dashboard['caller']))
+    logger.info("{}:{}".format(dashboard['filename'], dashboard['caller']))
 
     # If any dashboard options are already set, they override the default settings
     # if they are not already set, set them!
