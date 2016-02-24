@@ -1,6 +1,7 @@
 import sys
 import datetime
 from functools import wraps
+import logging
 
 from django.shortcuts import render as django_render
 from django.http import HttpResponseRedirect
@@ -11,6 +12,9 @@ from django.conf import settings
 
 from .models import SiteOptions
 from .forms import SiteOptionsForm
+
+
+logger = logging.getLogger('threepanel.{}'.format(__name__))
 
 
 def dashboard(f):
@@ -57,11 +61,9 @@ def render(request, template, options=None):
         dashboard['patreon_page'] = site_options.patreon_page
         dashboard['twitter_username'] = site_options.twitter_username
     except AttributeError:
-        pass
-        # TODO: log dis
+        log.warning("SiteOptions not set during render phase.")
     except TypeError:
-        pass
-        # TODO: log dis
+        log.warning("SiteOptions not set during render phase.")
     dashboard['favicon'] = settings.FAVICON
     dashboard['vagrant_hostname'] = settings.VAGRANT_HOSTNAME
     dashboard['site_title'] = settings.SITE_TITLE
@@ -69,6 +71,8 @@ def render(request, template, options=None):
     dashboard['filename'] = f_code.co_filename
     dashboard['year'] = datetime.date.today().year
     dashboard['page_title'] = unslugify(dashboard['caller'].capitalize())
+
+    log.info("{}:{}".format(dashboard['filename'], dashboard['caller']))
 
     # If any dashboard options are already set, they override the default settings
     # if they are not already set, set them!

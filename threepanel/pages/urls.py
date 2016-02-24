@@ -1,8 +1,9 @@
 from django.conf.urls import patterns, url
+from . import views
 
 SLUG = "(?P<slug>[-_\w]+)"
 
-urlpatterns = patterns('',
+urlpatterns = [
     # View
-    url(r'^'+SLUG+'$', 'pages.views.page', name='page')
-)
+    url(r'^'+SLUG+'$', views.page, name='page'),
+]

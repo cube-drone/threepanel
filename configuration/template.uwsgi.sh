@@ -8,6 +8,7 @@ nohup uwsgi --chdir=${HOME}/vagrant_django/${DJANGO_PROJECT_SLUG}/ \
             --chmod-socket=666 \
             --processes=4 \
             --die-on-term \
+            --log-syslog=${DJANGO_PROJECT_SLUG} \
             --harakiri=60 \
             --max-requests=5000 \
             --pidfile=${HOME}/uwsgi.pid \

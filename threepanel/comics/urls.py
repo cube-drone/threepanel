@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^manage/' + SITE_SLUG + '/delete/' + COMIC_SLUG + '/$', views.delete, name='delete'),
 
     # Blogs
-    url(r'^blog$', 'comics.views.blog', name='blog'),
+    url(r'^blog$', views.blog, name='blog'),
     url(r'^manage/' + SITE_SLUG + '/update/' + COMIC_SLUG + '/create_blog$', views.create_blog, name='create_blog'),
     url(r'^manage/' + SITE_SLUG + '/update/' + COMIC_SLUG + '/update_blog/' + SLUG, views.update_blog, name='update_blog'),
     url(r'^manage/' + SITE_SLUG + '/update/' + COMIC_SLUG + '/delete_blog/' + SLUG, views.delete_blog, name='delete_blog'),

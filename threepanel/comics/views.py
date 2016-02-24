@@ -15,7 +15,7 @@ from .models import Comic, Blog, Video, Image
 from .forms import ComicForm, BlogForm, VideoForm, ImageForm
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('threepanel.{}'.format(__name__))
 
 
 @dashboard
@@ -29,7 +29,7 @@ def home(request):
                   published = True,
                   secret_text = "There aren't any comics on this site, yet!")
         c.save()
-        hero = Comic.hero()
+        hero = Comic.hero(site=request.site)
     permalink = _permalink(request, hero.slug)
     return render(request,
                   "comics/single.html",
@@ -44,7 +44,7 @@ def single_by_numerical_order(request, n):
     if int(n) <= 0:
         raise Http404("There's no Comic 0.")
     comic = get_object_or_404(Comic, order=n)
-    return HttpResponseRedirect(reverse("comics.views.single",
+    return HttpResponseRedirect(reverse(single,
                                 kwargs={'comic_slug': comic.slug}))
 
 def _permalink(request, comic_slug):
@@ -67,8 +67,6 @@ def preview(request, site_slug, comic_slug):
 @dashboard
 def single(request, comic_slug):
     comic = get_object_or_404(Comic, slug=comic_slug)
-    print(comic.first)
-    print(comic.slug)
     if comic.hidden:
         raise Http404("This comic has been removed!")
     if timezone.now() < comic.posted:
@@ -101,7 +99,7 @@ def search(request):
     try:
         search_term = request.GET['search']
     except KeyError:
-        return HttpResponseRedirect(reverse("comics.views.archives"))
+        return HttpResponseRedirect(reverse(archives))
     comics = Comic.objects.search(search_term).filter(hidden=False, site=request.site)
     tags = Comic.all_tags(site=request.site)
     return render(request, "comics/archives.html", {'comics':comics,
