@@ -70,6 +70,7 @@ def render(request, template, options=None):
     dashboard['caller'] = f_code.co_name
     dashboard['filename'] = f_code.co_filename
     dashboard['year'] = datetime.date.today().year
+    dashboard['hide_nav'] = False
     dashboard['page_title'] = unslugify(dashboard['caller'].capitalize())
 
     log.info("{}:{}".format(dashboard['filename'], dashboard['caller']))
@@ -120,7 +121,7 @@ def login(request):
             messages.add_message(request, messages.ERROR,
                                  'Authentication failed!')
 
-    return render(request, "dashboard/login.html", {'hide_nav':True})
+    return render(request, "dashboard/login.html",  {'dashboard': {'hide_nav':True}})
 
 
 def all_sites(request):

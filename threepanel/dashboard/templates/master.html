@@ -45,8 +45,6 @@
     </style>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    {# Display django.contrib.messages as Bootstrap alerts #}
-    {% bootstrap_messages %}
     <!--
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
@@ -55,7 +53,7 @@
   </head>
   <body>
   <div class='container'>
-    {% if not hide_nav %}
+    {% if not dashboard.hide_nav %}
         <div class='header'>
             <nav class='navbar navbar-default navbar-fixed-top' role="navigation">
                 <div class='container-fluid'>
@@ -113,7 +111,7 @@
         {% block content %}{% endblock %}
     {% endblock %}
 
-    {% if not hide_nav %}
+    {% if not dashboard.hide_nav %}
     <br />
     <div class='footer navbar navbar-inverse navbar-bottom'>
         <div class='row'>
