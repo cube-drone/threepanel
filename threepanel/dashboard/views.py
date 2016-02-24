@@ -14,7 +14,7 @@ from .models import SiteOptions
 from .forms import SiteOptionsForm
 
 
-logger = logging.getLogger('threepanel.{}'.format(__name__))
+log = logging.getLogger('threepanel.{}'.format(__name__))
 
 
 def dashboard(f):
@@ -72,7 +72,7 @@ def render(request, template, options=None):
     dashboard['year'] = datetime.date.today().year
     dashboard['page_title'] = unslugify(dashboard['caller'].capitalize())
 
-    logger.info("{}:{}".format(dashboard['filename'], dashboard['caller']))
+    log.info("{}:{}".format(dashboard['filename'], dashboard['caller']))
 
     # If any dashboard options are already set, they override the default settings
     # if they are not already set, set them!

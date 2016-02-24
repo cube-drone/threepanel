@@ -15,7 +15,7 @@ from .models import Comic, Blog, Video, Image
 from .forms import ComicForm, BlogForm, VideoForm, ImageForm
 
 
-logger = logging.getLogger('threepanel.{}'.format(__name__))
+log = logging.getLogger('threepanel.{}'.format(__name__))
 
 
 @dashboard
@@ -207,7 +207,7 @@ def update(request, site_slug, comic_slug):
 def delete(request, site_slug, comic_slug):
     comic = get_object_or_404(Comic, site__slug=site_slug, slug=comic_slug)
     comic.hide()
-    logger.info("{} deleted".format(comic))
+    log.info("{} deleted".format(comic))
     messages.add_message(request, messages.INFO,
                          "\"{}\" Deleted".format(comic.title))
     return HttpResponseRedirect(reverse(manage, kwargs={'site_slug':site_slug}))
@@ -250,7 +250,7 @@ def update_blog(request, site_slug, comic_slug, slug):
 def delete_blog(request, site_slug, comic_slug, slug):
     blog = get_object_or_404(Blog, comic__site__slug=site_slug, comic__slug=comic_slug, slug=slug)
     blog.hide()
-    logger.info("{} deleted".format(blog))
+    log.info("{} deleted".format(blog))
     messages.add_message(request, messages.INFO,
                          "\"{}\" Deleted".format(blog.title))
     return HttpResponseRedirect(reverse(manage, kwargs={'site_slug':site_slug}))
@@ -290,7 +290,7 @@ def update_video(request, site_slug, comic_slug, slug):
 def delete_video(request, site_slug, comic_slug, slug):
     video = get_object_or_404(Video, comic__site__slug=site_slug, comic__slug=comic_slug, slug=slug)
     video.hide()
-    logger.info("{} deleted".format(video))
+    log.info("{} deleted".format(video))
     messages.add_message(request, messages.INFO,
                          "\"{}\" Deleted".format(video.title))
     return HttpResponseRedirect(reverse(manage, kwargs={'site_slug':site_slug}))
@@ -330,7 +330,7 @@ def update_image(request, site_slug, comic_slug, slug):
 def delete_image(request, site_slug, comic_slug, slug):
     image = get_object_or_404(Image, comic__site__slug=site_slug, comic__slug=comic_slug, slug=slug)
     image.hide()
-    logger.info("{} deleted".format(image))
+    log.info("{} deleted".format(image))
     messages.add_message(request, messages.INFO,
                          "\"{}\" Deleted".format(image.title))
     return HttpResponseRedirect(reverse(manage, kwargs={'site_slug':site_slug}))
