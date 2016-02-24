@@ -1,0 +1,25 @@
+
+.subscribe_btn, .updates_btn{
+    width: 150px;
+}
+.title_btn{
+    width: 200px;
+}
+.order{
+    font-size: xx-large;
+    color: white;
+    text-align: center;
+    min-height: 75px;
+}
+
+.comic_title{
+    margin-top: 0;
+    padding-top: 0;
+}
+.embed{
+    width: 100%;
+    height: 400px;
+}
+.footer p{
+    color: white;
+}

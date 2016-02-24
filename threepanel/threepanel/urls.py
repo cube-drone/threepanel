@@ -1,8 +1,12 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+from django.conf.urls.static import static
+from django.conf import settings
+
 from comics.feeds import LatestEntriesFeed
 from comics import urls as comics_urls
 from comics.views import manage_redirect, home
 from publish.views import subscribe
+
 
 urlpatterns = [
     # Examples:
@@ -16,4 +20,4 @@ urlpatterns = [
     url(r'^pages/', include('pages.urls')),
     url(r'^subscribe$', subscribe),
     url(r'rss.xml', LatestEntriesFeed()),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_URL)

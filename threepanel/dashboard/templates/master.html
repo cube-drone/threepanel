@@ -12,39 +12,12 @@
     <title>{{dashboard.site_title}} - {{dashboard.title}} - {{dashboard.page_title}} </title>
     {# Load CSS and JavaScript #}
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link href='http://curtis.lassam.net/comics/cube_drone/misc_assets/favicon-1.png' rel='icon' type="image/png">
-    <style>
-        .subscribe_btn, .updates_btn{
-            width: 150px;
-        }
-        .title_btn{
-            width: 200px;
-        }
-        .order{
-            font-size: xx-large;
-            color: white;
-            text-align: center;
-            min-height: 75px;
-        }
 
-        .comic_title{
-            margin-top: 0;
-            padding-top: 0;
-        }
-        .embed{
-            width: 100%;
-            height: 400px;
-        }
-        .footer p{
-            color: white;
-        }
-        .content img{
-            max-width: 100%;
-        }
-
-    </style>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+
+    <link href="{% static 'dashboard/images/favicon.png' %}" rel="icon" type="image/png">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/master.css' %}">
     <!--
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
