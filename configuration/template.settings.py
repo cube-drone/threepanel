@@ -3,10 +3,10 @@ This file generated from the template at configuration/template.settings.py
 Django settings for threepanel project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.8/topics/settings/
+https://docs.djangoproject.com/en/1.9/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.8/ref/settings/
+https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -59,7 +59,7 @@ ROOT_URLCONF = '${DJANGO_PROJECT_SLUG}.urls'
 WSGI_APPLICATION = '${DJANGO_PROJECT_SLUG}.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -85,7 +85,7 @@ else:
     MANDRILL_API_KEY = '${MANDRILL_KEY}'
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
+# https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -95,9 +95,10 @@ USE_L10N = False
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '${HOME}/static'
 
 print("Loading local settings")
 from ${DJANGO_PROJECT_SLUG}.local_settings import *

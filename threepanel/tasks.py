@@ -51,6 +51,12 @@ def makemigrations():
     return dj("makemigrations")
 
 @task
+def collectstatic():
+    """ Collect all of the static files from the django codebase
+        and plop them in the STATIC_ROOT defined in settings.py """
+    return dj("collectstatic")
+
+@task
 def migrate():
     """ Prep the database """
     return dj("migrate")
@@ -161,6 +167,7 @@ def restart_syslog():
 @task
 def prod_start():
     """ Start all of the services in the production stack"""
+    collectstatic()
     postgres()
     uwsgi()
     celery()

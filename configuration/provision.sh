@@ -36,11 +36,6 @@ source $VIRTUALENV/bin/activate && pip install -r $HOME/vagrant_django/configura
 echo "Removing default nginx page"
 sudo rm /etc/nginx/sites-enabled/default
 
-echo "Install remote_syslog2"
-pushd /tmp
-wget https://github.com/papertrail/remote_syslog2/releases/download/v0.17-beta-pkgs/remote-syslog2_0.17_amd64.deb
-dpkg -i remote-syslog2_0.17_amd64.deb
-popd
-
 mkdir -p $HOME/logs
+mkdir -p $HOME/static
 mkdir -p $HOME/vagrant_django/scripts
