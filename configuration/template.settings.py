@@ -98,7 +98,7 @@ USE_L10N = False
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '${HOME}/static'
+STATIC_ROOT = '${HOME}/vagrant_django/nginx/static'
 
 print("Loading local settings")
 from ${DJANGO_PROJECT_SLUG}.local_settings import *

@@ -37,5 +37,6 @@ echo "Removing default nginx page"
 sudo rm /etc/nginx/sites-enabled/default
 
 mkdir -p $HOME/logs
-mkdir -p $HOME/static
+mkdir -p $HOME/vagrant_django/nginx
+mkdir -p $HOME/vagrant_django/nginx/static
 mkdir -p $HOME/vagrant_django/scripts
