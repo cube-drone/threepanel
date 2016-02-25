@@ -76,6 +76,7 @@ def vagrant_invoke(command):
 @task
 def get_media(media=None):
     if not media:
+        run("mkdir -p nginx")
         run("scp -r vagrant@threepanel.com:/home/vagrant/vagrant_django/media/media ./nginx/media")
         #run("scp -r vagrant@threepanel.com:/home/vagrant/vagrant_django/nginx/media ./nginx/media")
         run("cp -r nginx /tmp/last_nginx")
