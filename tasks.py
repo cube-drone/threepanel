@@ -4,12 +4,6 @@ import sys
 
 from invoke import run as silently_run
 from invoke import task
-from colorama import init as colorama_init
-from colorama import Fore, Back, Style
-
-
-colorama_init()
-print(Fore.RED, file=sys.stderr)
 
 
 REQUIRED_ENVIRONMENT_VARIABLES = ['DIGITALOCEAN_API_TOKEN',
@@ -29,14 +23,12 @@ def run(cmd, *args, **kwargs):
     print out the command it's running before it runs.
     It also does color things.
     """
-    print(Fore.RED, file=sys.stderr)
     if not cmd:
         return
-    print(Fore.GREEN + cmd)
-    print(Style.RESET_ALL)
-    print(Style.DIM)
+    print("====================================")
+    print(cmd)
+    print("====================================")
     silently_run(cmd, *args, **kwargs)
-    print(Style.RESET_ALL)
 
 
 def environment_subset(keys):
