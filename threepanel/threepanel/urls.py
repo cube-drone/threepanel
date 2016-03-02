@@ -22,4 +22,4 @@ urlpatterns = [
     url(r'^i/', include(images_urls)),
     url(r'rss.xml', LatestEntriesFeed()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
-  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  + static('/media/upload', document_root=settings.MEDIA_ROOT)

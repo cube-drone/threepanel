@@ -1,0 +1,24 @@
+{% extends "management.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block head_title %}Manage Images{% endblock %}
+{% block title %}Manage Images{% endblock %}
+
+{% block actions %}
+<h3>Actions</h3>
+<div class='list-group' role='group'>
+    <a class='list-group-item' href="{% url 'images.views.manage' %}">Upload Images</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<ul class='list-group'>
+{% for image in images %}
+    {% include "images/module_image.html" with image=image %}
+{% endfor %}
+</ul>
+
+{% endblock %}

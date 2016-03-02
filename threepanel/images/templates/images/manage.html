@@ -1,22 +1,57 @@
 {% extends "management.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
 
 {% block head_title %}Manage Images{% endblock %}
 {% block title %}Manage Images{% endblock %}
 
+{% block extraheader %}
+    <script src="{% static 'images/js/dropzone.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'images/css/dropzone.css' %}"></script>
+
+    <style>
+    .big-image-link{
+        padding: 8px;
+        border: 1px dashed #333;
+    }
+    </style>
+
+{% endblock %}
+
 {% block actions %}
 <h3>Actions</h3>
 <div class='list-group' role='group'>
-    <a class='list-group-item' href="{% url 'images.views.create' %}">Upload Image</a>
+    <a class='list-group-item' href="{% url 'images.views.create' %}">Upload Image Form</a>
+    <a class='list-group-item' href="{% url 'images.views.archives' %}">Image Archives</a>
 </div>
 {% endblock %}
 
 {% block content %}
 
-<!-- show image thumbnails in a grid -->
 
+<ul class='list-group'>
+<li class='list-group-item row'>
+    <form id="uploady" action="{% url 'images.views.create_js' %}" class='dropzone' method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+    </form>
+</li>
 {% for image in images %}
-    <p><img src='{{image.thumbnail_url}}'></p>
-    <p>{{image.slug}}</p>
+    {% include "images/module_image.html" with image=image %}
 {% endfor %}
+</ul>
+
+<script>
+Dropzone.options.uploady = {
+  init: function() {
+    console.log("starting up the dropzone");
+    this.on("success", function(file, server_response) {
+        console.log(file);
+        console.log(server_response);
+        var link = "{{dashboard.site_url}}/i/"+server_response;
+        $(file.previewTemplate).append("<h2 class='big-image-link'>"+link+"</h2>");
+     });
+  },
+};
+</script>
 
 {% endblock %}

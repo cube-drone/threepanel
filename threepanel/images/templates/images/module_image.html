@@ -1,0 +1,9 @@
+
+<li class='list-group-item row'>
+  <a class='col-md-2' href='{% url 'images.views.view' image_slug=image.slug %}'>
+        <img src='{{image.thumbnail_url}}' class='img-thumbnail'></a>
+  <div class='col-md-9'>
+    <h2 class='big-image-link'>{{dashboard.site_url}}{% url 'images.views.view' image_slug=image.slug %}</h2>
+    <p>{{image.original_filename}} : {{image.width}}x{{image.height}}</p>
+  </div>
+</li>

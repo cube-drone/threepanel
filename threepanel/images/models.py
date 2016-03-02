@@ -70,24 +70,30 @@ class Image(models.Model):
         return os.path.join(settings.MEDIA_ROOT, self.image_file.name)
 
     @property
+    def original_filename(self):
+        name = self.image_file.name
+        just_name = name[name.index('/')+1:]
+        return just_name[len(self.slug)+1:]
+
+    @property
     def thumbnail_filename(self):
         filename, ext = os.path.splitext(self.filename)
-        return filename + ".thumbnail" + ext
+        return filename + ".thumbnail.png"
 
     @property
     def thumbnail_url(self):
         filename, ext = os.path.splitext(self.image_file.url)
-        return filename + ".thumbnail" + ext
+        return filename + ".thumbnail.png"
 
     @property
     def resized_filename(self):
         filename, ext = os.path.splitext(self.filename)
-        return filename + ".resized" + ext
+        return filename + ".resized.png"
 
     @property
     def resized_url(self):
         filename, ext = os.path.splitext(self.image_file.url)
-        return filename + ".resized" + ext
+        return filename + ".resized.png"
 
     def thumbnail(self):
         """
@@ -96,8 +102,9 @@ class Image(models.Model):
         thumbnail_size = (settings.THUMBNAIL_MAX_WIDTH_PX, settings.THUMBNAIL_MAX_HEIGHT_PX)
         try:
             im = PIL_Image.open(self.filename)
+            log.info("Thumbnailing type {}".format(im.format))
             im.thumbnail(thumbnail_size, PIL_Image.ANTIALIAS)
-            im.save(self.thumbnail_filename)
+            im.save(self.thumbnail_filename, format='PNG')
         except IOError:
             log.warning("Cannot create thumbnail for {}".format(self.filename))
 
@@ -108,8 +115,9 @@ class Image(models.Model):
         thumbnail_size = (settings.COMIC_MAX_WIDTH_PX, 10000)
         try:
             im = PIL_Image.open(self.filename)
+            log.info("Resizing type {}".format(im.format))
             im.thumbnail(thumbnail_size, PIL_Image.ANTIALIAS)
-            im.save(self.resized_filename)
+            im.save(self.resized_filename, format='PNG')
             print(self.resized_filename)
         except IOError:
             log.warning("Cannot create resized for {}".format(self.filename))

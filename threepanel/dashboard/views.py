@@ -67,6 +67,7 @@ def render(request, template, options=None):
     dashboard['favicon'] = settings.FAVICON
     dashboard['vagrant_hostname'] = settings.VAGRANT_HOSTNAME
     dashboard['site_title'] = settings.SITE_TITLE
+    dashboard['site_url'] = settings.SITE_URL
     dashboard['caller'] = f_code.co_name
     dashboard['filename'] = f_code.co_filename
     dashboard['year'] = datetime.date.today().year
