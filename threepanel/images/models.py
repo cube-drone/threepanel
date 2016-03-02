@@ -9,13 +9,16 @@ from django.utils import timezone
 
 from PIL import Image as PIL_Image
 from autoslug import AutoSlugField
-from slugify import slugify
+from slugify import slugify as slugify_wont_serialize
 
 from random_name import int_to_silly_slug
 
 
 log = logging.getLogger('threepanel.{}'.format(__name__))
 
+
+def slugify(s):
+    return slugify_wont_serialize(s)
 
 
 def user_directory_path(instance, filename):
