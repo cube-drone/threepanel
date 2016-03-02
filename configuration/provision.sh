@@ -23,7 +23,14 @@ echo "Install NGINX"
 sudo apt-get install -y nginx
 
 echo "Install Python"
-sudo apt-get install -y python3 python3-dev python3-venv
+sudo apt-get install -y python3 python3-dev python3-venv python3-setuptools
+
+echo "Install Pillow dependencies"
+sudo apt-get install -y libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
+sudo apt-get install -y liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
+
+echo "Install IMAGE CROOSHER"
+sudo apt-get install -y optipng
 
 echo "Install fail2ban"
 sudo apt-get install -y fail2ban
@@ -39,4 +46,6 @@ sudo rm /etc/nginx/sites-enabled/default
 mkdir -p $HOME/logs
 mkdir -p $HOME/vagrant_django/nginx
 mkdir -p $HOME/vagrant_django/nginx/static
+mkdir -p $HOME/vagrant_django/nginx/media
+mkdir -p $HOME/vagrant_django/nginx/media/upload
 mkdir -p $HOME/vagrant_django/scripts

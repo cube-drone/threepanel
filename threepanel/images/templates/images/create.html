@@ -1,0 +1,19 @@
+{% extends "management.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block head_title %}Create New Image{% endblock %}
+{% block title %}Create New Image{% endblock %}
+{% block extraheader %}
+{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'images.views.create' %}" method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    <input type='submit' value="Upload Image"></input>
+</form>
+
+{% endblock %}

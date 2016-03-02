@@ -10,6 +10,10 @@ USE_TZ = True
 FAVICON = 'http://curtis.lassam.net/comics/cube_drone/misc_assets/favicon-1.png'
 SITE_TITLE = 'Threepanel'
 DEBUG_DOMAIN = 'cube-drone.com'
+COMIC_MAX_WIDTH_PX = 1000
+THUMBNAIL_MAX_WIDTH_PX = 200
+THUMBNAIL_MAX_HEIGHT_PX = 200
+
 
 # Application definition
 
@@ -26,7 +30,8 @@ INSTALLED_APPS = (
     'dashboard',
     'comics',
     'publish',
-    'pages'
+    'pages',
+    'images',
 )
 
 MIDDLEWARE_CLASSES = (

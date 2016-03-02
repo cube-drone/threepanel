@@ -21,3 +21,5 @@ django-redis-cache==1.6.5
 Markdown==2.6.2
 
 uWSGI==2.0.11.2
+
+Pillow==3.1.1

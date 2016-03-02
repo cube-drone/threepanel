@@ -15,6 +15,7 @@ from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 VAGRANT_HOSTNAME = "${VAGRANT_HOSTNAME}"
+HOME_DIR = "${HOME}"
 
 ADMINS = ( ("${DJANGO_ADMIN_NAME}", "${DJANGO_ADMIN_EMAIL}"), )
 
@@ -72,7 +73,7 @@ DATABASES = {
 }
 
 if DEBUG:
-    SITE_URL = 'http://localhost:8080'
+    SITE_URL = 'http://localhost:18080'
 else:
     SITE_URL = "http://${DJANGO_DOMAIN}"
 
@@ -99,6 +100,9 @@ USE_L10N = False
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '${HOME}/vagrant_django/nginx/static'
+
+MEDIA_URL = SITE_URL + '/media/upload/'
+MEDIA_ROOT = '${HOME}/vagrant_django/nginx/media/upload'
 
 print("Loading local settings")
 from ${DJANGO_PROJECT_SLUG}.local_settings import *

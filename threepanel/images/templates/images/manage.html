@@ -1,0 +1,22 @@
+{% extends "management.html" %}
+
+{% block head_title %}Manage Images{% endblock %}
+{% block title %}Manage Images{% endblock %}
+
+{% block actions %}
+<h3>Actions</h3>
+<div class='list-group' role='group'>
+    <a class='list-group-item' href="{% url 'images.views.create' %}">Upload Image</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- show image thumbnails in a grid -->
+
+{% for image in images %}
+    <p><img src='{{image.thumbnail_url}}'></p>
+    <p>{{image.slug}}</p>
+{% endfor %}
+
+{% endblock %}

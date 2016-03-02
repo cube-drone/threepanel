@@ -28,9 +28,12 @@
         <div class='navbar navbar-default'>
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'comics.views.home' %}">Home</a></li>
+                {% if site_slug %}
                 <li><a href="{% url 'comics.views.manage' site_slug=site_slug %}">Comics</a></li>
                 <li><a href="{% url 'dashboard.views.site_options' site_slug=site_slug %}">Site Options</a></li>
                 <li><a href="{% url 'publish.views.manage' site_slug=site_slug %}">Mailing List</a></li>
+                {% endif %}
+                <li><a href="{% url 'images.views.manage'  %}">Manage Images</a></li>
             </ul>
         </div>
 

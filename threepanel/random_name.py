@@ -355,15 +355,14 @@ nouns = [
 
 firstnames = [
     'carl',
-    'carla',
     'tim',
     'mary',
     'peter',
+    'wilhelm',
     'kimmy',
     'steve',
     'jennifer',
     'frank',
-    'youssef',
     'pierre',
     'george',
     'aya',
@@ -379,11 +378,13 @@ firstnames = [
     'madison',
     'chloe',
     'camilla',
+    'carla',
     'hiroto',
     'rasmus',
     'charlie',
     'miguel',
     'alexander',
+    'youssef',
     'emma',
     'maya',
     'sara',
@@ -396,7 +397,6 @@ firstnames = [
     'pete',
     'jim',
     'james',
-    'wilhelm',
     'mandy',
     'andy',
     'cole',
@@ -469,6 +469,85 @@ def markdown():
             words = words + word + " "
         words = words + ".\n\n"
     return words
+
+
+def int_to_silly_slug(n):
+    """
+    Converts an integer, via a 2-way mapping, into a silly slug.
+
+    >>> int_to_silly_slug(17)
+    'mighty'
+
+    >>> int_to_silly_slug(-17)
+    'miss-mighty'
+
+    >>> int_to_silly_slug(300)
+    'peter-heroic'
+
+    >>> int_to_silly_slug(2503121232130)
+    'mary-violet-almond-light-scary-light-black'
+
+    """
+    str_n = str(int(n))
+    word_constructor = []
+    if str_n[0] == '-':
+        word_constructor.append("miss")
+        str_n = str_n[1:]
+
+    odd = lambda x: x % 2 == 1
+    assert(odd(1))
+    assert(not odd(2))
+
+    if odd(len(str_n)):
+        word_constructor.append(firstnames[int(str_n[0])])
+        str_n = str_n[1:]
+
+    while len(str_n) > 2:
+        word_constructor.append(adjectives[int(str_n[:2])])
+        str_n = str_n[2:]
+
+    if len(str_n) == 2:
+        word_constructor.append(nouns[int(str_n[:2])])
+        str_n = str_n[2:]
+
+    return "-".join(word_constructor)
+
+
+def silly_slug_to_int(silly_slug):
+    """
+    Converts a silly slug back into an integer.
+    """
+    words = silly_slug.split("-")
+    number_constructor = []
+    if words[0] == "miss":
+        number_constructor.append("-")
+        words = words[1:]
+
+    try:
+        indx = firstnames.index(words[0])
+        number_constructor.append(str(indx))
+        words = words[1:]
+    except ValueError:
+        pass
+
+    while len(words) > 1:
+        indx = adjectives.index(words[0])
+        number_constructor.append(str(indx))
+        words = words[1:]
+
+    if len(words) == 1:
+        indx = nouns.index(words[0])
+        number_constructor.append(str(indx))
+        words = words[1:]
+
+    return int("".join(number_constructor))
+
+def noop(x):
+    """
+    A test.
+    """
+    return silly_slug_to_int(int_to_silly_slug(x))
+
 
 if __name__ == '__main__':
     print(name())
