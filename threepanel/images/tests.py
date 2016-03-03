@@ -28,7 +28,7 @@ class ImageTestCase(TestCase):
             self.test_image_jpg.save()
 
     def tearDown(self):
-        #shutil.rmtree(settings.MEDIA_ROOT + '/user_testy')
+        shutil.rmtree(settings.MEDIA_ROOT + '/user_testy')
         pass
 
     def test_image_creation(self):
