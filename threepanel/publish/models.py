@@ -128,5 +128,5 @@ class EmailSubscriber(models.Model):
         return unverified
 
     @classmethod
-    def subscribers(cls):
-        return EmailSubscriber.objects.filter(verified=True)
+    def subscribers(cls, site):
+        return EmailSubscriber.objects.filter(verified=True, site=site)

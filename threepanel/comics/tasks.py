@@ -12,9 +12,15 @@ from comics.models import Comic, Blog
 
 @shared_task
 def publish():
+    sites = SiteOptions.objects.all()
+    for site in sites:
+        publish_site(site)
+
+@shared_task
+def publish_site(site):
     publog = []
 
-    hero = Comic.hero()
+    hero = Comic.hero(site)
     if hero.published:
         print("Nothing to see here!")
         return
@@ -25,11 +31,11 @@ def publish():
     # this should trigger a cache-clear and re-order operation
     hero.save()
 
-    hero = Comic.hero()
+    hero = Comic.hero(site)
     assert(hero.order > 0)
 
     # send hero e-mail to subscribers
-    subscribers = EmailSubscriber.subscribers()
+    subscribers = EmailSubscriber.subscribers(site)
 
     mails = []
     for subscriber in subscribers:
@@ -48,11 +54,10 @@ def publish():
     try:
         tweet(twitter_message)
     except Exception as e:
-        publog.append(e)
+        publog.append(str(e))
 
     # send printed report to admin
-    mail_admins(subject="Published!",
-                message="\n".join(publog))
+    mail_admins(subject="Published!", message="\n".join(publog))
 
     return
 
