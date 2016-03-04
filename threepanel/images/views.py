@@ -39,10 +39,12 @@ def original(request, image_slug):
 @login_required
 def manage(request):
     images = Image.objects.filter(user=request.user).order_by('-created')[:10]
+    count = Image.objects.filter(user=request.user).count()
     form = ImageForm()
     return render(request, "images/manage.html", {
         'form': form,
-        'images': images})
+        'images': images,
+        'count': count})
 
 def manage_redirect(request):
     return redirect(manage)
