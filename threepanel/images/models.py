@@ -11,7 +11,7 @@ from PIL import Image as PIL_Image
 from autoslug import AutoSlugField
 from slugify import slugify as slugify_wont_serialize
 
-from random_name import int_to_silly_slug
+from random_name import name
 
 
 log = logging.getLogger('threepanel.{}'.format(__name__))
@@ -29,7 +29,7 @@ def user_directory_path(instance, filename):
 
 
 def silly_slug(instance):
-    return int_to_silly_slug(hash(instance.image_file.url))
+    return name()
 
 
 class Image(models.Model):
