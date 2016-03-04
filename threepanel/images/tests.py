@@ -3,7 +3,6 @@ import shutil
 
 from django.test import TestCase
 from django.core.files.images import ImageFile
-from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.conf import settings
 
