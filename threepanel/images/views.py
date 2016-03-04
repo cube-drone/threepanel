@@ -36,7 +36,6 @@ def original(request, image_slug):
     image = get_object_or_404(Image, slug=image_slug)
     return redirect(image.image_file.url)
 
-
 @login_required
 def manage(request):
     images = Image.objects.filter(user=request.user).order_by('-created')[:10]
@@ -44,6 +43,9 @@ def manage(request):
     return render(request, "images/manage.html", {
         'form': form,
         'images': images})
+
+def manage_redirect(request):
+    return redirect(manage)
 
 @login_required
 def archives(request):
