@@ -25,6 +25,11 @@ def home(command, *args, **kwargs):
     return run(multiple("cd {}".format(DJANGO_PATH), command), *args, **kwargs)
 
 @task
+def test():
+    """ Run all the tests. """
+    return dj("test images")
+
+@task
 def lint():
     """ Run the PEP8 and Pyflakes linters """
     return home("pylint *")
