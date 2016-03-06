@@ -12,7 +12,7 @@ from slugify import slugify
 import random_name
 from .models import EmailSubscriber, SpamSpamSpamSpam, InvalidEmail
 
-
+@dashboard
 def subscribe(request):
     """ A page detailing all of the fantastic ways one can subscribe """
     random_email = "{}@sample.org".format(slugify(random_name.proper_name()))

@@ -50,6 +50,7 @@ def render(request, template, options=None):
     dashboard = {}
     try:
         site_options = request.site
+        dashboard['site_options'] = request.site
         dashboard['title'] = site_options.title
         dashboard['slug'] = site_options.slug
         dashboard['tagline'] = site_options.tagline
@@ -60,6 +61,7 @@ def render(request, template, options=None):
         dashboard['youtube_channel'] = site_options.youtube_channel
         dashboard['patreon_page'] = site_options.patreon_page
         dashboard['twitter_username'] = site_options.twitter_username
+        dashboard['twitter_widget_id'] = site_options.twitter_widget_id
     except AttributeError:
         log.warning("SiteOptions not set during render phase.")
     except TypeError:

@@ -20,14 +20,15 @@
         </div>
     </form>
 
-    {% if dashboard.twitter_widget_id %}
     <div class='row'>
+    {% if dashboard.twitter_widget_id %}
         <div class='tweets col-md-6'>
             <h2>Twitter</h2>
             <a class="twitter-timeline"  href="https://twitter.com/{{dashboard.twitter_username}}" data-widget-id="{{dashboard.twitter_widget_id}}">Tweets by @{{dashboard.twitter_username}}</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             <div style='clear:both;'></div>
         </div>
+    {% endif %}
         <div class='tweets col-md-6'>
             <h2>RSS</h2>
             <p>An elegant weapon for a more civilized age, RSS feeds are a way to
@@ -36,14 +37,13 @@
             <p>Some really good feed readers include
                 <a href='https://theoldreader.com'>The Old Reader</a>
                 and
-                <a href='http://feedly.com/i/subscription/feed/http://cube-drone.com/rss.xml'>Feedly</a>.
+                <a href='http://feedly.com/'>Feedly</a>.
             </p>
             <p>My feed URL is
-                <a href='http://cube-drone.com/rss.xml'>http://cube-drone.com/rss.xml</a>
+                <a href='{{dashboard.site_options.site_url}}/rss.xml'>{{dashboard.site_options.site_url}}/rss.xml</a>
             </p>
         </div>
     </div>
-    {% endif %}
 
 
 {% endblock %}
