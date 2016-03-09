@@ -2,8 +2,8 @@ language: python
 python:
   - "3.5"
 install:
-- "ls"
-- "sudo mv threepanel /home/travis/classam/vagrant_django"
+- "pwd"
+- "sudo mv . /home/travis/classam/vagrant_django"
 - "export HOME=/home/travis/classam"
 - "sudo bash /home/travis/classam/vagrant_django/configuration/provision.sh"
 - "pip install -r /home/travis/classam/vagrant_django/configuration/requirements.txt"
