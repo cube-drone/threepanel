@@ -1,12 +1,19 @@
 language: python
 python:
   - "3.5"
+before_install:
+- sudo apt-get -qq update
+- sudo apt-get install -y build-essential gcc
+- sudo apt-get install -y libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
+- sudo apt-get install -y liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
+- sudo apt-get install -y libxml2-dev
+- sudo apt-get install -y optipng
 install:
-- "pwd"
-- "sudo mv /home/travis/build/classam/threepanel /home/travis/build/classam/vagrant_django"
-- "export HOME=/home/travis/build/classam"
-- "sudo bash /home/travis/build/classam/vagrant_django/configuration/provision.sh"
-- "pip install -r /home/travis/build/classam/vagrant_django/configuration/requirements.txt"
-- "sudo python /home/travis/build/classam/vagrant_django/configuration/install.py"
+- pwd
+- sudo mv /home/travis/build/classam/threepanel /home/travis/build/classam/vagrant_django
+- export HOME=/home/travis/build/classam
+- export VIRTUALENV=/home/travis/virtualenv
+- pip install -r /home/travis/build/classam/vagrant_django/configuration/requirements.txt
+- sudo python /home/travis/build/classam/vagrant_django/configuration/install.py
 script:
-- "pushd /home/travis/build/classam/vagrant_django/threepanel; invoke test; popd;"
+- pushd /home/travis/build/classam/vagrant_django/threepanel; invoke test; popd;
