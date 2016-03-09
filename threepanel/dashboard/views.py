@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 from .models import SiteOptions
 from .forms import SiteOptionsForm
@@ -87,6 +88,7 @@ def render(request, template, options=None):
     return django_render(request, template, options)
 
 
+@login_required
 def site_options(request, site_slug):
     site_options = SiteOptions.objects.get(slug=site_slug)
     if request.method == 'POST':
