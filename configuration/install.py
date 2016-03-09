@@ -140,12 +140,37 @@ def install_papertrail(environment_dict):
             conf.write("*.*          @{}".format(environment_dict['PAPERTRAIL_SERVER']))
 
 
+def defaults(environment_dict):
+    """
+    Set a bunch of default variables so that we can still install this
+    even if everything isn't set
+    """
+    if not 'DJANGO_PROJECT_SLUG' in environment_dict:
+        environment_dict['DJANGO_PROJECT_SLUG'] = 'threepanel'
+    if not 'DJANGO_DEBUG' in environment_dict:
+        environment_dict['DJANGO_DEBUG'] = 'True'
+    if not 'DJANGO_DOMAIN' in environment_dict:
+        environment_dict['DJANGO_DOMAIN'] = 'localhost'
+    if not 'DJANGO_ADMIN_NAME' in environment_dict:
+        environment_dict['DJANGO_ADMIN_NAME'] = 'Test Admin'
+    if not 'DJANGO_ADMIN_EMAIL' in environment_dict:
+        environment_dict['DJANGO_ADMIN_EMAIL'] = 'test@sample.org'
+    if not 'MANDRILL_KEY' in environment_dict:
+        environment_dict['MANDRILL_KEY'] = 'None'
+    if not 'DJANGO_SECRET_KEY' in environment_dict:
+        environment_dict['DJANGO_SECRET_KEY' = '7'
+    if not 'POSTGRES_DB_PASSWORD' in environment_dict:
+        environment_dict['POSTGRES_DB_PASSWORD'] = 'testpass'
+    if not 'PAPERTRAIL_SERVER' in environment_dict:
+        environment_dict['PAPERTRAIL_SERVER'] = 'localhost'
+
 def install(environment_dict):
     """
     Install everything!
     Takes a dictionary of environment variables that must include... various things laid
     out in the README.
     """
+
     install_bashrc(environment_dict)
     install_django_settings(environment_dict)
     install_nginx(environment_dict)
@@ -160,6 +185,7 @@ if __name__ == '__main__':
     env_dict = dict(os.environ)
     env_dict["DJANGO_PATH"] = os.path.join(VAGRANT_DJANGO_PATH, env_dict["DJANGO_PROJECT_SLUG"])
     env_dict["VIRTUALENV_PATH"] = VIRTUALENV_PATH
+    defaults(env_dict)
     for key in env_dict:
         print("{}: {}".format(key, env_dict[key]))
     install(env_dict)
