@@ -70,12 +70,14 @@ class SiteOptions(models.Model):
 
     @classmethod
     def get(cls, request):
-        try:
+        if 'FAKE_DOMAIN' in request.GET:
             domain = request.GET['FAKE_DOMAIN']
-        except KeyError:
+        elif 'HTTP_HOST' in request.META:
             domain = request.META['HTTP_HOST']
             if domain.startswith('www.'):
                 domain = domain[4:]
+        else:
+            return None
 
         request.domain = domain
 

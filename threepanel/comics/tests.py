@@ -1,17 +1,18 @@
 from unittest.mock import patch, MagicMock
 
 from django.test import TestCase, RequestFactory
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.conf import settings
 from django.utils import timezone
 
 from dashboard.models import SiteOptions
 from .models import Comic
 from .tasks import publish
+from .feeds import LatestEntriesFeed
 
 # Create your tests here.
 
-class PublishTestCase(TestCase):
+class ComicsTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testy',
                                              email='testytesterson@sample.org',
@@ -43,3 +44,13 @@ class PublishTestCase(TestCase):
 
     def test_publish(self):
         publish()
+
+    def test_rss(self):
+        request = self.factory.get('/rss.xml')
+
+        request.user = AnonymousUser()
+
+        # Use this syntax for class-based views.
+        request.META['HTTP_HOST'] = 'testcomic.org'
+        response = LatestEntriesFeed()(request)
+        self.assertEqual(response.status_code, 200)
