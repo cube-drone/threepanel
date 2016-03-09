@@ -51,7 +51,7 @@ def publish_site(site):
     publog.append("\n")
     publog.append("Tweeting: {}".format(twitter_message))
     try:
-        site.twitter.tweet(twitter_message)
+        site.twitterintegration.tweet(twitter_message)
     except ObjectDoesNotExist:
         publog.append("Twitter support not enabled.")
     except Exception as e:

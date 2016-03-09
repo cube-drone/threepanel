@@ -63,12 +63,10 @@ def render(request, template, options=None):
         dashboard['youtube_channel'] = site_options.youtube_channel
         dashboard['patreon_page'] = site_options.patreon_page
         try:
-            dashboard['twitter_username'] = site_options.twitter.username
-            dashboard['twitter_widget_id'] = site_options.twitter.widget_id
-        except AttributeError:
-            pass
-        except TypeError:
-            pass
+            dashboard['twitter_username'] = site_options.twitterintegration.username
+            dashboard['twitter_widget_id'] = site_options.twitterintegration.widget_id
+        except ObjectDoesNotExist:
+            log.info("TwitterIntegration not set during render phase.")
     except AttributeError:
         log.info("SiteOptions not set during render phase.")
     except TypeError:
@@ -123,8 +121,11 @@ def twitter_integration(request, site_slug):
             twitter_integration = form.save(commit=False)
             twitter_integration.site = site
             twitter_integration.save()
-            messages.add_message(request, messages.SUCCESS, 'Twitter Integration Updated!')
-            return HttpResponseRedirect(site_options)
+            is_working, status_message = twitter_integration.get_status()
+            if is_working:
+                messages.add_message(request, messages.SUCCESS, status_message)
+            else:
+                messages.add_message(request, messages.ERROR, status_message)
     else:
         try:
             twitter_integration = site.twitterintegration
