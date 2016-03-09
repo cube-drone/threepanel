@@ -3,10 +3,10 @@ python:
   - "3.5"
 install:
 - "pwd"
-- "sudo mv . /home/travis/classam/vagrant_django"
-- "export HOME=/home/travis/classam"
-- "sudo bash /home/travis/classam/vagrant_django/configuration/provision.sh"
-- "pip install -r /home/travis/classam/vagrant_django/configuration/requirements.txt"
-- "sudo python /home/travis/classam/vagrant_django/configuration/install.py"
+- "sudo mv /home/travis/build/classam/threepanel /home/travis/build/classam/vagrant_django"
+- "export HOME=/home/travis/build/classam"
+- "sudo bash /home/travis/build/classam/vagrant_django/configuration/provision.sh"
+- "pip install -r /home/travis/build/classam/vagrant_django/configuration/requirements.txt"
+- "sudo python /home/travis/build/classam/vagrant_django/configuration/install.py"
 script:
-- "pushd /home/travis/classam/vagrant_django/threepanel; invoke test; popd;"
+- "pushd /home/travis/build/classam/vagrant_django/threepanel; invoke test; popd;"
