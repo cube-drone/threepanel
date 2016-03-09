@@ -1,10 +1,9 @@
 language: python
 python:
   - "3.5"
-env:
-- HOME=/home/travis/classam
 before_install:
 - "sudo mv /home/travis/classam/threepanel /home/travis/classam/vagrant_django"
+- "export HOME=/home/travis/classam"
 install:
 - "sudo bash /home/travis/classam/vagrant_django/configuration/provision.sh"
 - "pip install -r /home/travis/classam/vagrant_django/configuration/requirements.txt"
