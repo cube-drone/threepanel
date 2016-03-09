@@ -1,11 +1,13 @@
 language: python
 python:
   - "3.5"
-#install:
-#- "sudo bash ./config/provision.sh"
-#- "pip install -r configuration/requirements.txt"
-#- "sudo python configuration/install.py"
+env:
+- HOME=/home/travis/classam
+before_install:
+- "sudo mv /home/travis/classam/threepanel /home/travis/classam/vagrant_django"
+install:
+- "sudo bash /home/travis/classam/vagrant_django/configuration/provision.sh"
+- "pip install -r /home/travis/classam/vagrant_django/configuration/requirements.txt"
+- "sudo python /home/travis/classam/vagrant_django/configuration/install.py"
 script:
-- "echo $HOME"
-- "ls $HOME"
-#- "pushd threepanel; invoke test; popd threepanel;"
+- "pushd /home/travis/classam/vagrant_django/threepanel; invoke test; popd;"
