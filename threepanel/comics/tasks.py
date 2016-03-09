@@ -1,13 +1,12 @@
 from __future__ import absolute_import
 
 from django.core.mail import mail_admins
+from django.core.exceptions import ObjectDoesNotExist
 
 from celery import shared_task
 
 from publish.models import EmailSubscriber, SpamSpamSpamSpam
 from dashboard.models import SiteOptions
-from twitter import tweet
-
 from comics.models import Comic, Blog
 
 @shared_task
@@ -52,7 +51,9 @@ def publish_site(site):
     publog.append("\n")
     publog.append("Tweeting: {}".format(twitter_message))
     try:
-        tweet(twitter_message)
+        site.twitter.tweet(twitter_message)
+    except ObjectDoesNotExist:
+        publog.append("Twitter support not enabled.")
     except Exception as e:
         publog.append(str(e))
 

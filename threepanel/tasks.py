@@ -27,7 +27,7 @@ def home(command, *args, **kwargs):
 @task
 def test():
     """ Run all the tests. """
-    return dj("test images")
+    return dj("test images dashboard")
 
 @task
 def lint():

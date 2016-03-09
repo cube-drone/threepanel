@@ -1,3 +1,5 @@
+import logging
+
 from django.db import models
 from django.core.cache import cache
 from django.contrib.auth.models import User
@@ -5,7 +7,10 @@ from django.conf import settings
 
 from autoslug import AutoSlugField
 from slugify import slugify as slugify_wont_serialize
+import tweepy
+from tweepy.error import TweepError
 
+log = logging.getLogger('threepanel.{}'.format(__name__))
 
 def title(c):
     """
@@ -20,9 +25,6 @@ def slugify(s):
 
 class SiteOptions(models.Model):
     owner = models.ManyToManyField(User)
-    domain = models.CharField(max_length=100,
-                              default="cube-drone.com",
-                              db_index=True)
     # Basic
     title = models.CharField(max_length=100,
                              default="Cube Drone",
@@ -32,6 +34,10 @@ class SiteOptions(models.Model):
                          unique=True,
                          db_index=True,
                          slugify=slugify)
+
+    domain = models.CharField(max_length=100,
+                              default="cube-drone.com",
+                              db_index=True)
 
     tagline = models.CharField(max_length=200,
                                default="Code/comics, updates Tuesday & Thursday",
@@ -57,14 +63,6 @@ class SiteOptions(models.Model):
     patreon_page = models.CharField(max_length=150,
                                     default="https://www.patreon.com/cubedrone")
 
-    # Twitter
-    twitter_username = models.CharField(max_length=50, default="classam")
-    twitter_widget_id = models.CharField(max_length=50, default="304715092187025408")
-
-    twitter_consumer_key = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
-    twitter_consumer_secret = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
-    twitter_access_key = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
-    twitter_access_secret = models.CharField(max_length=100, default="", help_text="Get from apps.twitter.com")
 
     def save(self):
         super().save()
@@ -101,3 +99,58 @@ class SiteOptions(models.Model):
             return "http://{}".format(self.domain)
         else:
             return "http://{}.threepanel.com".format(self.slug)
+
+class TwitterIntegration(models.Model):
+    """
+    Twitter Integration with the site.
+    """
+
+    site = models.OneToOneField(SiteOptions,
+                                on_delete=models.CASCADE,
+                                primary_key=True)
+
+    # Twitter
+    username = models.CharField(max_length=50, default="classam")
+    widget_id = models.CharField(max_length=50, default="304715092187025408")
+
+    consumer_key = models.CharField(max_length=100, default="",
+                                    help_text="Get from apps.twitter.com")
+    consumer_secret = models.CharField(max_length=100, default="",
+                                       help_text="Get from apps.twitter.com")
+    access_key = models.CharField(max_length=100, default="",
+                                  help_text="Get from apps.twitter.com")
+    access_secret = models.CharField(max_length=100, default="",
+                                     help_text="Get from apps.twitter.com")
+
+
+    def api(self):
+        consumer_key = self.consumer_key.strip(" ")
+        consumer_secret = self.consumer_secret.strip(" ")
+        access_key = self.access_key.strip(" ")
+        access_secret = self.access_secret.strip(" ")
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_key, access_secret)
+
+        api = tweepy.API(auth)
+        return api
+
+    def tweet(self, message):
+        if len(message) > 140:
+            log.warning("Twitter message too long, truncating: {}".format(message))
+        message = message[:140]
+        api = self.api()
+        result = api.update_status(message)
+        log.info("Tweeting {}".format(result))
+        return result
+
+    def get_public_tweets(self):
+        api = self.api()
+        tweets = api.home_timeline()
+        return tweets
+
+    def get_status(self):
+        try:
+            self.get_public_tweets()
+            return True, "Twitter Integration is working great!"
+        except TweepError as e:
+            return False, e.reason

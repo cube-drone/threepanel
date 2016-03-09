@@ -10,9 +10,10 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
-from .models import SiteOptions
-from .forms import SiteOptionsForm
+from .models import SiteOptions, TwitterIntegration
+from .forms import SiteOptionsForm, TwitterIntegrationForm
 
 
 log = logging.getLogger('threepanel.{}'.format(__name__))
@@ -61,12 +62,17 @@ def render(request, template, options=None):
         dashboard['google_tracking_code'] = site_options.google_tracking_code
         dashboard['youtube_channel'] = site_options.youtube_channel
         dashboard['patreon_page'] = site_options.patreon_page
-        dashboard['twitter_username'] = site_options.twitter_username
-        dashboard['twitter_widget_id'] = site_options.twitter_widget_id
+        try:
+            dashboard['twitter_username'] = site_options.twitter.username
+            dashboard['twitter_widget_id'] = site_options.twitter.widget_id
+        except AttributeError:
+            pass
+        except TypeError:
+            pass
     except AttributeError:
-        log.warning("SiteOptions not set during render phase.")
+        log.info("SiteOptions not set during render phase.")
     except TypeError:
-        log.warning("SiteOptions not set during render phase.")
+        log.info("SiteOptions not set during render phase.")
     dashboard['favicon'] = settings.FAVICON
     dashboard['vagrant_hostname'] = settings.VAGRANT_HOSTNAME
     dashboard['site_title'] = settings.SITE_TITLE
@@ -102,6 +108,31 @@ def site_options(request, site_slug):
         form = SiteOptionsForm(instance=site_options)
 
     return render(request, 'dashboard/site_options.html', {'form': form, 'site_slug':site_slug})
+
+
+@login_required
+def twitter_integration(request, site_slug):
+    site = SiteOptions.objects.get(slug=site_slug)
+    if request.method == 'POST':
+        try:
+            twitter_integration = site.twitterintegration
+            form = TwitterIntegrationForm(request.POST, instance=twitter_integration)
+        except ObjectDoesNotExist:
+            form = TwitterIntegrationForm(request.POST)
+        if form.is_valid():
+            twitter_integration = form.save(commit=False)
+            twitter_integration.site = site
+            twitter_integration.save()
+            messages.add_message(request, messages.SUCCESS, 'Twitter Integration Updated!')
+            return HttpResponseRedirect(site_options)
+    else:
+        try:
+            twitter_integration = site.twitterintegration
+            form = TwitterIntegrationForm(instance=twitter_integration)
+        except ObjectDoesNotExist:
+            form = TwitterIntegrationForm()
+
+    return render(request, 'dashboard/twitter_integration.html', {'form': form, 'site_slug':site_slug})
 
 
 def login(request):

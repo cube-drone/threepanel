@@ -2,9 +2,6 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 
-{% block head_title %}Update Site Options{% endblock %}
-{% block title %}Update Site Options{% endblock %}
-
 {% block actions %}
 <h3>Actions</h3>
 <div class='list-group' role='group'>
@@ -15,11 +12,11 @@
 
 {% block content %}
 
-<form action="{% url 'dashboard.views.site_options' site_slug=site_slug%}" method='POST'>
+<form action="{% url 'dashboard.views.twitter_integration' site_slug=site_slug%}" method='POST'>
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}
-    <input type='submit' value="Update Options"></input>
+    <input type='submit' value="Update Twitter Integration"></input>
 </form>
 
 {% endblock %}
