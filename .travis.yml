@@ -1,8 +1,11 @@
 language: python
 python:
   - "3.5"
-install:
-- "pip install -r configuration/requirements.txt"
-- "sudo python configuration/install.py"
+#install:
+#- "sudo bash ./config/provision.sh"
+#- "pip install -r configuration/requirements.txt"
+#- "sudo python configuration/install.py"
 script:
-- "pushd threepanel; invoke test; popd threepanel;"
+- "echo $HOME"
+- "ls $HOME"
+#- "pushd threepanel; invoke test; popd threepanel;"
