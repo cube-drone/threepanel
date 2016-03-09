@@ -158,7 +158,7 @@ def defaults(environment_dict):
     if not 'MANDRILL_KEY' in environment_dict:
         environment_dict['MANDRILL_KEY'] = 'None'
     if not 'DJANGO_SECRET_KEY' in environment_dict:
-        environment_dict['DJANGO_SECRET_KEY' = '7'
+        environment_dict['DJANGO_SECRET_KEY'] = '7'
     if not 'POSTGRES_DB_PASSWORD' in environment_dict:
         environment_dict['POSTGRES_DB_PASSWORD'] = 'testpass'
     if not 'PAPERTRAIL_SERVER' in environment_dict:
