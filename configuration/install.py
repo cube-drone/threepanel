@@ -163,6 +163,7 @@ def defaults(environment_dict):
         environment_dict['POSTGRES_DB_PASSWORD'] = 'testpass'
     if not 'PAPERTRAIL_SERVER' in environment_dict:
         environment_dict['PAPERTRAIL_SERVER'] = 'localhost'
+    return environment_dict
 
 def install(environment_dict):
     """
@@ -185,7 +186,7 @@ if __name__ == '__main__':
     env_dict = dict(os.environ)
     env_dict["DJANGO_PATH"] = os.path.join(VAGRANT_DJANGO_PATH, env_dict["DJANGO_PROJECT_SLUG"])
     env_dict["VIRTUALENV_PATH"] = VIRTUALENV_PATH
-    defaults(env_dict)
+    env_dict = defaults(env_dict)
     for key in env_dict:
         print("{}: {}".format(key, env_dict[key]))
     install(env_dict)
