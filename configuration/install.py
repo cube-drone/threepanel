@@ -182,7 +182,7 @@ def install(environment_dict):
     """
 
     # if we're running on a TRAVIS box, we only need django_settings
-    if TRAVIS_JOB_NUMBER in os.environ:
+    if 'TRAVIS_JOB_NUMBER' in os.environ:
         install_django_settings(environment_dict)
         return
 
