@@ -23,6 +23,10 @@ def dashboard(f):
     """
     Check if we're coming in from a domain that has a SiteOptions object
     associated with it. If we're not, bounce us to home.
+
+    We can fool the dashboard's domain assignment by setting FAKE_DOMAIN
+    in the GET parameters or as a cookie. Setting a persistent cookie is
+    a great way to test the site.
     """
     @wraps(f)
     def func_wrapper(request, *args, **kwargs):
