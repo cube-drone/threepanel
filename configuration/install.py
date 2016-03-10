@@ -147,6 +147,8 @@ def defaults(environment_dict):
     Set a bunch of default variables so that we can still install this
     even if everything isn't set
     """
+    if not 'VAGRANT_HOSTNAME' in environment_dict:
+        environment_dict['VAGRANT_HOSTNAME'] = 'unknown_vm'
     if not 'DJANGO_PROJECT_SLUG' in environment_dict:
         environment_dict['DJANGO_PROJECT_SLUG'] = 'threepanel'
     if not 'DJANGO_DEBUG' in environment_dict:
