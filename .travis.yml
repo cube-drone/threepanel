@@ -4,8 +4,7 @@ python:
 before_install:
 - sudo apt-get -qq update
 - sudo apt-get install -y build-essential gcc
-- sudo apt-get install -y libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
-- sudo apt-get install -y liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
+- sudo apt-get -qq install libfreetype6-dev liblcms2-dev python-qt4 ghostscript libffi-dev libjpeg-turbo-progs cmake imagemagick
 - sudo apt-get install -y libxml2-dev
 - sudo apt-get install -y optipng
 install:
