@@ -16,7 +16,6 @@ UWSGI_PID_PATH = os.path.join(HOME_PATH, 'uwsgi.pid')
 
 def python():
     thing = run("python --version")
-    print(thing.stdout)
     if str(thing.stdout).startswith("Python 3."):
         return "python"
     else:
