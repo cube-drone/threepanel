@@ -7,12 +7,15 @@ from .models import Comic
 from dashboard.models import SiteOptions
 
 class LatestEntriesFeed(Feed):
-    title = "Latest Cube Drone "
+    title = ""
     link = "/rss.xml"
-    description = "The latest Cube Drone comics."
+    description = ""
 
     def get_object(self, request):
-        return SiteOptions.get(request)
+        site = SiteOptions.get(request)
+        self.title = site.title
+        self.description = site.elevator_pitch
+        return site
 
     def title(self, obj):
         if obj:
@@ -35,7 +38,7 @@ class LatestEntriesFeed(Feed):
     def item_description(self, item):
         site_options = item.site
         description = """
-        {}
+        {}<br/>
 
         <a href='{}'><img style='width:650px;' width='650px' src='{}' alt='{}' title='{}'/></a>
 
