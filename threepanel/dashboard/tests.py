@@ -39,11 +39,9 @@ class TwitterTestCase(TestCase):
         self.assertEqual(self.twitter.username, "testy")
 
     @patch('tweepy.OAuthHandler')
-    @patch('tweepy.API')
-    def test_tweep(self, api_mock, oauth_mock):
+    def test_tweep(self, oauth_mock):
         api = self.twitter.api()
         oauth_mock.assert_called_with("TWITTER_CONSUMER_KEY", "TWITTER_CONSUMER_SECRET")
-        api_mock.assert_called()
 
     def test_message(self):
         api_mock = MagicMock()
