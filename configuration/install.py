@@ -92,9 +92,12 @@ def install_redis(environment_dict):
 
 def install_postgres(environment_dict):
     print("Installing postgres configuration to /etc/postgresql/9.4/main/postgresql.conf")
-    write_config_template_to_location(template='template.postgresql.conf',
-                                      arguments=environment_dict,
-                                      destination='/etc/postgresql/9.4/main/postgresql.conf')
+    try:
+        write_config_template_to_location(template='template.postgresql.conf',
+                                          arguments=environment_dict,
+                                          destination='/etc/postgresql/9.4/main/postgresql.conf')
+    except IOError:
+        print("PostgreSQL 9.4 not present on server? Maybe there's another version of postgres here.")
 
     scripts = ['template.create_postgres.sh',
                'template.backup_postgres.sh',
@@ -184,6 +187,7 @@ def install(environment_dict):
     # if we're running on a TRAVIS box, we only need django_settings
     if 'TRAVIS_JOB_NUMBER' in os.environ:
         install_django_settings(environment_dict)
+        install_postgres(environment_dict)
         return
 
     install_bashrc(environment_dict)
