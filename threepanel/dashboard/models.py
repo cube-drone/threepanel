@@ -27,73 +27,49 @@ class SiteOptions(models.Model):
     owner = models.ManyToManyField(User)
     # Basic
     title = models.CharField(max_length=100,
-                             default="Cube Drone",
                              help_text="The title of your comic")
-    slug = AutoSlugField(populate_from=title,
-                         default="cube-drone",
+    slug = AutoSlugField(populate_from='title',
                          unique=True,
                          db_index=True,
                          slugify=slugify)
 
     domain = models.CharField(max_length=100,
-                              default="cube-drone.com",
                               db_index=True)
 
+    #i.e."Code & Comics, updates Tuesday & Thursday"
     tagline = models.CharField(max_length=200,
-                               default="Code/comics, updates Tuesday & Thursday",
+                               blank=True,
                                help_text="A short tagline for your comic")
-    elevator_pitch = models.TextField(default="Comics about software development in a small Vancouver startup.",
+
+    #i.e."Comics about software development in a small Vancouver startup.",
+    elevator_pitch = models.TextField(blank=True,
                                       help_text="A Tweet-length description of your comic.")
 
     # Author
+    #i.e. "Curtis Lassam"
     author_name = models.CharField(max_length=100,
-                                   default="Curtis Lassam",
+                                   blank=True,
                                    help_text="What's the author (or author's) names?")
+    #i.e. "http://curtis.lassam.net"
     author_website = models.CharField(max_length=100,
-                                      default="http://curtis.lassam.net",
+                                      blank=True,
                                       help_text="Does the author have a personal website?")
 
     # Google tracking code number
-    google_tracking_code = models.CharField(max_length=50,
-                                            default="UA-41279849-1")
+    # i.e. "UA-41279849-1"
+    google_tracking_code = models.CharField(max_length=50, blank=True)
+
+    # i.e. "http://www.youtube.com/user/IkoIkoComic/playlists"
     youtube_channel = models.CharField(max_length=150,
-                                       default="http://www.youtube.com/user/IkoIkoComic/playlists")
+                                       blank=True,
+                                       help_text="Link to your YouTube channel")
 
     # Patreon Page
+    # i.e. "https://www.patreon.com/cubedrone"
     patreon_page = models.CharField(max_length=150,
-                                    default="https://www.patreon.com/cubedrone")
+                                    blank=True,
+                                    help_text="Link to your Patreon page")
 
-
-    def save(self):
-        super().save()
-        cache.clear()
-
-    @classmethod
-    def get(cls, request):
-        if 'FAKE_DOMAIN' in request.GET:
-            domain = request.GET['FAKE_DOMAIN']
-        elif 'HTTP_HOST' in request.META:
-            domain = request.META['HTTP_HOST']
-            if domain.startswith('www.'):
-                domain = domain[4:]
-        else:
-            return None
-
-        request.domain = domain
-
-        if ".threepanel.com" in request.domain:
-            subdomain = request.domain[:request.domain.find(".")]
-            site_options = SiteOptions.objects.filter(slug=subdomain)
-        elif settings.DEBUG:
-            request.domain = settings.DEBUG_DOMAIN
-            site_options = SiteOptions.objects.filter(domain=request.domain)
-        else:
-            site_options = SiteOptions.objects.filter(domain=request.domain)
-
-        if len(site_options) > 0:
-            return site_options[0]
-        else:
-            return None
 
     @property
     def site_url(self):
@@ -101,6 +77,49 @@ class SiteOptions(models.Model):
             return "http://{}".format(self.domain)
         else:
             return "http://{}.threepanel.com".format(self.slug)
+
+
+    def save(self):
+        if not self.domain:
+            self.domain = "{}.{}".format(self.slug, settings.SITE_DOMAIN)
+        super().save()
+        cache.clear()
+
+    @classmethod
+    def get(cls, request):
+        """
+        Given a request, check the subdomain and http host information
+        and return the associated SiteOptions object (or None, if none exists)
+        """
+        if 'fake_domain' in request.GET:
+            domain = request.GET['fake_domain']
+        elif 'FAKE_DOMAIN' in request.GET:
+            domain = request.GET['FAKE_DOMAIN']
+        elif 'fake_domain' in request.COOKIES:
+            domain = request.COOKIES['fake_domain']
+        elif 'FAKE_DOMAIN' in request.COOKIES:
+            domain = request.COOKIES['FAKE_DOMAIN']
+        elif 'HTTP_HOST' in request.META:
+            domain = request.META['HTTP_HOST']
+            if domain.startswith('www.'):
+                domain = domain[4:]
+        else:
+            log.warning("No HTTP Host in request.")
+            return None
+
+        if ".{}".format(settings.SITE_DOMAIN) in domain:
+            subdomain = domain[:domain.find(".")]
+            site_options = SiteOptions.objects.filter(slug=subdomain)
+        elif settings.SITE_DOMAIN in domain:
+            return None
+        else:
+            site_options = SiteOptions.objects.filter(domain=domain)
+
+        if len(site_options) > 0:
+            return site_options[0]
+        else:
+            return None
+
 
 class TwitterIntegration(models.Model):
     """

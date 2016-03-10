@@ -7,7 +7,41 @@ from django.conf import settings
 from .models import SiteOptions, TwitterIntegration
 from .views import twitter_integration
 
-# Create your tests here.
+class SiteOptionsTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testy',
+                                             email='testytesterson@sample.org',
+                                             password='top_secret')
+        self.site = SiteOptions(title="Test Comic",
+                                domain="testcomic.org",
+                                tagline="The testyest comic of them all.",
+                                elevator_pitch="It's a blerg for your blarg!",
+                                author_name="Testy Testerson",
+                                author_website="http://testy.sample.org",
+                                google_tracking_code="",
+                                youtube_channel="",
+                                patreon_page="")
+        self.site.save()
+
+        self.factory = RequestFactory()
+
+    def testGet(self):
+        request = self.factory.get('')
+        request.META['HTTP_HOST'] = 'www.testcomic.org'
+        self.assertEqual(SiteOptions.get(request), self.site)
+
+    def testSlug(self):
+        self.assertEqual(self.site.slug, 'test-comic')
+
+    def testSubdomain(self):
+        request = self.factory.get('')
+        request.META['HTTP_HOST'] = 'test-comic.{}'.format(settings.SITE_DOMAIN)
+        self.assertEqual(SiteOptions.get(request), self.site)
+
+    def testDebug(self):
+        request = self.factory.get('')
+        request.GET = {'FAKE_DOMAIN': 'testcomic.org'}
+        self.assertEqual(SiteOptions.get(request), self.site)
 
 class TwitterTestCase(TestCase):
     def setUp(self):
