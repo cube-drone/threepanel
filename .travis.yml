@@ -13,6 +13,7 @@ install:
 - export HOME=/home/travis/build/classam
 - export VIRTUALENV=/home/travis/virtualenv
 - export PYTHONPATH=/home/travis/build/classam/vagrant_django/threepanel/
+- mkdir -p /home/travis/build/classam/vagrant_django/scripts
 - pip install -r /home/travis/build/classam/vagrant_django/configuration/requirements.txt
 - sudo python3 /home/travis/build/classam/vagrant_django/configuration/install.py
 script:
