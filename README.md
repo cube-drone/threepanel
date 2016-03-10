@@ -10,15 +10,15 @@ Threepanel Continuous Integration Edition
 
 3. `vagrant plugin install vagrant-digitalocean`
 
-2. `pyvenv ./threepenv`
+4. `pyvenv ./threepenv`
 
-3. `source threepenv/bin/activate`
+5. `source threepenv/bin/activate`
 
-4. `pip install --upgrade pip`
+6. `pip install --upgrade pip`
 
-5. `pip install -r requirements.txt`
+7. `pip install -r requirements.txt`
 
-6. Set environment variables. You might add these to your `.bashrc` or `.bash_profile`
+8. Set environment variables. You might add these to your `.bashrc` or `.bash_profile`
 ```
     export DIGITALOCEAN_API_TOKEN="digitalooooocean"
     export DJANGO_PROJECT_SLUG="threepanel"
@@ -31,10 +31,16 @@ Threepanel Continuous Integration Edition
     export POSTGRES_DB_PASSWORD="daaaaatabaaaaaaase"
     export PAPERTRAIL_SERVER="logs.papertrail.whatever:12345"
 ```
-8. The server that threepanel.com points to is going to change a lot, so add this to your ssh config:
+
+9. If you're running this from a Windows computer, you might need to add
+```
+    export DOS2UNIX_ENABLED="True"
+```
+
+10. The server that threepanel.com points to is going to change a lot, so add this to your ssh config:
 ```
 Host threepanel.com
     StrictHostKeyChecking no
     User vagrant
 ```
-7. `invoke install`
+11. `invoke install`

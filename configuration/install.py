@@ -9,6 +9,7 @@ VAGRANT_DJANGO_PATH = os.path.join(HOME_PATH, 'vagrant_django')
 VIRTUALENV_PATH = os.path.join(HOME_PATH, 'django_environment')
 CONF_PATH = os.path.join(VAGRANT_DJANGO_PATH, 'configuration')
 SCRIPTS_PATH = os.path.join(VAGRANT_DJANGO_PATH, 'scripts')
+DOS2UNIX_ENABLED = 'DOS2UNIX_ENABLED' in os.environ and os.environ['DOS2UNIX_ENABLED'] != "False"
 
 
 if not sys.version_info > (3, 0):
@@ -37,7 +38,8 @@ def write_config_template_to_location(template, arguments, destination, executab
         target_file.write(rendered_template)
     # Sometimes we're running this from unix and all of our line endings
     #   show up borked.
-    subprocess.call("dos2unix {}".format(destination).split())
+    if DOS2UNIX_ENABLED:
+        subprocess.call("dos2unix {}".format(destination).split())
     if executable:
         subprocess.call("chmod a+x {}".format(destination).split())
 
