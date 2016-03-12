@@ -44,6 +44,11 @@ def lint():
     return home("pylint *")
 
 @task
+def search(stuff):
+    """ Ack around for stuff """
+    return home("ack {}".format(stuff))
+
+@task
 def dj(command, *args, **kwargs):
     """ Run a django manage.py command """
     return home("{} manage.py {}".format(python(), command), *args, **kwargs)

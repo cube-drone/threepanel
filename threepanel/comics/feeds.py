@@ -4,7 +4,9 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Comic
+from .views import single
 from dashboard.models import SiteOptions
+from dashboard.views import domain_multiplex
 
 class LatestEntriesFeed(Feed):
     title = ""
@@ -12,9 +14,19 @@ class LatestEntriesFeed(Feed):
     description = ""
 
     def get_object(self, request):
-        site = SiteOptions.get(request)
-        self.title = site.title
-        self.description = site.elevator_pitch
+
+        @domain_multiplex
+        def request_to_site(request):
+            return request.site
+
+        site = request_to_site(request)
+        try:
+            self.title = site.title
+            self.description = site.elevator_pitch
+        except AttributeError:
+            self.title = settings.SITE_TITLE
+            self.description = settings.SITE_META
+            return None
         return site
 
     def title(self, obj):
@@ -30,7 +42,10 @@ class LatestEntriesFeed(Feed):
             return settings.SITE_URL
 
     def items(self, obj):
-        return Comic.archives(obj)[:7]
+        if obj:
+            return Comic.archives(obj)[:7]
+        else:
+            return []
 
     def item_title(self, item):
         return item.title
@@ -57,4 +72,4 @@ class LatestEntriesFeed(Feed):
 
     # item_link is only needed if NewsItem has no get_absolute_url method.
     def item_link(self, item):
-        return reverse('comics.views.single', kwargs={'comic_slug':item.slug})
+        return reverse(single, kwargs={'comic_slug':item.slug})

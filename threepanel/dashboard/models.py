@@ -86,26 +86,13 @@ class SiteOptions(models.Model):
         cache.clear()
 
     @classmethod
-    def get(cls, request):
+    def get(cls, domain):
         """
-        Given a request, check the subdomain and http host information
+        Given a domain, check the subdomain and http host information
         and return the associated SiteOptions object (or None, if none exists)
         """
-        if 'fake_domain' in request.GET:
-            domain = request.GET['fake_domain']
-        elif 'FAKE_DOMAIN' in request.GET:
-            domain = request.GET['FAKE_DOMAIN']
-        elif 'fake_domain' in request.COOKIES:
-            domain = request.COOKIES['fake_domain']
-        elif 'FAKE_DOMAIN' in request.COOKIES:
-            domain = request.COOKIES['FAKE_DOMAIN']
-        elif 'HTTP_HOST' in request.META:
-            domain = request.META['HTTP_HOST']
-            if domain.startswith('www.'):
-                domain = domain[4:]
-        else:
-            log.warning("No HTTP Host in request.")
-            return None
+        if domain.startswith('www.'):
+            domain = domain[4:]
 
         if ".{}".format(settings.SITE_DOMAIN) in domain:
             subdomain = domain[:domain.find(".")]
@@ -119,6 +106,13 @@ class SiteOptions(models.Model):
             return site_options[0]
         else:
             return None
+
+    @classmethod
+    def getForUser(cls, owner):
+        """
+        Given a Django User object, get all sites [] that are owned by this owner.
+        """
+        return owner.siteoptions_set.all()
 
 
 class TwitterIntegration(models.Model):

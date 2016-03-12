@@ -19,10 +19,13 @@ from .forms import SiteOptionsForm, TwitterIntegrationForm
 log = logging.getLogger('threepanel.{}'.format(__name__))
 
 
-def dashboard(f):
+def domain_multiplex(f):
     """
     Check if we're coming in from a domain that has a SiteOptions object
     associated with it. If we're not, bounce us to home.
+
+    If there's an associated SiteOptions object, load it into
+    request.site
 
     We can fool the dashboard's domain assignment by setting FAKE_DOMAIN
     in the GET parameters or as a cookie. Setting a persistent cookie is
@@ -30,11 +33,58 @@ def dashboard(f):
     """
     @wraps(f)
     def func_wrapper(request, *args, **kwargs):
-        request.site = SiteOptions.get(request)
+
+        if 'fake_domain' in request.GET:
+            domain = request.GET['fake_domain']
+        elif 'FAKE_DOMAIN' in request.GET:
+            domain = request.GET['FAKE_DOMAIN']
+        elif 'fake_domain' in request.COOKIES:
+            domain = request.COOKIES['fake_domain']
+        elif 'FAKE_DOMAIN' in request.COOKIES:
+            domain = request.COOKIES['FAKE_DOMAIN']
+        elif 'HTTP_HOST' in request.META:
+            domain = request.META['HTTP_HOST']
+        else:
+            log.warning("No HTTP Host in request.")
+            return HttpResponseRedirect(reverse(all_sites))
+
+        request.site = SiteOptions.get(domain)
         if request.site:
             return f(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse(all_sites))
+    return func_wrapper
+
+def creator_login_required(f):
+    """
+    We're a creator, so we want to know which set of sites we manage.
+    This makes the assumption that the first argument to ANY creator view
+    is going to be the site_slug, which is a dangerous assumption.
+    It throws a nasty error when it fails so hopefully we can catch that.
+    It sets request.site (the current site being worked on)
+    and request.sites (all sites available to the user)
+    """
+    @login_required
+    @wraps(f)
+    def func_wrapper(request, *args, **kwargs):
+        if not request.user:
+            log.warning("Creator Dashboard requires a user object.")
+            return HttpResponseRedirect(reverse(all_sites))
+
+        request.sites = SiteOptions.getForUser(request.user)
+
+        site_slug = args[0]
+        matching_sites = request.sites.filter(slug=site_slug)
+        if len(matching_sites) == 0:
+            log.error("User {} trying to log into site {}".format(request.user, site_slug))
+            request.site = None
+        else:
+            request.site = matching_sites[0]
+
+        if request.sites and request.site:
+            return f(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse(creator_home))
     return func_wrapper
 
 
@@ -54,9 +104,20 @@ def render(request, template, options=None):
     f_code = sys._getframe(1).f_code
 
     dashboard = {}
+    dashboard['type'] = 'home'
+
+    #The stuff that gets set in @creator_login_required
+    try:
+        sites = request.sites
+        dashboard['sites'] = request.sites
+    except AttributeError:
+        log.debug("request.sites not set during render phase.")
+    except TypeError:
+        log.debug("request.sites not set during render phase.")
+
+    #The stuff that gets set in @domain_multiplex
     try:
         site_options = request.site
-        dashboard['site_options'] = request.site
         dashboard['title'] = site_options.title
         dashboard['slug'] = site_options.slug
         dashboard['tagline'] = site_options.tagline
@@ -70,11 +131,15 @@ def render(request, template, options=None):
             dashboard['twitter_username'] = site_options.twitterintegration.username
             dashboard['twitter_widget_id'] = site_options.twitterintegration.widget_id
         except ObjectDoesNotExist:
-            log.info("TwitterIntegration not set during render phase.")
+            log.debug("request.sites.twitter not set during render phase.")
+            dashboard['twitter_username'] = ""
+            dashboard['twitter_widget_id'] = ""
     except AttributeError:
-        log.info("SiteOptions not set during render phase.")
+        log.debug("request.site not set during render phase.")
     except TypeError:
-        log.info("SiteOptions not set during render phase.")
+        log.debug("request.site not set during render phase.")
+
+    # The stuff that always gets set
     dashboard['favicon'] = settings.FAVICON
     dashboard['vagrant_hostname'] = settings.VAGRANT_HOSTNAME
     dashboard['site_title'] = settings.SITE_TITLE
@@ -168,3 +233,7 @@ def login(request):
 def all_sites(request):
     sites = SiteOptions.objects.all()
     return render(request, "dashboard/all_sites.html", {'sites':sites})
+
+@login_required
+def creator_home(request):
+    return render(reqeust, "dashboard/creator_home.html", {})

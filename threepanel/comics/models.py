@@ -213,7 +213,8 @@ class Comic(models.Model):
 
     def absolute_url(self):
         site_url = "http://{}".format(self.site.domain)
-        comic_relative_url = reverse('comics.views.single',
+        from .views import single
+        comic_relative_url = reverse(single,
                                      kwargs={'comic_slug':self.slug})
         return "{}{}".format(site_url, comic_relative_url)
 

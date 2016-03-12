@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 
-from dashboard.views import render, dashboard
+from dashboard.views import render, domain_multiplex
 
 from dashboard.models import SiteOptions
 from .models import Comic, Blog, Video, Image
@@ -18,7 +18,7 @@ from .forms import ComicForm, BlogForm, VideoForm, ImageForm
 log = logging.getLogger('threepanel.{}'.format(__name__))
 
 
-@dashboard
+@domain_multiplex
 def home(request):
     hero = Comic.hero(site=request.site)
 
@@ -38,7 +38,7 @@ def home(request):
                    'comic':hero})
 
 
-@dashboard
+@domain_multiplex
 def single_by_numerical_order(request, n):
     """ redirect to single by slug """
     if int(n) <= 0:
@@ -64,7 +64,7 @@ def preview(request, site_slug, comic_slug):
 # Archives
 # --------------
 
-@dashboard
+@domain_multiplex
 def single(request, comic_slug):
     comic = get_object_or_404(Comic, slug=comic_slug)
     if comic.hidden:
@@ -78,7 +78,7 @@ def single(request, comic_slug):
                                                   'permalink': permalink,
                                                   'comic': comic})
 
-@dashboard
+@domain_multiplex
 def archives(request):
     archives = Comic.archives(site=request.site)
     tags = Comic.all_tags(site=request.site)
@@ -86,7 +86,7 @@ def archives(request):
                                                     'tags': tags})
 
 
-@dashboard
+@domain_multiplex
 def tag(request, slug):
     archives = Comic.archives(site=request.site).filter(tags__contains=[slug])
     tags = Comic.all_tags(site=request.site)
@@ -94,7 +94,7 @@ def tag(request, slug):
                                                     'active_tag': slug,
                                                     'tags': tags})
 
-@dashboard
+@domain_multiplex
 def search(request):
     try:
         search_term = request.GET['search']
@@ -107,7 +107,7 @@ def search(request):
                                                     'tags': tags})
 
 
-@dashboard
+@domain_multiplex
 def blog(request):
     archives = Comic.archives(site=request.site)
     blogs = []
@@ -117,7 +117,7 @@ def blog(request):
     return render(request, "comics/blog.html", {'blogs':blogs})
 
 
-@dashboard
+@domain_multiplex
 def manage_redirect(request):
     return HttpResponseRedirect(reverse(manage, kwargs={'site_slug':request.site.slug}))
 

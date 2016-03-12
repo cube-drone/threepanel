@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import mail_admins
 
-from dashboard.views import render, dashboard
+from dashboard.views import render, domain_multiplex
 from dashboard.models import SiteOptions
 
 from slugify import slugify
@@ -12,13 +12,13 @@ from slugify import slugify
 import random_name
 from .models import EmailSubscriber, SpamSpamSpamSpam, InvalidEmail
 
-@dashboard
+@domain_multiplex
 def subscribe(request):
     """ A page detailing all of the fantastic ways one can subscribe """
     random_email = "{}@sample.org".format(slugify(random_name.proper_name()))
     return render(request, 'publish/subscribe.html', {'random_email':random_email})
 
-@dashboard
+@domain_multiplex
 def subscribe_email(request):
     """ POST an e-mail address to subscribe """
     if request.POST and request.POST['email']:
@@ -61,7 +61,7 @@ def verify(request, email, verification_code):
     except EmailSubscriber.DoesNotExist:
         return render(request, "publish/verify_failure.html")
 
-@dashboard
+@domain_multiplex
 def unsubscribe_email(request, email):
     try:
         e = EmailSubscriber.objects.get(email=email, site=request.site)

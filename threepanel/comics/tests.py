@@ -54,3 +54,12 @@ class ComicsTestCase(TestCase):
         request.META['HTTP_HOST'] = 'testcomic.org'
         response = LatestEntriesFeed()(request)
         self.assertEqual(response.status_code, 200)
+
+    def test_rss_no_host(self):
+        request = self.factory.get('/rss.xml')
+
+        request.user = AnonymousUser()
+
+        # Use this syntax for class-based views.
+        response = LatestEntriesFeed()(request)
+        self.assertEqual(response.status_code, 200)
