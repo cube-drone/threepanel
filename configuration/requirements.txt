@@ -10,7 +10,7 @@ psycopg2==2.6
 django-autoslug==1.9.3
 python-slugify==1.1.4
 
-django-bootstrap3==6.2.2
+django-bootstrap3==7.0.0
 
 djrill==2.0
 tweepy==3.5.0
