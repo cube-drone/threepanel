@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export VIRTUALENV=$HOME/django_environment
+whoami
 echo "Home: $HOME"
 echo "Virtualenv: $VIRTUALENV"
 
@@ -40,6 +41,9 @@ pushd /tmp
 wget https://github.com/papertrail/remote_syslog2/releases/download/v0.17-beta-pkgs/remote-syslog2_0.17_i386.deb
 sudo dpkg -i remote-syslog2_0.17_i386.deb
 popd
+
+echo "Crank up the soft file descriptor cap to the maximum available"
+ulimit -n 65536
 
 echo "Create a Virtual Environment, Install Pip & Python Dependencies"
 mkdir $VIRTUALENV
