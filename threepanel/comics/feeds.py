@@ -2,6 +2,7 @@ from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.html import escape
 
 from .models import Comic
 from .views import single
@@ -57,7 +58,11 @@ class LatestEntriesFeed(Feed):
 
         <a href='{}'><img style='width:650px;' width='650px' src='{}' alt='{}' title='{}'/></a>
 
-        """.format(item.promo_text, item.absolute_url(), item.image_url, item.alt_text, item.secret_text)
+        """.format(item.promo_text,
+                   item.absolute_url(),
+                   item.image_url,
+                   escape(item.alt_text),
+                   escape(item.secret_text))
 
         if site_options.patreon_page:
             description += "<br/><br/><a href='{}'>Check out my Patreon page!</a>".format(site_options.patreon_page)
