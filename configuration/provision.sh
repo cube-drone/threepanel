@@ -35,6 +35,12 @@ sudo apt-get install -y optipng
 echo "Install fail2ban"
 sudo apt-get install -y fail2ban
 
+echo "Install rsyslog daemon"
+pushd /tmp
+wget https://github.com/papertrail/remote_syslog2/releases/download/v0.17-beta-pkgs/remote-syslog2_0.17_i386.deb
+sudo dpkg -i remote-syslog2_0.17_i386.deb
+popd
+
 echo "Create a Virtual Environment, Install Pip & Python Dependencies"
 mkdir $VIRTUALENV
 pyvenv $VIRTUALENV

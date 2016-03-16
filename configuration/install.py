@@ -144,6 +144,13 @@ def install_papertrail(environment_dict):
         with open("/etc/rsyslog.conf", "a") as conf:
             conf.write("*.*          @{}".format(environment_dict['PAPERTRAIL_SERVER']))
 
+    dest = os.path.join(SCRIPTS_PATH, 'remote_syslog.sh')
+    print("Installing remote_syslog.sh to {}".format(dest))
+    write_config_template_to_location(template='template.remote_syslog.sh',
+                                      arguments=environment_dict,
+                                      destination=dest,
+                                      executable=True)
+
 
 def defaults(environment_dict):
     """
@@ -170,6 +177,13 @@ def defaults(environment_dict):
         environment_dict['POSTGRES_DB_PASSWORD'] = 'testpass'
     if not 'PAPERTRAIL_SERVER' in environment_dict:
         environment_dict['PAPERTRAIL_SERVER'] = 'localhost'
+        environment_dict['PAPERTRAIL_HOST'] = 'localhost'
+        environment_dict['PAPERTRAIL_PORT'] = '514'
+    else:
+        host, port = environment_dict['PAPERTRAIL_SERVER'].split(":")
+        environment_dict['PAPERTRAIL_HOST'] = host
+        environment_dict['PAPERTRAIL_PORT'] = port
+
     if not 'VIRTUALENV_PATH' in environment_dict:
         if 'VIRTUALENV' in environment_dict:
             environment_dict['VIRTUALENV_PATH'] = environment_dict['VIRTUALENV']

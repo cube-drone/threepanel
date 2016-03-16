@@ -184,6 +184,21 @@ def restart_syslog():
     return run("sudo service rsyslog restart")
 
 @task
+def remote_syslog():
+    """ Activate remote_syslog to pull celery logs to papertrail. """
+    print("Activating remote_syslog.")
+    background("bash {}/remote_syslog.sh".format(SCRIPTS_PATH))
+
+@task
+def kill_remote_syslog():
+    if os.path.exists("{}/remote_syslog.pid".format(HOME_PATH)):
+        print("Killing Remote Syslog...")
+        return run("kill `cat {}/remote_syslog.pid`".format(HOME_PATH), pty=True)
+        print("Remote Syslog Dead...")
+    else:
+        print("Remote Syslog not running!")
+
+@task
 def prod_start():
     """ Start all of the services in the production stack"""
     collectstatic()
@@ -192,7 +207,8 @@ def prod_start():
     celery()
     nginx()
     redis()
-    return restart_syslog()
+    restart_syslog()
+    return remote_syslog()
 
 @task
 def prod_stop():
@@ -201,6 +217,7 @@ def prod_stop():
     kill_uwsgi()
     kill_celery()
     kill_nginx()
+    kill_remote_syslog()
     return kill_redis()
 
 @task
