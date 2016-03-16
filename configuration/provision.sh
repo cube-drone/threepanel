@@ -45,6 +45,9 @@ popd
 echo "Crank up the soft file descriptor cap to the maximum available"
 ulimit -n 65536
 
+echo "And the global file descriptor cap. That too"
+sudo sysctl -w fs.file-max=800000
+
 echo "Create a Virtual Environment, Install Pip & Python Dependencies"
 mkdir $VIRTUALENV
 pyvenv $VIRTUALENV
