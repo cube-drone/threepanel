@@ -179,16 +179,6 @@ def kill_redis():
     return run("sudo service redis-server stop")
 
 @task
-def rabbitmq():
-    print("Starting RabbitMQ...")
-    return run("sudo service rabbitmq start")
-
-@task
-def kill_rabbitmq():
-    print("Killing RabbitMQ...")
-    return run("sudo service rabbitmq stop")
-
-@task
 def restart_syslog():
     print("Restarting Syslog...")
     return run("sudo service rsyslog restart")
@@ -211,7 +201,6 @@ def kill_remote_syslog():
 @task
 def prod_start():
     """ Start all of the services in the production stack"""
-    rabbitmq()
     collectstatic()
     postgres()
     uwsgi()
@@ -224,7 +213,6 @@ def prod_start():
 @task
 def prod_stop():
     """ Stop all of the services in the production stack"""
-    kill_rabbitmq()
     kill_postgres()
     kill_uwsgi()
     kill_celery()
