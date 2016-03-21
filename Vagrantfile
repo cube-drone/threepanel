@@ -73,7 +73,7 @@ Vagrant.configure(2) do |config|
     provider.token = ENV["DIGITALOCEAN_API_TOKEN"]
     provider.image = 'ubuntu-15-10-x64'
     provider.region = 'nyc2'
-    provider.size = '1gb'
+    provider.size = '2gb'
   end
 
 end
