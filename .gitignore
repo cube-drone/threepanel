@@ -9,3 +9,4 @@ media
 deploys
 threepanel/celerybeat-schedule
 nginx
+nohup.out
