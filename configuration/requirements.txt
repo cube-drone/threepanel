@@ -15,7 +15,7 @@ django-bootstrap3==7.0.0
 djrill==2.0
 tweepy==3.5.0
 
-celery[redis]
+celery==3.1.23
 django-redis-cache==1.6.5
 
 Markdown==2.6.2

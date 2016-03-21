@@ -50,7 +50,7 @@ else:
     CACHE_MIDDLEWARE_SECONDS = 60 * 60
 
 # CELERY SETTINGS
-BROKER_URL = 'redis+socket:///tmp/redis.sock'
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

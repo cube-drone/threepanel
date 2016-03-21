@@ -23,6 +23,12 @@ sudo apt-get install -y postgresql postgresql-contrib libpq-dev
 echo "Install NGINX"
 sudo apt-get install -y nginx
 
+echo "Install RabbitMQ"
+echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
+curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -d
+sudo apt-get update
+sudo apt-get install -y rabbitmq-server
+
 echo "Install Python"
 sudo apt-get install -y python3 python3-dev python3-venv python3-setuptools
 
@@ -43,7 +49,7 @@ sudo dpkg -i remote-syslog2_0.17_i386.deb
 popd
 
 echo "Crank up the soft file descriptor cap to the maximum available"
-ulimit -n 65536
+ulimit -n 20000
 
 echo "And the global file descriptor cap. That too"
 sudo sysctl -w fs.file-max=800000
