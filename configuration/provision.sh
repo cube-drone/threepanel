@@ -25,9 +25,8 @@ sudo apt-get install -y nginx
 
 echo "Install RabbitMQ"
 echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
-curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | tac | tac | sudo apt-key add -d
 sudo apt-get update
-sudo apt-get install -y rabbitmq-server
+sudo apt-get install -y rabbitmq-server --force-yes
 
 echo "Install Python"
 sudo apt-get install -y python3 python3-dev python3-venv python3-setuptools
