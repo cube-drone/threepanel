@@ -8,7 +8,7 @@ echo "Virtualenv: $VIRTUALENV"
 sudo apt-get -y update
 
 echo 'Install Dev Tools'
-sudo apt-get install -y ack-grep vim dos2unix git
+sudo apt-get install -y ack-grep vim dos2unix git curl
 
 echo 'Install Build Tools'
 sudo apt-get install -y build-essential gcc
@@ -25,7 +25,7 @@ sudo apt-get install -y nginx
 
 echo "Install RabbitMQ"
 echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
-curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -d
+curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | tac | tac | sudo apt-key add -d
 sudo apt-get update
 sudo apt-get install -y rabbitmq-server
 
