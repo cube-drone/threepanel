@@ -8,7 +8,7 @@ echo "Virtualenv: $VIRTUALENV"
 sudo apt-get -y update
 
 echo 'Install Dev Tools'
-sudo apt-get install -y ack-grep vim dos2unix git
+sudo apt-get install -y ack-grep vim dos2unix git curl
 
 echo 'Install Build Tools'
 sudo apt-get install -y build-essential gcc

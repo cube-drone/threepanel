@@ -80,12 +80,13 @@ else:
 SITE_DOMAIN = "${DJANGO_DOMAIN}"
 
 EMAIL_SUBJECT_PREFIX = '[${DJANGO_PROJECT_SLUG}] '
-SERVER_EMAIL = 'noreply@${DJANGO_DOMAIN}'
+SERVER_EMAIL = '${DJANGO_ADMIN_EMAIL}'
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
-    MANDRILL_API_KEY = '${MANDRILL_KEY}'
+    EMAIL_BACKEND = 'django_ses.SESBackend'
+    AWS_ACCESS_KEY_ID = '${AWS_ACCESS_KEY_ID}'
+    AWS_SECRET_ACCESS_KEY = '${AWS_SECRET_ACCESS_KEY}'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
