@@ -8,3 +8,4 @@ threepenv
 media
 deploys
 threepanel/celerybeat-schedule
+nginx
