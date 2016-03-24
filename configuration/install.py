@@ -183,7 +183,10 @@ def defaults(environment_dict):
         host, port = environment_dict['PAPERTRAIL_SERVER'].split(":")
         environment_dict['PAPERTRAIL_HOST'] = host
         environment_dict['PAPERTRAIL_PORT'] = port
-
+    if not 'AWS_ACCESS_KEY_ID' in environment_dict:
+        environment_dict['AWS_ACCESS_KEY_ID'] = ''
+    if not 'AWS_SECRET_ACCESS_KEY' in environment_dict:
+        environment_dict['AWS_SECRET_ACCESS_KEY'] = ''
     if not 'VIRTUALENV_PATH' in environment_dict:
         if 'VIRTUALENV' in environment_dict:
             environment_dict['VIRTUALENV_PATH'] = environment_dict['VIRTUALENV']

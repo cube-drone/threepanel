@@ -12,7 +12,8 @@ REQUIRED_ENVIRONMENT_VARIABLES = ['DIGITALOCEAN_API_TOKEN',
                                   'DJANGO_ADMIN_NAME',
                                   'DJANGO_ADMIN_EMAIL',
                                   'POSTGRES_DB_PASSWORD',
-                                  'MANDRILL_KEY',
+                                  'AWS_ACCESS_KEY_ID',
+                                  'AWS_SECRET_ACCESS_KEY',
                                   'DJANGO_SECRET_KEY',
                                   'PAPERTRAIL_SERVER']
 
