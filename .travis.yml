@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.4"
+  - "3.5"
 before_install:
 - sudo apt-get -qq update
 - sudo apt-get install -y build-essential gcc
@@ -9,6 +9,8 @@ before_install:
 - sudo apt-get install -y optipng
 install:
 - pwd
+- echo "This next bit fixes a problem with boto on travis."
+- export BOTO_CONFIG=/tmp/bogusvalue
 - sudo mv /home/travis/build/classam/threepanel /home/travis/build/classam/vagrant_django
 - export HOME=/home/travis/build/classam
 - export VIRTUALENV=/home/travis/virtualenv
