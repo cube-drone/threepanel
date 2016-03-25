@@ -101,6 +101,11 @@ def run_python_install_script(vagrant_hostname="default", production=False):
 
 
 @task
+def environment():
+    e_dict = environment_subset(REQUIRED_ENVIRONMENT_VARIABLES)
+    print(environment_dict_to_string(e_dict))
+
+@task
 def install(production=False, name="vagrant-devbox", db=None, media=None):
     if not production:
         run("VAGRANT_HOSTNAME={} vagrant up --provider virtualbox".format(name))
